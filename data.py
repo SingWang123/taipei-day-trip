@@ -4,35 +4,11 @@ import json
 jsonFile = open('data/taipei-attractions.json','r', encoding = 'utf-8')
 a = json.load(jsonFile)
 
-result = a['result']['results'][0]
-
 data = []
 i = 0
 while i < 58:
     data.append(a['result']['results'][i])
     i += 1
-
-# 整理圖片資料
-imagex = []
-image = data[0]['file'].split('https')
-for i in image:
-    if i == "":
-        print("空的")
-    else:
-        imagex.append("https"+i)
-        print("https"+i)
-        print(i[-1:-4])
-
-
-
-
-
-# print(data[0]['name'], data[0]['CAT'], data[0]['MRT'], data[0]['description'], data[0]['address'], data[0]['direction'], data[0]['latitude'], data[0]['longitude'])
-
-
-
-# for i in data[0]:
-#     print(data[0][i])
 
 
 # 連接上資料庫
@@ -46,46 +22,43 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+# 需求資料：景點名稱('name')、景點分類('CAT')、捷運站位置('MRT')、描述('description')、地址('address')、交通方式('direction')、經度('longitude')、緯度('latitude')、圖片('file')
+# 塞資料進去 data表
+def add_data():
+    i = 0
+    while i < 58:
+        sql = "insert into data (name, category, mrt, description, address, transport, lat, lng) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+        val = ((data[i]['name'], data[i]['CAT'], data[i]['MRT'], data[i]['description'], data[i]['address'], data[i]['direction'], data[i]['latitude'], data[i]['longitude']))
+        mycursor.execute(sql,val)
+        mydb.commit()
+        i += 1
 
-# 塞資料進去 data表,
+#add_data()
 
-# i = 0
-# while i < 58:
-#     sql = "insert into data (name, category, mrt, description, address, transport, lat, lng) values (%s, %s, %s, %s, %s, %s, %s, %s)"
-#     val = ((data[i]['name'], data[i]['CAT'], data[i]['MRT'], data[i]['description'], data[i]['address'], data[i]['direction'], data[i]['latitude'], data[i]['longitude']))
-#     mycursor.execute(sql,val)
-#     mydb.commit()
-#     i += 1
+# 塞資料進去image表
+def add_image():
+    i = 0
+    while i < 58:
+        # 撈出景點對應的ID
+        sql = "select id from data where name = %s"
+        val = (data[i]['name'],)
+        mycursor.execute(sql,val)
+        data_id = mycursor.fetchall()
+        
+        # 處理圖片網址
+        images = data[i]['file'].split('https')
+        for image in images:
+            if image == "":
+                pass
+            elif image[-4:].lower() != ".jpg" and image[-4:].lower() != ".png" :
+                pass
+            else:
+                # 塞入資料
+                sql = "insert into images (data_id, img_url) values (%s, %s)"
+                val = (data_id[0][0],"https" + image)
+                mycursor.execute(sql,val)
+                mydb.commit()
+        i += 1
 
+#add_image()
 
-# sql = "describe data"
-# mycursor.execute(sql)
-# test = mycursor.fetchall()
-
-
-
-# sql = "describe data"
-# mycursor.execute(sql)
-# test = mycursor.fetchall()
-
-# print(test)
-
-
-
-
-# i = 0
-# while i < 58:
-#     print (a['result']['results'][i]['latitude'])
-#     i += 1
-
-
-# for i in result:
-#     print(i)
-
-# split = result.split(',')
-# print(split)
-
-# for i in a['re]
-#      print(i,a[i])
-
-#需求資料：景點名稱('name')、景點分類('cat')、捷運站位置('MRT')、描述('description')、地址('address')、交通方式('direction')、經度('longitude')、緯度('latitude')、圖片('file')
