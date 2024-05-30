@@ -1,6 +1,7 @@
 from fastapi import *
 from fastapi.responses import FileResponse
 from fastapi.responses import JSONResponse
+from typing import Optional
 app=FastAPI()
 
 # Static Pages (Never Modify Code in this Block)
@@ -29,64 +30,43 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor(dictionary = True)
 
-# /api/attractions 取得景點資料列表 (用query param方式帶參數)
-# @app.get("/api/attractions")
-# async def attractions(request:Request, page = int, keyword = str):
-#     sql = "SELECT id, name, username From member WHERE username = %s"
-#     val = (query_username,)
-#     mycursor.execute(sql,val)
-#     memberdata = mycursor.fetchall()
-#     # 如果找不到用戶帳號，回傳"data":null
-#     if request.session["SIGNED-IN"] == False or len(memberdata) == 0:
-#         return JSONResponse(content = {"data":None})
-#     else:
-#         return JSONResponse(content= {
-#             "data":{
-#                 "id" : memberdata[0][0],
-#                 "name" : memberdata[0][1],
-#                 "username" : memberdata[0][2]
-#             }
-#         })
+#/api/attractions 取得景點資料列表 (用query param方式帶參數)
+@app.get("/api/attractions")
+async def attractions(page : int = 0, keyword : Optional[str] = None):
+	return "123"
+
+
 
 
 #/api/attraction/{attractionID} 根據景點編號，取得景點資料
 @app.get("/api/attraction/{attractionID}")
-async def get_attraction(request:Request, attractionID:int):
+async def get_attraction(attractionID:int):
 	sql = "select id, name, category, description, address, transport, mrt, lat, lng from data where id = %s "
-	sql_imag = "select img_url from images where data_id = %s" 
+	sql_img = "select img_url from images where data_id = %s" 
 	val = (attractionID,)
 	mycursor.execute(sql,val)
 	attraction_result = mycursor.fetchall()
-	#print(mrt_result[0]['name'])
 
 	images = []
-	mycursor.execute(sql_imag,val)
+	mycursor.execute(sql_img,val)
 	img_result = mycursor.fetchall()
 	for img in img_result:
 		images.append(img["img_url"])
 	
+	# 將圖片合到結果的字典檔
+	attraction_result[0]["images"] = images
+
 	if len(attraction_result) == 0:
 		return JSONResponse(
-            status_code=400,
-            content={
+            status_code = 400,
+            content = {
                 "error": True,
                 "message": "景點編號不正確",
             }
         )
 	else:
-		return JSONResponse(content = {
-			"data":{
-				"id" : attraction_result[0]["id"],
-				"name" : attraction_result[0]["name"],
-				"category" : attraction_result[0]["category"],
-				"description" : attraction_result[0]["description"],
-				"address" : attraction_result[0]["address"],
-				"transport" : attraction_result[0]["transport"],
-				"mrt" : attraction_result[0]["mrt"],
-				"lat" : attraction_result[0]["lat"],
-				"lng" : attraction_result[0]["lng"],
-				"images" : images
-			}
+		return JSONResponse(content = {	
+			"data":attraction_result[0]
         })
         
 
@@ -116,16 +96,60 @@ async def get_mrts():
 	# except:
 	# 	raise HTTPException(status.HTTP_501_NOT_IMPLEMENTED, detail="Test exception")
 
+keyword = ""
+page = 0
 
-sql = "select id, name, category, description, address, transport, mrt, lat, lng from data where id = %s "
-sql_imag = "select img_url from images where data_id = %s" 
-val = (88,)
-mycursor.execute(sql,val)
-attraction_result = mycursor.fetchall()
-print(len(attraction_result))
+sql = ""
+if len(keyword) == 0:
+	sql = "select id, name, category, description, address, transport, mrt, lat, lng from data"
+	mycursor.execute(sql)
+else:
+	sql = "select id, name, category, description, address, transport, mrt, lat, lng from data where  name like %s or mrt = %s"
+	val = (f'%{keyword}%',keyword)
+	mycursor.execute(sql,val)
 
-images = []
-mycursor.execute(sql_imag,val)
-img_result = mycursor.fetchall()
-for img in img_result:
-	images.append(img["img_url"])
+search_result = mycursor.fetchall()
+
+
+max_page = divmod(len(search_result),12)[0]
+if page < max_page :
+	
+
+print(max_page)
+
+attractions_data = []
+i = page * 12
+while i < len(search_result) :
+	# 依序抓去搜尋結果的對應圖片資料
+	sql_img = "select img_url from images where data_id = %s" 
+	val = (search_result[i]['id'],)
+	mycursor.execute(sql_img,val)
+	img_result = mycursor.fetchall()
+
+	images = []
+	for img in img_result:
+		images.append(img["img_url"])
+
+	search_result[i]["images"] = images
+	attractions_data.append(search_result[i])
+	
+	i += 1
+
+print(divmod(len(search_result),12))
+#print(len(attraction_result))
+
+# val = (50,)
+# mycursor.execute(sql,val)
+# attraction_result = mycursor.fetchall()
+
+# images = []
+# mycursor.execute(sql_imag,val)
+# img_result = mycursor.fetchall()
+# for img in img_result:
+# 	images.append(img["img_url"])
+
+# attraction_result[0]["images"] = images
+# newdata = {"data":attraction_result[0]}
+
+# print (newdata)
+
