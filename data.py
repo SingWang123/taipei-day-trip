@@ -33,7 +33,7 @@ def add_data():
         mydb.commit()
         i += 1
 
-#add_data()
+add_data()
 
 # 塞資料進去image表
 def add_image():
@@ -60,5 +60,5 @@ def add_image():
                 mydb.commit()
         i += 1
 
-#add_image()
+add_image()
 
