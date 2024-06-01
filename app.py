@@ -35,19 +35,32 @@ mycursor = mydb.cursor(dictionary = True)
 @app.get("/api/attractions")
 async def attractions(page : int = 0, keyword : Optional[str] = None):
 	# 依據有沒有keyword值，使用不同的搜尋語法
-	sql = ""
+	
 	if keyword == None:
-		sql = "select id, name, category, description, address, transport, mrt, lat, lng from data"
+		sql = "select id, name, category, description, address, transport, mrt, lat, lng from data limit %s, 12"
+		val = (page * 12,)
+		mycursor.execute(sql,val)
+		search_result = mycursor.fetchall()
+
+		#取得搜尋結果總數
+		sql = "select count(*) from data"
 		mycursor.execute(sql)
+		max_result = mycursor.fetchall()
+	
 	else:
-		sql = "select id, name, category, description, address, transport, mrt, lat, lng from data where name like %s or mrt = %s"
+		sql = "select id, name, category, description, address, transport, mrt, lat, lng from data where name like %s or mrt = %s limit %s, 12"
+		val = (f'%{keyword}%',keyword, page * 12)
+		mycursor.execute(sql,val)
+		search_result = mycursor.fetchall()
+
+		#取得搜尋結果總數
+		sql = "select count(*) from data where name like %s or mrt = %s"
 		val = (f'%{keyword}%',keyword)
 		mycursor.execute(sql,val)
-
-	search_result = mycursor.fetchall()
+		max_result = mycursor.fetchall()
 
 	# 若查詢不到資料，直接回傳查無資料
-	if len(search_result) == 0:
+	if max_result[0]['count(*)'] == 0:
 		return JSONResponse(
 	        status_code = 400,
 	        content = {
@@ -56,15 +69,14 @@ async def attractions(page : int = 0, keyword : Optional[str] = None):
 	        }
 		)
 
+	
 	# 依據傳回來的資料長度，計算分頁的資料
-	max_page = divmod(len(search_result),12)[0]
+	max_page = divmod(max_result[0]['count(*)'],12)[0]
 
-	if page == max_page == 0:
-		# 搜尋結果 <12筆，一頁就能滿足的請況
-		max_i = len(search_result)
+	if page == max_page:
+		# 搜尋結果 =<12筆，一頁就能滿足的請況，或是最後一頁
 		next_page = None
 	elif page < max_page:
-		max_i = 12 * (page + 1)
 		next_page = page + 1
 	elif page > max_page:
 		return JSONResponse(
@@ -74,14 +86,10 @@ async def attractions(page : int = 0, keyword : Optional[str] = None):
 	            "message": "此分頁無資料",
 	        }
 		)
-	else:
-		# 最後這情況是 page == max_page 但不等於0，也就是搜尋結果>12筆，最後剩下餘數的那頁
-		max_i = len(search_result)
-		next_page = None
-
+	
 	attractions_data = []
-	i = page * 12
-	while i < max_i :
+	i = 0
+	while i < len(search_result) :
 		# 依序抓去搜尋結果的對應圖片資料
 		sql_img = "select img_url from images where data_id = %s" 
 		val = (search_result[i]['id'],)
@@ -151,10 +159,7 @@ async def get_mrts():
 			mrt_list.append(mrt["mrt"])
 			
 	return JSONResponse(content= {
-        "data":{
-			"id":mrt_list
-			}
+        "data":
+			mrt_list
         })
-
-
 
