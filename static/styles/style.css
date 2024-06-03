@@ -1,0 +1,50 @@
+
+html{
+    font-family : "Noto Sans TC", sans-serif;
+    font-optical-sizing : auto;
+    font-style : normal;
+    font-size : 16px;
+    font-weight : 500;
+    background-color : white;
+    margin : 0px;
+}
+
+
+
+/* 1200px < screen width < 1920px
+/* navigation bar */
+.navbar{
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    width : 1200px;
+    height : 34px;
+    margin : auto;
+}
+
+.navbar__webtitle{
+    margin : 10px;
+    padding : 10px;
+    font-size : 30px;
+    font-weight : 700;
+    color : rgba(68, 136, 153, 1);
+}
+
+.navbar__buttons{
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    margin : 10px;
+    height : 34px;
+    width : 175px;
+    border-width : 1px;
+    border-style : solid;
+    border-color : black;
+}
+
+.navbar__buttons_button{
+    margin:0px;
+    padding: 10px;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+}
