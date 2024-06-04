@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 html{
     font-family : "Noto Sans TC", sans-serif;
@@ -9,21 +10,26 @@ html{
     margin : 0px;
 }
 
+body{
+    margin: 0px;
+}
 
 
 /* 1200px < screen width < 1920px
 /* navigation bar */
 .navbar{
+    max-width : 1200px;
+    margin: auto;
+}
+
+.navbar__content{ 
     display : flex;
     justify-content : space-between;
     align-items: center;
-    width : 1200px;
-    height : 34px;
-    margin : auto;
+    width: 100%;
 }
 
 .navbar__webtitle{
-    margin : 10px;
     padding : 10px;
     font-size : 30px;
     font-weight : 700;
@@ -34,17 +40,87 @@ html{
     display : flex;
     justify-content : space-between;
     align-items: center;
-    margin : 10px;
     height : 34px;
     width : 175px;
-    border-width : 1px;
-    border-style : solid;
-    border-color : black;
 }
 
 .navbar__buttons_button{
     margin:0px;
     padding: 10px;
-    font-weight: 500;
     color: rgba(102, 102, 102, 1);
+}
+
+.banner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/[desktop]\ hero\ section.png");
+    max-width: 1920px;
+    height: 320px;
+}
+
+.banner__content{
+    width: 1200px;
+    height: 169px;
+}
+
+.banner__content_title{
+    font-size : 28px;
+    font-weight: 700;
+    color: rgba(248, 248, 248, 1);
+    margin: 10px;
+}
+
+.banner__content_info{
+    font-weight: 700;
+    color: rgba(248, 248, 248, 1);
+    margin: 10px 10px 10px 10px;
+}
+
+.banner__content_search{
+    display: flex;
+}
+
+.banner__search_input{
+    width: 400px;
+    height: 46px;
+    margin: 10px 0px 10px 10px;
+    font-family : "Noto Sans TC", sans-serif;
+    font-optical-sizing : auto;
+    font-style : normal;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.banner__search_button{
+    position: relative;
+    width: 60px;
+    height: 48px;
+    margin: 10px 10px 10px 0px;
+    background-color : rgba(68, 136, 153, 1);
+    border: none;
+    outline: none;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.banner__search_button_img{
+    position: absolute;
+    top: 8px;
+    left: 15px;
+}
+
+.mrt__button--left{
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Default_left.png");
+    border: none;
+    outline: none;
+}
+
+.mrt__button--left:hover{
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Hovered_left.png");
 }
