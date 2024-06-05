@@ -9,12 +9,12 @@ app = FastAPI()
 # 設定CORS
 origins = [
 	"http://localhost:8000",   # 本地前端網址
-	"http://54.168.177.59:8000/",
+	"http://54.168.177.59:8000",
 ]
 
 app.add_middleware(
 	CORSMiddleware,
-	allow_origins = origins,
+	allow_origins = ["*"],
 	allow_credentials = True,
 	allow_methods = ["*"],
 	allow_headers = ["*"],

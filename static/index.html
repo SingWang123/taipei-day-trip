@@ -228,7 +228,7 @@
 <script>
 let attractionData = [];
 let attractionImg = [];
-
+/*
 fetch("http://54.168.177.59:8000/api/attractions?page=0")
 .then(function(response){
   return response.json();
@@ -236,7 +236,16 @@ fetch("http://54.168.177.59:8000/api/attractions?page=0")
 .then(function(data){
 console.log(data)
 })
-  
+*/
+fetch('http://54.168.177.59:8000/api/attractions?page=0')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => console.log(data))
+    .catch(error => console.error('Fetch error:', error));
 
 
 
