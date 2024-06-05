@@ -97,6 +97,7 @@
   </div>
   <!--main-->
   <div class = "main">
+    <!--留一組參考用
     <div class = "main__card">
       <img class = "main__card_img" src = "images/[desktop] hero section.png">
       <div class = "main__card_name">
@@ -107,116 +108,7 @@
         <div class = "main__card_category">忠孝復興</div>
       </div>
     </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
-    <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
-      <div class = "main__card_name">
-        平安鐘
-      </div>
-      <div class = "main__card_buttom">
-        <div class = "main__card_mrt">忠孝復興</div>
-        <div class = "main__card_category">忠孝復興</div>
-      </div>
-    </div>
+    -->
   </div>
   <footer class = "footer">
     <div class = "footer__word">
@@ -226,28 +118,64 @@
 </body>
 
 <script>
+
+// 抓main的景點圖並塞入
 let attractionData = [];
-let attractionImg = [];
-/*
+
 fetch("http://54.168.177.59:8000/api/attractions?page=0")
 .then(function(response){
   return response.json();
 })
 .then(function(data){
-console.log(data)
+for (i = 0; i < data.data.length; i++){
+  attractionData.push({
+    "name" : data.data[i].name,
+    "mrt" : data.data[i].mrt,
+    "category" : data.data[i].category,
+    "img" : data.data[i].images[0]
+  })
+}
+
+// 將景點資料塞進去Html中
+for (i = 0; i < attractionData.length; i++){
+  //創出卡片
+  let mainList = document.getElementsByClassName("main");
+
+  let mainCard = document.createElement("div");
+  mainCard.className = "main__card";
+
+  let mainCardImg = document.createElement("img");
+  mainCardImg.className = "main__card_img";
+  mainCardImg.src = attractionData[i].img;
+
+  let mainCardName = document.createElement("div");
+  mainCardName.className = "main__card_name";
+  let cardName = document.createTextNode(attractionData[i].name);
+  mainCardName.appendChild(cardName);
+
+  let mainCardButtom = document.createElement("div");
+  mainCardButtom.className = "main__card_buttom";
+
+  let mainCardMrt = document.createElement("div");
+  mainCardMrt.className = "main__card_mrt";
+  let cardMrt = document.createTextNode(attractionData[i].mrt);
+  mainCardMrt.appendChild(cardMrt);
+
+  let mainCardCategory = document.createElement("div");
+  mainCardCategory.className = "main__card_category";
+  let cardCategory = document.createTextNode(attractionData[i].category);
+  mainCardCategory.appendChild(cardCategory);
+
+  //開始組裝
+  mainCardButtom.appendChild(mainCardMrt);
+  mainCardButtom.appendChild(mainCardCategory);
+  mainCard.appendChild(mainCardImg);
+  mainCard.appendChild(mainCardName);
+  mainCard.appendChild(mainCardButtom);
+
+  mainList[0].appendChild(mainCard);
+}
 })
-*/
-fetch('http://54.168.177.59:8000/api/attractions?page=0')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => console.log(data))
-    .catch(error => console.error('Fetch error:', error));
-
-
 
 
 </script>
