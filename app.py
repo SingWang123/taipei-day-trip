@@ -1,9 +1,24 @@
 from fastapi import *
 from fastapi.responses import FileResponse
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 
 app = FastAPI()
+
+# 設定CORS
+origins = [
+	"http://localhost:8000",   # 本地前端網址
+	"http://54.168.177.59:8000/",
+]
+
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins = origins,
+	allow_credentials = True,
+	allow_methods = ["*"],
+	allow_headers = ["*"],
+)
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)

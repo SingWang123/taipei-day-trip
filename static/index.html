@@ -223,6 +223,23 @@
       COPYRIGHT © 2021 台北一日遊
     </div>
   </footer>
- 
 </body>
+
+<script>
+let attractionData = [];
+let attractionImg = [];
+
+fetch("http://54.168.177.59:8000/api/attractions?page=0")
+.then(function(response){
+  return response.json();
+})
+.then(function(data){
+console.log(data)
+})
+  
+
+
+
+
+</script>
 </html>

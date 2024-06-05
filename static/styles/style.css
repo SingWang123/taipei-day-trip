@@ -154,7 +154,6 @@ body{
     height: 32px;
     background-image: url("../images/States_Hovered_right.png");
     background-repeat: no-repeat;
-    background-color: blue;
 }
 
 .mrts__list{
@@ -273,7 +272,7 @@ body{
     .main__card{
         position: relative;
         width: 322px;
-        margin: 10px 10px 0px 10px;
+        margin: 10px 10px 10px 10px;
         height: 280px;
         border-radius: 5px;
         border-style: solid;
@@ -311,6 +310,19 @@ body{
         margin: -7px 0px 0px 0px;
     }
 
-
+    @media(max-width:700px){
+        /*螢幕寬度小700px,套用這組CSS*/
+    
+        .main__card{
+            position: relative;
+            width: 322px;
+            margin: 10px 10px 0px 10px;
+            height: 280px;
+            border-radius: 5px;
+            border-style: solid;
+            border-color: rgba(232, 232, 232, 1);
+            border-width: 1px;
+        }
+    }    
 
 }
