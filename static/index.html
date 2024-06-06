@@ -33,14 +33,12 @@
       <div class = "banner__content_info">
         探索每個角落，體驗城市的深度旅遊行程
       </div>
-      <form action = "" method = "get" id = "search">
-        <div class = "banner__content_search">
-            <input placeholder = "輸入景點名稱查詢" class = "banner__search_input">
-            <div class = "banner__search_button">
-              <img src = "images/search.png" class = "banner__search_button_img">
-            </div>
-        </div>
-      </form>
+      <div class = "banner__content_search">
+          <input placeholder = "輸入景點名稱查詢" class = "banner__search_input" id = "search_input">
+          <div class = "banner__search_button" id = "search_button">
+            <img src = "images/search.png" class = "banner__search_button_img">
+          </div>
+      </div>
     </div>
   </div>
   <!--mrts-->
@@ -97,9 +95,8 @@
   </div>
   <!--main-->
   <div class = "main">
-    <!--留一組參考用
     <div class = "main__card">
-      <img class = "main__card_img" src = "images/[desktop] hero section.png">
+      <img class = "main__card_img">
       <div class = "main__card_name">
         平安鐘
       </div>
@@ -108,8 +105,118 @@
         <div class = "main__card_category">忠孝復興</div>
       </div>
     </div>
-    -->
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img" >
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img" >
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img" >
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img" >
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
+    <div class = "main__card">
+      <img class = "main__card_img">
+      <div class = "main__card_name">
+        平安鐘
+      </div>
+      <div class = "main__card_buttom">
+        <div class = "main__card_mrt">忠孝復興</div>
+        <div class = "main__card_category">忠孝復興</div>
+      </div>
+    </div>
   </div>
+
   <footer class = "footer">
     <div class = "footer__word">
       COPYRIGHT © 2021 台北一日遊
@@ -119,26 +226,13 @@
 
 <script>
 
-// 抓main的景點圖並塞入
-let attractionData = [];
+//紀錄目前頁面和資料的最大頁面
+var page = 0;
+var maxpage = "";  
 
-fetch("http://54.168.177.59:8000/api/attractions?page=0")
-.then(function(response){
-  return response.json();
-})
-.then(function(data){
-for (i = 0; i < data.data.length; i++){
-  attractionData.push({
-    "name" : data.data[i].name,
-    "mrt" : data.data[i].mrt,
-    "category" : data.data[i].category,
-    "img" : data.data[i].images[0]
-  })
-}
 
-// 將景點資料塞進去Html中
-for (i = 0; i < attractionData.length; i++){
-  //創出卡片
+//創建景點卡片的函示
+function createAttraction(){
   let mainList = document.getElementsByClassName("main");
 
   let mainCard = document.createElement("div");
@@ -146,25 +240,18 @@ for (i = 0; i < attractionData.length; i++){
 
   let mainCardImg = document.createElement("img");
   mainCardImg.className = "main__card_img";
-  mainCardImg.src = attractionData[i].img;
 
   let mainCardName = document.createElement("div");
   mainCardName.className = "main__card_name";
-  let cardName = document.createTextNode(attractionData[i].name);
-  mainCardName.appendChild(cardName);
 
   let mainCardButtom = document.createElement("div");
   mainCardButtom.className = "main__card_buttom";
 
   let mainCardMrt = document.createElement("div");
   mainCardMrt.className = "main__card_mrt";
-  let cardMrt = document.createTextNode(attractionData[i].mrt);
-  mainCardMrt.appendChild(cardMrt);
 
   let mainCardCategory = document.createElement("div");
   mainCardCategory.className = "main__card_category";
-  let cardCategory = document.createTextNode(attractionData[i].category);
-  mainCardCategory.appendChild(cardCategory);
 
   //開始組裝
   mainCardButtom.appendChild(mainCardMrt);
@@ -175,7 +262,185 @@ for (i = 0; i < attractionData.length; i++){
 
   mainList[0].appendChild(mainCard);
 }
+
+
+// 首頁開啟時的api，塞page=0的資料
+fetch("http://54.168.177.59:8000/api/attractions?page=0")
+.then(function(response){
+  return response.json();
 })
+.then(function(data){
+  let attractionData = [];
+  for (i = 0; i < data.data.length; i++){
+    attractionData.push({
+      "name" : data.data[i].name,
+      "mrt" : data.data[i].mrt,
+      "category" : data.data[i].category,
+      "img" : data.data[i].images[0]
+    })
+  }
+  // 將景點資料塞進去Html中
+  for (i = 0; i < attractionData.length; i++){
+  
+    let mainCardImg = document.getElementsByClassName("main__card_img");
+    mainCardImg[i].src = attractionData[i].img;
+
+    let mainCardName = document.getElementsByClassName("main__card_name");
+    mainCardName[i].textContent = attractionData[i].name;
+
+    let mainCardMrt = document.getElementsByClassName("main__card_mrt");
+    mainCardMrt[i].textContent = attractionData[i].mrt;
+
+    let mainCardCategory = document.getElementsByClassName("main__card_category");
+    mainCardCategory[i].textContent = attractionData[i].category
+  }
+
+  if (data.nextPage != null ){  //檢查確認是否有下一頁，有的話page+1 
+      page += 1;
+    } else {
+      maxpage = page; //表示目前頁數已經到了最大值
+  }
+})
+
+
+//往下拉，產出下一頁的圖片的函式
+function creatNextPage(){
+  //檢查搜尋框有沒有參數，有的話fetch的位址要加上keyword
+  let keyword = document.getElementById("search_input");
+  if (page == maxpage){
+    return; //page = maxpage 表示目前是最後一頁，再往下拉也載不到資料
+  } if (keyword.value == ""){
+    url = "http://54.168.177.59:8000/api/attractions?page=" + page ;
+  } else {
+    url = "http://54.168.177.59:8000/api/attractions?page=" + page + "&keyword=" + keyword.value ;
+  }
+
+  fetch(url)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    let attractionData = []
+    for (i = 0; i < data.data.length; i++){
+      attractionData.push({
+        "name" : data.data[i].name,
+        "mrt" : data.data[i].mrt,
+        "category" : data.data[i].category,
+        "img" : data.data[i].images[0]
+      })
+    }
+    //(i = page * 12 ; i < attractionData.length + page * 12; i++)
+    console.log(attractionData);
+    for (i = 0 ; i < attractionData.length; i++){
+      createAttraction();
+      
+      let mainCardImg = document.getElementsByClassName("main__card_img");
+      mainCardImg[page * 12 + i].src = attractionData[i].img;
+
+      let mainCardName = document.getElementsByClassName("main__card_name");
+      mainCardName[page * 12 + i].textContent = attractionData[i].name;
+
+      let mainCardMrt = document.getElementsByClassName("main__card_mrt");
+      mainCardMrt[page * 12 + i].textContent = attractionData[i].mrt;
+
+      let mainCardCategory = document.getElementsByClassName("main__card_category");
+      mainCardCategory[page * 12 + i].textContent = attractionData[i].category
+    }
+    
+    if (data.nextPage != null ){
+      page += 1;
+    } else {
+      maxpage = page; //表示目前頁數已經到了最大值
+    }
+
+  })
+}
+
+
+// IntersectionObserverEntry，畫面拖到footer會觸發載入新景點資料的函式
+// 定義觸發的門檻值
+const option = {
+  threshold: [0.5]
+};
+
+//觀察的元素，isIntersecting（boolean）：常用屬性，判斷元素是否進入窗口範圍。
+const callback = (entries, observe) => {
+  if (entries[0].isIntersecting){
+    creatNextPage()
+  }
+};
+
+const observer = new IntersectionObserver(callback, option);
+observer.observe(document.querySelector(".footer"));
+
+
+
+//搜尋資料的函式
+function searchAttraction(){
+  //檢查搜尋框有沒有參數，有的話fetch的位址要加上keyword
+  let keyword = document.getElementById("search_input");
+  page = 0; //搜尋點下去後，page會歸0，maxpage的資料也清空
+  maxpage = "" ; 
+
+  if (keyword.value == ""){
+    url = "http://54.168.177.59:8000/api/attractions?page=" + page ;
+  } else {
+    url = "http://54.168.177.59:8000/api/attractions?page=" + page + "&keyword=" + keyword.value ;
+  }
+
+  fetch(url)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    let attractionData = []
+    for (i = 0; i < data.data.length; i++){
+      attractionData.push({
+        "name" : data.data[i].name,
+        "mrt" : data.data[i].mrt,
+        "category" : data.data[i].category,
+        "img" : data.data[i].images[0]
+      })
+    }
+    //(i = page * 12 ; i < attractionData.length + page * 12; i++)
+    let items = document.getElementsByClassName("main__card") ;
+    console.log(items.length);
+
+
+    //被多砍掉的要新建 可能要比對現有資料的長度，做各種處理
+    for (i = 0 ; i < items.length; i++){
+      if (i < attractionData.length){
+        let mainCardImg = document.getElementsByClassName("main__card_img");
+        mainCardImg[i].src = attractionData[i].img;
+
+        let mainCardName = document.getElementsByClassName("main__card_name");
+        mainCardName[i].textContent = attractionData[i].name;
+
+        let mainCardMrt = document.getElementsByClassName("main__card_mrt");
+        mainCardMrt[i].textContent = attractionData[i].mrt;
+
+        let mainCardCategory = document.getElementsByClassName("main__card_category");
+        mainCardCategory[i].textContent = attractionData[i].category
+      } if ( attractionData.length < i < items.length) {
+        let mainList = document.getElementsByClassName("main");
+        let mainCard = document.getElementsByClassName("main__card");
+        mainList[0].removeChild(mainCard[attractionData.length + 1]);
+      }
+    
+    if (data.nextPage != null ){
+      page += 1;
+    } else {
+      maxpage = page; //表示目前頁數已經到了最大值
+    }
+  }
+  })
+}
+
+
+// 輸入景點位置點搜尋按鈕，執行 creatNextPage 函式
+document.getElementById('search_button').addEventListener('click', function() {
+  searchAttraction();
+  })
 
 
 </script>
