@@ -231,7 +231,7 @@ var page = 0;
 var maxpage = "";  
 
 
-//創建景點卡片的函示
+//創建景點卡片的函式
 function createAttraction(){
   let mainList = document.getElementsByClassName("main");
 
@@ -381,6 +381,9 @@ function searchAttraction(){
   let keyword = document.getElementById("search_input");
   page = 0; //搜尋點下去後，page會歸0，maxpage的資料也清空
   maxpage = "" ; 
+  
+  let items = document.getElementsByClassName("main__card") ;//點下搜尋後，計算目前有多少物件
+  console.log(items.length);
 
   if (keyword.value == ""){
     url = "http://54.168.177.59:8000/api/attractions?page=" + page ;
@@ -393,7 +396,7 @@ function searchAttraction(){
     return response.json();
   })
   .then(function(data){
-    let attractionData = []
+    let attractionData = [];
     for (i = 0; i < data.data.length; i++){
       attractionData.push({
         "name" : data.data[i].name,
@@ -402,39 +405,77 @@ function searchAttraction(){
         "img" : data.data[i].images[0]
       })
     }
-    //(i = page * 12 ; i < attractionData.length + page * 12; i++)
-    let items = document.getElementsByClassName("main__card") ;
-    console.log(items.length);
-
-
+ 
+    console.log(attractionData.length);
+     
     //被多砍掉的要新建 可能要比對現有資料的長度，做各種處理
-    for (i = 0 ; i < items.length; i++){
-      if (i < attractionData.length){
-        let mainCardImg = document.getElementsByClassName("main__card_img");
-        mainCardImg[i].src = attractionData[i].img;
+    if (items.length <= attractionData.length){
+      for (i = 0 ; i < attractionData.length; i++){
+        if (i < items.length){
+          let mainCardImg = document.getElementsByClassName("main__card_img");
+          mainCardImg[i].src = attractionData[i].img;
 
-        let mainCardName = document.getElementsByClassName("main__card_name");
-        mainCardName[i].textContent = attractionData[i].name;
+          let mainCardName = document.getElementsByClassName("main__card_name");
+          mainCardName[i].textContent = attractionData[i].name;
 
-        let mainCardMrt = document.getElementsByClassName("main__card_mrt");
-        mainCardMrt[i].textContent = attractionData[i].mrt;
+          let mainCardMrt = document.getElementsByClassName("main__card_mrt");
+          mainCardMrt[i].textContent = attractionData[i].mrt;
 
-        let mainCardCategory = document.getElementsByClassName("main__card_category");
-        mainCardCategory[i].textContent = attractionData[i].category
-      } if ( attractionData.length < i < items.length) {
-        let mainList = document.getElementsByClassName("main");
-        let mainCard = document.getElementsByClassName("main__card");
-        mainList[0].removeChild(mainCard[attractionData.length + 1]);
+          let mainCardCategory = document.getElementsByClassName("main__card_category");
+          mainCardCategory[i].textContent = attractionData[i].category
+
+        } if ( items.length <= i && i< attractionData.length) {
+          createAttraction();
+        
+          let mainCardImg = document.getElementsByClassName("main__card_img");
+          mainCardImg[i].src = attractionData[i].img;
+
+          let mainCardName = document.getElementsByClassName("main__card_name");
+          mainCardName[i].textContent = attractionData[i].name;
+
+          let mainCardMrt = document.getElementsByClassName("main__card_mrt");
+          mainCardMrt[i].textContent = attractionData[i].mrt;
+
+          let mainCardCategory = document.getElementsByClassName("main__card_category");
+          mainCardCategory[i].textContent = attractionData[i].category
+        }
       }
-    
+    }
+    let exist_items = items.length; //先記下目前畫面上的物件數量，不然for迴圈砍物件時，數量會一直減少，跑不到目標數值
+
+    if (items.length > attractionData.length){
+      for (i = 0 ; i < exist_items; i++){
+        if (i < attractionData.length){
+          let mainCardImg = document.getElementsByClassName("main__card_img");
+          mainCardImg[i].src = attractionData[i].img;
+
+          let mainCardName = document.getElementsByClassName("main__card_name");
+          mainCardName[i].textContent = attractionData[i].name;
+
+          let mainCardMrt = document.getElementsByClassName("main__card_mrt");
+          mainCardMrt[i].textContent = attractionData[i].mrt;
+
+          let mainCardCategory = document.getElementsByClassName("main__card_category");
+          mainCardCategory[i].textContent = attractionData[i].category
+
+        } else if ( attractionData.length <= i && i < exist_items) {
+          let mainList = document.getElementsByClassName("main");
+          let mainCard = document.getElementsByClassName("main__card");
+          if (mainCard[attractionData.length]){
+          mainList[0].removeChild(mainCard[attractionData.length]);
+          }
+        }
+      }
+    }
+
     if (data.nextPage != null ){
       page += 1;
     } else {
       maxpage = page; //表示目前頁數已經到了最大值
     }
-  }
   })
 }
+
 
 
 // 輸入景點位置點搜尋按鈕，執行 creatNextPage 函式
