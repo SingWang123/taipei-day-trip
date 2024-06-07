@@ -181,14 +181,14 @@ body{
     max-width: 1200px;
     margin: auto;
     padding: 0px;
-    display: flex;
+    /*display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    box-sizing: border-box;
-    /*display: grid;
+    box-sizing: border-box;*/
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    column-gap: 30px;
-    row-gap: 30px;*/
+    column-gap: 10px;
+    row-gap: 15px;
 }
 
 .main__card{
@@ -266,78 +266,110 @@ body{
   transition: all 0.5s;
 }
 
-/* 600px < screen width < 900px */
-@media(max-width:900px){
-    /*螢幕寬度小於900px,套用這組CSS*/
-
+/* 900px < screen width < 1199px */
+@media(max-width:1199px){
+    /*螢幕寬度小於1199px,套用這組CSS*/
     .main{
-        max-width: 900px;
+        max-width: 1200px;
         margin: auto;
         padding: 0px;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         box-sizing: border-box;
-        /*display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        column-gap: 30px;
-        row-gap: 30px;*/
-    }
-    
-    .main__card{
-        position: relative;
-        width: 322px;
-        margin: 10px 10px 10px 10px;
-        height: 280px;
-        border-radius: 5px;
-        border-style: solid;
-        border-color: rgba(232, 232, 232, 1);
-        border-width: 1px;
-    }
-    
-    .main__card_img{
-        width: 322px;
-        height: 235px;
-        object-fit: cover;
-        border-radius: 5px 5px 0 0;
-    }
-    
-    .main__card_name{
-        position: absolute;
-        bottom: 45px;
-        width: 302px;
-        height: 40px;
-        padding: 0px 10px;
-        line-height: 40px;
-        color: rgba(255, 255, 255, 1);
-        background-color: rgba(0, 0, 0, 0.6);
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow:ellipsis;
-    }
-    
-    .main__card_buttom{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 45px;
-        padding: 0px 10px;
-        margin: -7px 0px 0px 0px;
     }
 
-    @media(max-width:700px){
-        /*螢幕寬度小700px,套用這組CSS*/
-    
+    /* 600px < screen width < 900px */
+    @media(max-width:900px){
+        /*螢幕寬度小於900px,套用這組CSS*/
+
+        .main{
+            max-width: 900px;
+            margin: auto;
+            padding: 0px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+        }
+        
         .main__card{
             position: relative;
             width: 322px;
-            margin: 10px 10px 0px 10px;
+            margin: 10px 10px 10px 10px;
             height: 280px;
             border-radius: 5px;
             border-style: solid;
             border-color: rgba(232, 232, 232, 1);
             border-width: 1px;
         }
-    }    
+        
+        .main__card_img{
+            width: 322px;
+            height: 235px;
+            object-fit: cover;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .main__card_name{
+            position: absolute;
+            bottom: 45px;
+            width: 302px;
+            height: 40px;
+            padding: 0px 10px;
+            line-height: 40px;
+            color: rgba(255, 255, 255, 1);
+            background-color: rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow:ellipsis;
+        }
+        
+        .main__card_buttom{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 45px;
+            padding: 0px 10px;
+            margin: -7px 0px 0px 0px;
+        }
 
+        .mrts__list{
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 80%;
+            height: 32px;
+        }
+
+        @media(max-width:700px){
+            /*螢幕寬度小700px,套用這組CSS*/
+        
+            .main__card{
+                position: relative;
+                width: 322px;
+                margin: 10px 10px 0px 10px;
+                height: 280px;
+                border-radius: 5px;
+                border-style: solid;
+                border-color: rgba(232, 232, 232, 1);
+                border-width: 1px;
+            }
+
+            @media(min-width:360px){
+                /*螢幕寬度>360px,套用這組CSS*/
+                .mrts__list{
+                    display: flex;
+                    align-items: center;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    width: 70%;
+                    height: 32px;
+                }
+        
+            }
+        }    
+
+    }
 }
