@@ -2,6 +2,7 @@ from fastapi import *
 from fastapi.responses import FileResponse
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 from typing import Optional
 
 app = FastAPI()
@@ -19,6 +20,9 @@ app.add_middleware(
 	allow_methods = ["*"],
 	allow_headers = ["*"],
 )
+
+# 設定靜態檔案目錄
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
