@@ -16,7 +16,7 @@ origins = [
 
 app.add_middleware(
 	CORSMiddleware,
-	allow_origins = origins,
+	allow_origins = ["*"],  #origins,目前設定本地端抓不到，先關掉方便開發測試
 	allow_credentials = True,
 	allow_methods = ["*"],
 	allow_headers = ["*"], 	
