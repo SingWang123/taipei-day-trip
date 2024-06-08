@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+
+html{
+    font-family : "Noto Sans TC", sans-serif;
+    font-optical-sizing : auto;
+    font-style : normal;
+    font-size : 16px;
+    font-weight : 500;
+    background-color : white;
+    margin : 0px;
+    padding : 0px;
+}
+
+body{
+    margin: 0px;
+}
+
+
+/* 1200px < screen width < 1920px
+/* navigation bar */
+.navbar{
+    max-width : 1200px;
+    margin: auto;
+}
+
+.navbar__content{ 
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar__webtitle{
+    padding : 10px;
+    font-size : 30px;
+    font-weight : 700;
+    color : rgba(68, 136, 153, 1);
+}
+
+.navbar__buttons{
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    height : 34px;
+    width : 175px;
+}
+
+.navbar__buttons_button{
+    margin:0px;
+    padding: 10px;
+    color: rgba(102, 102, 102, 1);
+}
+
+
+/* Hero section */
+.banner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/[desktop]\ hero\ section.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: auto;
+    height: 320px;
+}
+
+.banner__content{
+    width: 1200px;
+    height: 169px;
+}
+
+.banner__content_title{
+    font-size : 28px;
+    font-weight: 700;
+    color: rgba(248, 248, 248, 1);
+    margin: 10px;
+}
+
+.banner__content_info{
+    font-weight: 700;
+    color: rgba(248, 248, 248, 1);
+    margin: 10px 10px 10px 10px;
+}
+
+.banner__content_search{
+    display: flex;
+    max-width: 460px;
+}
+
+.banner__search_input{
+    width: 86%;
+    height: 46px;
+    margin: 10px 0px 10px 10px;
+    padding: 0px 0px 2px 10px;
+    font-family : "Noto Sans TC", sans-serif;
+    font-optical-sizing : auto;
+    font-style : normal;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.banner__search_button{
+    position: relative;
+    width: 60px;
+    height: 48px;
+    margin: 10px 10px 10px 0px;
+    background-color : rgba(68, 136, 153, 1);
+    border: none;
+    outline: none;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.banner__search_button_img{
+    position: absolute;
+    top: 8px;
+    left: 15px;
+}
+
+/* mrt list */
+.mrts{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 40px auto 30px auto;
+}
+
+.mrts__button--left{
+    margin: 0px 10px;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Default_left.png");
+    background-repeat: no-repeat;
+}
+
+.mrts__button--left:hover{
+    margin: 0 10px;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Hovered_left.png");
+    background-repeat: no-repeat;
+}
+
+.mrts__button--right{
+    margin: 0 10px;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Default_right.png");
+    background-repeat: no-repeat;
+}
+
+.mrts__button--right:hover{
+    margin: 0 10px;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Hovered_right.png");
+    background-repeat: no-repeat;
+}
+
+.mrts__list{
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 90%;
+    height: 32px;
+}
+
+.mrts__list_mrt{
+    padding: 5px 15px;
+    color: #666666;
+}
+
+/* main */
+
+.main{
+    max-width: 1200px;
+    margin: auto;
+    padding: 0px;
+    /*display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;*/
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 15px;
+}
+
+.main__card{
+    position: relative;
+    width: 270px;
+    margin: 10px 10px 10px 10px;
+    height: 242px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: rgba(232, 232, 232, 1);
+    border-width: 1px;
+}
+
+.main__card_img{
+    width: 270px;
+    height: 198px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+
+.main__card_name{
+    position: absolute;
+    bottom: 45px;
+    width: 250px;
+    height: 40px;
+    padding: 0px 10px;
+    line-height: 40px;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+
+.main__card_buttom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    padding: 0px 10px;
+    margin: -7px 0px 0px 0px;
+}
+
+.main__card_mrt{
+    color: rgba(117, 117, 117, 1)
+}
+
+.main__card_category{
+    color: rgba(117, 117, 117, 1)
+}
+
+
+/* footer */
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0px 0px 0px;
+    height: 104px;
+    background-color: rgba(117, 117, 117, 1);
+}
+
+.footer__word{
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+}
+
+.box {
+  width: 100%;
+  height: 10rem;
+  line-height: 10rem;
+  text-align: center;
+  font-size: 4rem;
+  background: white;
+  transition: all 0.5s;
+}
+
+/* 900px < screen width < 1199px */
+@media(max-width:1199px){
+    /*螢幕寬度小於1199px,套用這組CSS*/
+    .main{
+        max-width: 1200px;
+        margin: auto;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+    }
+
+    /* 600px < screen width < 900px */
+    @media(max-width:900px){
+        /*螢幕寬度小於900px,套用這組CSS*/
+
+        .main{
+            max-width: 900px;
+            margin: auto;
+            padding: 0px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+        }
+        
+        .main__card{
+            position: relative;
+            width: 322px;
+            margin: 10px 10px 10px 10px;
+            height: 280px;
+            border-radius: 5px;
+            border-style: solid;
+            border-color: rgba(232, 232, 232, 1);
+            border-width: 1px;
+        }
+        
+        .main__card_img{
+            width: 322px;
+            height: 235px;
+            object-fit: cover;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .main__card_name{
+            position: absolute;
+            bottom: 45px;
+            width: 302px;
+            height: 40px;
+            padding: 0px 10px;
+            line-height: 40px;
+            color: rgba(255, 255, 255, 1);
+            background-color: rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow:ellipsis;
+        }
+        
+        .main__card_buttom{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 45px;
+            padding: 0px 10px;
+            margin: -7px 0px 0px 0px;
+        }
+
+        .mrts__list{
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 80%;
+            height: 32px;
+        }
+
+        @media(max-width:700px){
+            /*螢幕寬度小700px,套用這組CSS*/
+        
+            .main__card{
+                position: relative;
+                width: 322px;
+                margin: 10px 10px 0px 10px;
+                height: 280px;
+                border-radius: 5px;
+                border-style: solid;
+                border-color: rgba(232, 232, 232, 1);
+                border-width: 1px;
+            }
+
+            @media(min-width:360px){
+                /*螢幕寬度>360px,套用這組CSS*/
+                .mrts__list{
+                    display: flex;
+                    align-items: center;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    width: 70%;
+                    height: 32px;
+                }
+        
+            }
+        }    
+
+    }
+}
