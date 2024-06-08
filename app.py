@@ -10,6 +10,7 @@ app = FastAPI()
 # 設定CORS
 origins = [
 	"http://localhost:8000",   # 本地前端網址
+	"http://localhost:3000",
 	"http://54.168.177.59:8000",
 ]
 
