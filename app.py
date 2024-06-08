@@ -15,10 +15,10 @@ origins = [
 
 app.add_middleware(
 	CORSMiddleware,
-	allow_origins = ["*"],
+	allow_origins = ["origins"],
 	allow_credentials = True,
 	allow_methods = ["*"],
-	allow_headers = ["*"],
+	allow_headers = ["*"], 	
 )
 
 # 設定靜態檔案目錄

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
   <link href="/static/styles/style.css" rel="stylesheet" type="text/css">
+  <!--本地端測試用-->
+  <link href="styles/style.css" rel="stylesheet" type="text/css"> 
 </head>
 
 <body class = "body">
@@ -457,6 +459,57 @@ document.getElementById('right_button').addEventListener('click', function() {
   let container = document.querySelector(".mrts__list");
   container.scrollLeft += 200;
   })
+
+
+// 以下是chatGPT寫的，幫卷軸加上拖曳移動的功能，
+const container = document.querySelector(".mrts__list");
+
+let isDown = false;  // 用來追踪滑鼠或觸摸事件的狀態
+let startX;          // 儲存滑鼠按下或觸摸開始時的X座標
+let scrollLeft;      // 儲存滑鼠按下或觸摸開始時的滾動位置
+
+container.addEventListener('mousedown', (e) => {
+    isDown = true;  // 滑鼠按下，進入拖動狀態
+    startX = e.pageX - container.offsetLeft;  // 記錄開始時的X座標
+    scrollLeft = container.scrollLeft;  // 記錄開始時的滾動位置
+});
+
+container.addEventListener('mouseleave', () => {
+    isDown = false;  // 滑鼠移出容器，結束拖動狀態
+});
+
+container.addEventListener('mouseup', () => {
+    isDown = false;  // 滑鼠釋放，結束拖動狀態
+});
+
+container.addEventListener('mousemove', (e) => {
+    if (!isDown) return;  // 如果沒有進行拖動操作，直接返回
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;  // 計算當前滑鼠位置
+    const walk = (x - startX) * 3;  // 計算滾動距離，3 是滾動速度
+    container.scrollLeft = scrollLeft - walk;  // 更新滾動位置
+});
+
+// 觸摸事件支持
+container.addEventListener('touchstart', (e) => {
+    isDown = true;  // 觸摸開始，進入拖動狀態
+    startX = e.touches[0].pageX - container.offsetLeft;  // 記錄開始時的X座標
+    scrollLeft = container.scrollLeft;  // 記錄開始時的滾動位置
+});
+
+container.addEventListener('touchend', () => {
+    isDown = false;  // 觸摸結束，結束拖動狀態
+});
+
+container.addEventListener('touchmove', (e) => {
+    if (!isDown) return;  // 如果沒有進行拖動操作，直接返回
+    e.preventDefault();
+    const x = e.touches[0].pageX - container.offsetLeft;  // 計算當前觸摸位置
+    const walk = (x - startX) * 3;  // 計算滾動距離，3 是滾動速度
+    container.scrollLeft = scrollLeft - walk;  // 更新滾動位置
+});
+
+
 
 
 </script>
