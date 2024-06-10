@@ -4,8 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
+  <!--AWS用 
+  <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
+  -->
+  <!--本地端測試用 -->
+  <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
 </head>
 <body>
-  
+  <!--navigation bar-->
+  <div class = "navbar">
+    <div class = "navbar__content">
+      <div class = "navbar__webtitle">
+        台北一日遊
+      </div>
+      <div class = "navbar__buttons">
+        <div class = "navbar__buttons_button">
+          預定行程
+        </div>
+        <div class = "navbar__buttons_button">
+          登入/註冊
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--top section-->
+  <div class = "top">
+    <div class = "top__images">
+      <img class = tap__images_image src = "images/[desktop] hero section.png">
+      <div class = "top__images_button--left" id = "left_button"></div>
+      <div class = "top__images_button--right" id = "right_button"></div>
+    </div>
+    <div class = "top__title">
+      <div class = "top__title_name">平安鐘</div>      
+      <div class = "top__title_mrt">公共藝術 at忠孝復興</div>
+      <div class = "top__title_book">
+        <div class = "top__book_heading">訂購導覽行程</div>
+        <div class = "top__book_info">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+        <div class = "top__book_date">
+          <div class = "top__book_heading--inline">選擇日期：</div>
+          <input type = "date">
+        </div>
+        <div class = "top__book_time">
+          <div class = "top__book_heading--inline">選擇時間：</div>
+          <input class = "top__book_ckeckbox" type = "checkbox">上半天
+          <input class = "top__book_ckeckbox" type = "checkbox">下半天
+        </div>
+        <div class = "top__book_fee">
+          <div class = "top__book_heading--inline">導覽費用：</div>
+          <div>新台幣 2000元</div>
+        </div>
+        <div class = "top__book_button">
+          開始預約行程
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

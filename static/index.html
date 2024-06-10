@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
   <link href="/static/styles/style.css" rel="stylesheet" type="text/css">
-  <!--本地端測試用
+  <!--本地端測試用 -->
   <link href="styles/style.css" rel="stylesheet" type="text/css"> 
-  -->
 </head>
 
 <body class = "body">
@@ -226,7 +225,7 @@ function createAttraction(){
   mainList[0].appendChild(mainCard);
 }
 
-//填入卡片資料的函式
+//填入「最前面12筆的」卡片資料的函式
 function enterData(i,attractionData){
   let mainCardImg = document.getElementsByClassName("main__card_img");
   mainCardImg[i].src = attractionData[i].img;
@@ -275,7 +274,7 @@ fetch("http://54.168.177.59:8000/api/attractions?page=0")
 function creatNextPage(){
   //檢查搜尋框有沒有參數，有的話fetch的位址要加上keyword
   let keyword = document.getElementById("search_input");
-  if (page == maxpage){
+  if (page === maxpage){
     return; //page = maxpage 表示目前是最後一頁，再往下拉也載不到資料
   } if (keyword.value == ""){
     url = "http://54.168.177.59:8000/api/attractions?page=" + page ;
@@ -347,7 +346,7 @@ function searchAttraction(){
   //檢查搜尋框有沒有參數，有的話fetch的位址要加上keyword
   let keyword = document.getElementById("search_input");
   page = 0; //搜尋點下去後，page會歸0，maxpage的資料也清空
-  maxpage = "" ; 
+  maxpage = 0 ; 
   
   let items = document.getElementsByClassName("main__card") ;//點下搜尋後，計算目前有多少物件
 

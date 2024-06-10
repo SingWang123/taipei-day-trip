@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+
+html{
+    font-family : "Noto Sans TC", sans-serif;
+    font-optical-sizing : auto;
+    font-style : normal;
+    font-size : 16px;
+    font-weight : 400;
+    color: rgba(102, 102, 102, 1);
+    background-color : white;
+    margin : 0px;
+    padding : 0px;
+}
+
+body{
+    margin: 0px;
+}
+
+
+/* 1200px < screen width < 1920px
+/* navigation bar */
+.navbar{
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.navbar__content{ 
+    max-width : 1200px;
+    margin: auto;
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar__webtitle{
+    padding : 10px;
+    font-size : 30px;
+    font-weight : 700;
+    color : rgba(68, 136, 153, 1);
+}
+
+.navbar__buttons{
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    height : 34px;
+    width : 175px;
+}
+
+.navbar__buttons_button{
+    margin:0px;
+    padding: 10px;
+    color: rgba(102, 102, 102, 1);
+}
+
+/* top section - images*/
+.top{
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+}
+
+.top__images{
+    position: relative;
+    width: 50%;
+    border: 1px solid #e8e8e8;
+    margin: 0px 10px;
+}
+
+.tap__images_image{
+    width: 100%;
+    height: 400px;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.top__images_button--left, 
+.top__images_button--left:hover{
+    position: absolute;
+    top:182px;
+    margin: 0px 20px;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Default_left.png");
+    background-repeat: no-repeat;
+}
+
+.top__images_button--left:hover{
+    background-image: url("../images/States_Hovered_left.png");
+}
+
+.top__images_button--right,
+.top__images_button--right:hover{
+    position: absolute;
+    top: 182px;
+    right: 0%;
+    margin: 0 20px;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/States_Default_right.png");
+    background-repeat: no-repeat;
+}
+
+.top__images_button--right:hover{
+    background-image: url("../images/States_Hovered_right.png");
+}
+
+
+/* top section - title*/
+.top__title{
+    width: 50%;
+    border: 1px solid #e8e8e8;
+    margin: 0px 10px;
+}
+
+.top__title_name{
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0px;
+}
+
+.top__title_mrt{
+    margin: 20px 0px;
+}
+
+.top__title_book{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    height: 302px;
+    background-color: rgba(232,232,232,1);
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;    
+}
+
+.top__book_heading{
+    width: 100%;
+    font-weight: 700;
+}
+
+.top__book_heading--inline{
+    font-weight: 700;
+}
+
+.top__book_info{
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.top__book_date,
+.top__book_time,
+.top__book_fee{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin:10px 0px;
+}
+
+.top__book_button{
+    width: 154px;
+    height: 36px;
+    background-color: rgba(68, 136, 153, 1);
+    border-radius: 5px;
+    font-size: 19px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    line-height: 36px;
+    color: rgba(255,255,255,1);
+    margin: 20px 0px 20px 0px;
+}
