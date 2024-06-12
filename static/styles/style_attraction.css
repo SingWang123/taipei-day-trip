@@ -25,6 +25,10 @@ body{
     border-bottom: 2px solid #e8e8e8;
 }
 
+a{
+    text-decoration: none;
+}
+
 .navbar__content{ 
     max-width : 1200px;
     margin: auto;
