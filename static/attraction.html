@@ -6,8 +6,8 @@
   <title>Attraction</title>
   <!--AWS用-->
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
-  
-  <!--本地端測試用
+
+  <!--本地端測試用 
   <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
   -->
 </head>
@@ -34,7 +34,7 @@
   <!--top section-->
   <div class = "top">
     <div class = "top__images">
-      <img class = tap__images_image src = "images/[desktop] hero section.png">
+      <img class = top__images_image>
       <div class = "top__images_button--left" id = "left_button"></div>
       <div class = "top__images_button--right" id = "right_button"></div>
     </div>
@@ -87,9 +87,9 @@
 </body>
 <script>
   // 3-2 景點頁的api，塞景點資料
-  url = window.location.href;
-  id = url.split("http://54.168.177.59:8000/attraction/")[1]
-
+  let url = window.location.href;
+  let id = url.split("http://54.168.177.59:8000/attraction/")[1]
+  
   fetch("http://54.168.177.59:8000/api/attraction/" + id)
   .then(function(response){
     return response.json();
@@ -104,7 +104,7 @@
       "transport" : data.data.transport,
       "images" : data.data.images
     };
-    console.log(attractionData.address);
+    console.log(attractionData.images[0]);
     
     // 將景點資料塞到頁面中
     document.querySelector(".top__images_image").src = attractionData.images[0];
