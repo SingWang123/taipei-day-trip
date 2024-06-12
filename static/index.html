@@ -407,6 +407,7 @@ function searchAttraction(){
     let attractionData = [];
     for (i = 0; i < data.data.length; i++){
       attractionData.push({
+        "id" : data.data[i].id,
         "name" : data.data[i].name,
         "mrt" : data.data[i].mrt,
         "category" : data.data[i].category,
@@ -436,8 +437,8 @@ function searchAttraction(){
 
         } else if ( attractionData.length <= i && i < exist_items) {
           let mainList = document.getElementsByClassName("main");
-          let mainCard = document.getElementsByClassName("main__card");
-          mainList[0].removeChild(mainCard[attractionData.length]);
+          let mainCardUrl = document.getElementsByClassName("main__card_url");
+          mainList[0].removeChild(mainCardUrl[attractionData.length]);
         }
       }
     }

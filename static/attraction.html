@@ -107,7 +107,7 @@
     console.log(attractionData.address);
     
     // 將景點資料塞到頁面中
-
+    document.querySelector(".top__images_image").src = attractionData.images[0];
     document.querySelector(".top__title_name").textContent = attractionData.name;
     document.querySelector(".top__title_mrt").textContent = attractionData.category + " at " + attractionData.mrt;
     document.querySelector(".info__description").textContent = attractionData.description;
