@@ -192,7 +192,7 @@ input[type="radio" i] {
 }
 
 hr{
-    width: 1200px;
+    max-width: 1200px;
     height: 1px;
     margin: 40px auto;
     color: #e8e8e8;
@@ -200,6 +200,7 @@ hr{
     border-style: solid;
 }
 
+/* 下方景點資訊部分 */
 .info{
     max-width: 1200px;
     margin: 0px auto 20px auto;
@@ -217,6 +218,7 @@ hr{
 
 .info__address,
 .info__transport{
+    width: 100%;
     margin: 20px 0px;
 }
 
@@ -274,4 +276,11 @@ hr{
         margin: 0px 10px;
     }
 
+    .top__title_book{
+        height: auto;  
+    }
+
+    .info{
+        padding: 0px 20px 10px 20px;
+    }
     }

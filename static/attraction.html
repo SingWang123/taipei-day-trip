@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <!--AWS用 
+  <!--AWS用 -->
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
-  -->
-  <!--本地端測試用 -->
+  
+  <!--本地端測試用 
   <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
+  -->
 </head>
 <body>
   <!--navigation bar-->
@@ -76,12 +77,44 @@
       <p class = "info__transport_content">捷運站名：1. 中和蘆洲線至松江南京站2. 文湖線南京復興站，沿南京東路往圓環方向至建國北路左轉，步行約10分鐘.1.公車：46、248、254、266、279、282、288、292、306、307、604、605、622、652、668、675、711、紅25、棕9至南京建國路口，41、52、202、203、205、257至中山女中 ，5、41、49、72、203、290、505、527、642、643至南京松江路口 2.客運：臺汽客運：基隆～三重線(經高速公路)，基隆～中壢線 3.停車資訊：建國北路高架橋下停車場 中山區建國北路高架橋下</p>
     </div>
   </div>
+  <footer class = "footer">
+    <div class = "footer__word">
+      COPYRIGHT © 2021 台北一日遊
+    </div>
+  </footer>
 </body>
+<script>
+  // 3-2 景點頁的api，塞景點資料
+  url = window.location.href;
+  id = url.split("http://54.168.177.59:8000/attraction/")[1]
 
-<footer class = "footer">
-  <div class = "footer__word">
-    COPYRIGHT © 2021 台北一日遊
-  </div>
-</footer>
+  fetch("http://54.168.177.59:8000/attraction/" + id)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    let attractionData = {
+      "name" : data.data.name,
+      "mrt" : data.data.mrt,
+      "category" : data.data.category,
+      "description" : data.data.description,
+      "address" : data.data.address,
+      "transport" : data.data.transport,
+      "images" : data.data.images
+    };
+    console.log(attractionData.address);
+    
+    // 將景點資料塞到頁面中
+
+    document.querySelector(".top__title_name").textContent = attractionData.name;
+    document.querySelector(".top__title_mrt").textContent = attractionData.category + " at " + attractionData.mrt;
+    document.querySelector(".info__description").textContent = attractionData.description;
+    document.querySelector(".info__address_content").textContent = attractionData.address;
+    document.querySelector(".info__transport_content").textContent = attractionData.transport;
+  })
+
+</script>
+
+
 
 </html>
