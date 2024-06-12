@@ -88,7 +88,7 @@
   url = window.location.href;
   id = url.split("http://54.168.177.59:8000/attraction/")[1]
 
-  fetch("http://54.168.177.59:8000/attraction/" + id)
+  fetch("http://54.168.177.59:8000/api/attraction/" + id)
   .then(function(response){
     return response.json();
   })
