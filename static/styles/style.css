@@ -190,6 +190,16 @@ body{
 
 a{
     text-decoration: none;
+    user-select: none;       /*關閉點擊效果*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+/*去除點擊時的預設效果*/
+a:active{  
+    background-color: transparent;
+    color: inherit;
+    outline: none;
 }
 
 .main__card{
