@@ -81,10 +81,10 @@ a:active{
     position: relative;
     width: 50%;
     margin: 0px 10px;
-
 }
 
 .top__images_image{
+    /* position: absolute; */
     width: 100%;
     height: 400px;
     padding: 0px 0px;
@@ -96,6 +96,7 @@ a:active{
 .top__images_button--left, 
 .top__images_button--left:hover{
     position: absolute;
+    z-index: 99;
     top:45%;
     margin: 0px 20px;
     width: 32px;
@@ -111,6 +112,7 @@ a:active{
 .top__images_button--right,
 .top__images_button--right:hover{
     position: absolute;
+    z-index: 99;
     top: 45%;
     right: 0%;
     margin: 0 20px;
@@ -159,6 +161,7 @@ a:active{
 
 .top__book_heading--inline{
     font-weight: 700;
+    margin: 0px 10px 0px 0px;
 }
 
 .top__book_info{
@@ -176,22 +179,6 @@ a:active{
     margin:10px 0px;
 }
 
-.top__book_radio{
-    width: 22px;
-    height: 22px;
-    background-color: #448899;
-}
-
-input[type="radio" i] {
-    background-color: #448899;
-    cursor: default;
-    appearance: auto;
-    box-sizing: border-box;
-    margin: 3px 3px 0px 15px;
-    padding: initial;
-    border: initial;
-}
-
 .top__book_button{
     width: 154px;
     height: 36px;
@@ -203,6 +190,7 @@ input[type="radio" i] {
     line-height: 36px;
     color: rgba(255,255,255,1);
     margin: 20px 0px 20px 0px;
+    user-select: none;
 }
 
 hr{
@@ -213,6 +201,73 @@ hr{
     background-color: #e8e8e8;
     border-style: solid;
 }
+
+/* Radio button */
+.radio{
+    position: relative;
+    padding: 0px 0px 0px 26px;
+    margin: 0px 15px 0px 0px;
+    user-select: none;       /*關閉點擊效果*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.top__book_radio{
+    display : none;
+}
+
+.custom_radio{
+    position: absolute;
+    display: inline-block;
+    top: 2px;
+    left: 0px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+/*　在.radio下，當.top__book_radio 是hover狀態時， 其後面的兄弟選擇器.custom_radoio會變成：*/
+.radio .top__book_radio:hover ~.custom_radio{ 
+    background-color: rgb(190, 188, 188);
+}
+
+.custom_radio:after{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    content: "";
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #448899;
+}
+
+.radio .top__book_radio:checked ~.custom_radio:after{
+    display:block;
+}
+
+/* Slideshow */
+.slider{
+    position: absolute;
+    z-index: 99;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+}
+
+.slider__dot{
+    width: 12px;
+    height: 12px;
+    margin: 5px;
+    border-radius: 50%;
+    border: 1px rgba(255, 255, 255, 0.5) solid;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
 
 /* 下方景點資訊部分 */
 .info{
@@ -228,12 +283,14 @@ hr{
 .info__description{
     width: 100%;
     margin: 0px 0px 20px 0px;
+    text-align: justify;
 }
 
 .info__address,
 .info__transport{
     width: 100%;
     margin: 20px 0px;
+    text-align: justify;
 }
 
 .info__heading{
@@ -275,13 +332,13 @@ hr{
     }
     
     .top__images{
-        position: relative;
+        /* position: relative; */
         width: 100%;
         margin: 0px 0px 10px 0px;
-    
     }
 
-    .tap__images_image{
+    .top__images_image{
+        /* position: absolute; */
         height: 350px;
     }
 

@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <!--AWS用-->
+  <!--AWS用
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
-
-  <!--本地端測試用 
-  <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
   -->
+  <!--本地端測試用  -->
+  <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
+ 
 </head>
 <body>
   <!--navigation bar-->
@@ -34,9 +34,19 @@
   <!--top section-->
   <div class = "top">
     <div class = "top__images">
-      <img class = top__images_image>
+      <!-- <img class = top__images_image> -->
       <div class = "top__images_button--left" id = "left_button"></div>
       <div class = "top__images_button--right" id = "right_button"></div>
+      <div class = "slider">
+      <!--
+        <span class = "slider__dot"></span>
+        <span class = "slider__dot"></span>
+        <span class = "slider__dot"></span>
+        <span class = "slider__dot"></span>
+        <span class = "slider__dot"></span>
+        <span class = "slider__dot"></span>
+        -->
+      </div>
     </div>
     <div class = "top__title">
       <div class = "top__title_name">平安鐘</div>      
@@ -50,16 +60,18 @@
         </div>
         <div class = "top__book_time">
           <div class = "top__book_heading--inline">選擇時間：</div>
-          <label>
-            <input class = "top__book_radio" type = "radio" name = "select_time">上半天
+          <label class = "radio">上半天
+            <input class = "top__book_radio" type = "radio" name = "select_time" checked>
+            <div class = "custom_radio"></div>
           </label>
-          <label>
-            <input class = "top__book_radio" type = "radio" name = "select_time">下半天
+          <label class = "radio">下半天
+            <input class = "top__book_radio" type = "radio" name = "select_time">
+            <div class = "custom_radio"></div>
           </label>
         </div>
         <div class = "top__book_fee">
           <div class = "top__book_heading--inline">導覽費用：</div>
-          <div>新台幣 2000元</div>
+          <div class = "top__book_fee_content">新台幣 2000元</div>
         </div>
         <div class = "top__book_button">
           開始預約行程
@@ -90,7 +102,9 @@
   let url = window.location.href;
   let id = url.split("http://54.168.177.59:8000/attraction/")[1]
   
-  fetch("http://54.168.177.59:8000/api/attraction/" + id)
+  //fetch("http://54.168.177.59:8000/api/attraction/" + id) 
+
+  fetch("http://54.168.177.59:8000/api/attraction/" + 4) 
   .then(function(response){
     return response.json();
   })
@@ -104,16 +118,45 @@
       "transport" : data.data.transport,
       "images" : data.data.images
     };
-    console.log(attractionData.images[0]);
     
     // 將景點資料塞到頁面中
-    document.querySelector(".top__images_image").src = attractionData.images[0];
+    // document.querySelector(".top__images_image").src = attractionData.images[0];
     document.querySelector(".top__title_name").textContent = attractionData.name;
     document.querySelector(".top__title_mrt").textContent = attractionData.category + " at " + attractionData.mrt;
     document.querySelector(".info__description").textContent = attractionData.description;
     document.querySelector(".info__address_content").textContent = attractionData.address;
     document.querySelector(".info__transport_content").textContent = attractionData.transport;
+  
+    // 處理景點圖片，根據有幾張圖片，創建出Html
+    for (i = (attractionData.images.length - 1); i >= 0; i--){
+      let newImage = document.createElement("img");
+      newImage.className = "top__images_image";
+      newImage.src = attractionData.images[i]
+
+      let newDot = document.createElement("span");
+      newDot.className = "slider__dot"
+
+      document.querySelector(".slider").appendChild(newDot);
+      document.querySelector(".top__images").appendChild(newImage);
+    }
   })
+
+
+
+  //part 3-3 根據radio button 選項改變價格
+  let book_time = document.getElementsByClassName("top__book_radio");
+  
+  for (i = 0; i < 2; i++){ //幫兩個按鈕都加上事件監聽
+    book_time[i].addEventListener("click",function(){
+      if (book_time[0].checked){
+        document.querySelector(".top__book_fee_content").textContent = "新台幣 2000元";
+      }else{
+        document.querySelector(".top__book_fee_content").textContent = "新台幣 2500元";
+      }
+    })
+  }
+
+
 
 </script>
 
