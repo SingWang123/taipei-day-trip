@@ -189,6 +189,7 @@ body{
 }
 
 a,
+.mrts__list,
 .mrts__list_mrt{
     text-decoration: none;
     user-select: none;       /*關閉點擊效果*/
