@@ -188,7 +188,8 @@ body{
     row-gap: 15px;
 }
 
-a{
+a,
+.mrts__list_mrt{
     text-decoration: none;
     user-select: none;       /*關閉點擊效果*/
     -webkit-user-select: none;
