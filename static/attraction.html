@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <!--AWS用
+  <!--AWS用-->
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
-  -->
-  <!--本地端測試用  -->
+  
+  <!--本地端測試用  
   <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
- 
+  -->
 </head>
 <body>
   <!--navigation bar-->
@@ -99,7 +99,7 @@
   
   //fetch("http://54.168.177.59:8000/api/attraction/" + id) 
 
-  fetch("http://54.168.177.59:8000/api/attraction/" + 4) 
+  fetch("http://54.168.177.59:8000/api/attraction/" + id) 
   .then(function(response){
     return response.json();
   })
@@ -212,26 +212,26 @@
   // console.log(dots);
   // let images = document.querySelectorAll(".top__images_image");
   // console.log(images);
-  for (var x = 0; i < dots.length; i++){
-    dots[x].addEventListener("click",function(){
-      // //隱藏原本圖片
-      // images[click_right].style.display = "none";
-      // dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
-      // dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+  // for (var x = 0; i < dots.length; i++){
+  //   dots[x].addEventListener("click",function(){
+  //     //隱藏原本圖片
+  //     images[click_right].style.display = "none";
+  //     dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+  //     dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
 
-      // //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
-      // if (click_right == 0 ){
-      //   click_right = images.length;
-      // }
+  //     //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+  //     if (click_right == 0 ){
+  //       click_right = images.length;
+  //     }
 
-      //顯示下一張圖片
-      images[x].style.display = "block";
-      dots[x].style.border = "1px rgba(255, 255, 255, 1) solid";
-      dots[x].style.backgroundColor = "black";
-      console.log("123");
+  //     顯示下一張圖片
+  //     images[x].style.display = "block";
+  //     dots[x].style.border = "1px rgba(255, 255, 255, 1) solid";
+  //     dots[x].style.backgroundColor = "black";
+  //     console.log("123");
 
-    })
-  }
+  //   })
+  // }
 
 </script>
 
