@@ -34,18 +34,13 @@
   <!--top section-->
   <div class = "top">
     <div class = "top__images">
-      <!-- <img class = top__images_image> -->
+      <!-- 圖片，由JS產出，留一組做參考
+      <img class = top__images_image> -->
       <div class = "top__images_button--left" id = "left_button"></div>
       <div class = "top__images_button--right" id = "right_button"></div>
       <div class = "slider">
-      <!--
-        <span class = "slider__dot"></span>
-        <span class = "slider__dot"></span>
-        <span class = "slider__dot"></span>
-        <span class = "slider__dot"></span>
-        <span class = "slider__dot"></span>
-        <span class = "slider__dot"></span>
-        -->
+      <!-- 點點，留一組做參考
+        <span class = "slider__dot"></span> -->
       </div>
     </div>
     <div class = "top__title">
@@ -120,7 +115,6 @@
     };
     
     // 將景點資料塞到頁面中
-    // document.querySelector(".top__images_image").src = attractionData.images[0];
     document.querySelector(".top__title_name").textContent = attractionData.name;
     document.querySelector(".top__title_mrt").textContent = attractionData.category + " at " + attractionData.mrt;
     document.querySelector(".info__description").textContent = attractionData.description;
@@ -128,13 +122,14 @@
     document.querySelector(".info__transport_content").textContent = attractionData.transport;
   
     // 處理景點圖片，根據有幾張圖片，創建出Html
-    for (i = (attractionData.images.length - 1); i >= 0; i--){
+    //(i = (attractionData.images.length - 1); i >= 0; i--)
+    for (i = 0 ; i < attractionData.images.length ; i++){
       let newImage = document.createElement("img");
-      newImage.className = "top__images_image";
-      newImage.src = attractionData.images[i]
+      newImage.className = "top__images_image fade";
+      newImage.src = attractionData.images[i];
 
       let newDot = document.createElement("span");
-      newDot.className = "slider__dot"
+      newDot.className = "slider__dot";
 
       document.querySelector(".slider").appendChild(newDot);
       document.querySelector(".top__images").appendChild(newImage);
@@ -157,6 +152,86 @@
   }
 
 
+  //part 3-5 圖片製作slideshow
+  //點擊按鈕切換圖片
+  //先做按鈕監聽 -右邊按鈕
+  let click_right = 0;
+  let button_right = document.querySelector(".top__images_button--right");
+
+  button_right.addEventListener("click",function(){
+    let images = document.querySelectorAll(".top__images_image");
+    let dots = document.querySelectorAll(".slider__dot");
+    //隱藏原本圖片
+    images[click_right].style.display = "none";
+    dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+    dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+
+    //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+    if ((images.length-1) == click_right ){
+      click_right = -1;
+    }
+
+    //顯示下一張圖片
+    images[click_right + 1].style.display = "block";
+    dots[click_right + 1].style.border = "1px rgba(255, 255, 255, 1) solid";
+    dots[click_right + 1].style.backgroundColor = "black";
+    
+    click_right += 1;
+  })
+
+  //左邊按鈕
+  let click_left = 0;
+  let button_left = document.querySelector(".top__images_button--left");
+
+  button_left.addEventListener("click",function(){
+    let images = document.querySelectorAll(".top__images_image");
+    let dots = document.querySelectorAll(".slider__dot");
+    console.log(dots);
+    console.log(images);
+    //隱藏原本圖片
+    images[click_right].style.display = "none";
+    dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+    dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+
+    //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+    if (click_right == 0 ){
+      click_right = images.length;
+    }
+
+    //顯示下一張圖片
+    images[click_right - 1].style.display = "block";
+    dots[click_right - 1].style.border = "1px rgba(255, 255, 255, 1) solid";
+    dots[click_right - 1].style.backgroundColor = "black";
+    
+    click_right -= 1;
+  })
+
+  //點擊 dot可以切換圖片
+  //幫 dots加上監聽器
+  // let dots = document.querySelectorAll(".slider__dot");
+  // console.log(dots);
+  // let images = document.querySelectorAll(".top__images_image");
+  // console.log(images);
+  for (var x = 0; i < dots.length; i++){
+    dots[x].addEventListener("click",function(){
+      // //隱藏原本圖片
+      // images[click_right].style.display = "none";
+      // dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+      // dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+
+      // //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+      // if (click_right == 0 ){
+      //   click_right = images.length;
+      // }
+
+      //顯示下一張圖片
+      images[x].style.display = "block";
+      dots[x].style.border = "1px rgba(255, 255, 255, 1) solid";
+      dots[x].style.backgroundColor = "black";
+      console.log("123");
+
+    })
+  }
 
 </script>
 

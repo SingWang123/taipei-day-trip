@@ -84,14 +84,20 @@ a:active{
 }
 
 .top__images_image{
-    /* position: absolute; */
+    position: absolute;
     width: 100%;
     height: 400px;
     padding: 0px 0px;
     box-sizing: border-box;
     object-fit: cover;
     border-radius: 5px;
+    display: none;
 }
+
+.top__images_image:nth-of-type(1) {
+    display: block;
+}
+
 
 .top__images_button--left, 
 .top__images_button--left:hover{
@@ -185,9 +191,8 @@ a:active{
     background-color: rgba(68, 136, 153, 1);
     border-radius: 5px;
     font-size: 19px;
-    padding: 0px 20px;
+    padding: 3px 20px 0px 20px;
     box-sizing: border-box;
-    line-height: 36px;
     color: rgba(255,255,255,1);
     margin: 20px 0px 20px 0px;
     user-select: none;
@@ -267,6 +272,22 @@ hr{
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.slider__dot:nth-of-type(1){
+    border: 1px rgba(255, 255, 255, 1) solid;
+    background-color: black;
+}
+
+/* 加上轉場效果 */
+.fade{
+    animation-name: fade;
+    animation-duration: 1s;
+}
+
+@keyframes fade{
+    from {opacity: .4;}
+    to {opacity: 1;}
+}
+
 
 
 /* 下方景點資訊部分 */
@@ -323,22 +344,24 @@ hr{
 /* screen width < 880px */
 @media(max-width:880px){
     /*螢幕寬度小於880px,套用這組CSS*/
+
     .top{
         max-width: 880px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         margin: 0px auto 40px auto;
-    }
+    } 
     
     .top__images{
-        /* position: relative; */
+        position: relative;
         width: 100%;
+        height: 350px;
         margin: 0px 0px 10px 0px;
     }
 
     .top__images_image{
-        /* position: absolute; */
+        position: absolute;
         height: 350px;
     }
 
