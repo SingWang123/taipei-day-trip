@@ -25,7 +25,9 @@ body{
     border-bottom: 2px solid #e8e8e8;
 }
 
-a{
+a,
+.top__book_date_input,
+.top__book_date_input::-webkit-calendar-picker-indicator{
     text-decoration: none;
     user-select: none;       /*關閉點擊效果*/
     -webkit-user-select: none;
@@ -109,12 +111,13 @@ a:active{
     margin: 0px 20px;
     width: 32px;
     height: 32px;
-    background-image: url("../images/States_Default_left.png");
+    background-size: contain;
+    background-image: url("../images/left arrow_attractions.png");
     background-repeat: no-repeat;
 }
 
 .top__images_button--left:hover{
-    background-image: url("../images/States_Hovered_left.png");
+    background-image: url("../images/left arrow_attractions.png");
 }
 
 .top__images_button--right,
@@ -126,12 +129,13 @@ a:active{
     margin: 0 20px;
     width: 32px;
     height: 32px;
-    background-image: url("../images/States_Default_right.png");
+    background-size: contain;
+    background-image: url("../images/right arrow_attractions.png");
     background-repeat: no-repeat;
 }
 
 .top__images_button--right:hover{
-    background-image: url("../images/States_Hovered_right.png");
+    background-image: url("../images/right arrow_attractions.png");
 }
 
 
@@ -185,6 +189,33 @@ a:active{
     justify-content: flex-start;
     align-items: center;
     margin:10px 0px;
+}
+.top__book_date{
+    position: relative;
+}
+
+.top__book_date_input{
+    width: 193px;
+    height: 35px;
+    border: none;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.top__book_date_input::-webkit-calendar-picker-indicator{
+    opacity: 0; 
+    width: 50px;  /*放大可點選的範圍*/
+    z-index: 5;
+    cursor: pointer;
+}
+
+.top__book_date_input_icon{
+    position: absolute;
+    left: 250px;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image:url("../images/icon_calendar@3x.png");
 }
 
 .top__book_button{

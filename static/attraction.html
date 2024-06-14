@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <!--AWS用-->
+  <!--AWS用
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
-  
-  <!--本地端測試用  
-  <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
   -->
+  <!--本地端測試用  -->
+  <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
+  
 </head>
 <body>
   <!--navigation bar-->
@@ -51,7 +51,8 @@
         <div class = "top__book_info">以此景點為中心的一日行程，帶您探索城市角落故事</div>
         <div class = "top__book_date">
           <div class = "top__book_heading--inline">選擇日期：</div>
-          <input type = "date">
+          <input type = "date" class = "top__book_date_input">
+          <div class = "top__book_date_input_icon"></div>
         </div>
         <div class = "top__book_time">
           <div class = "top__book_heading--inline">選擇時間：</div>
@@ -99,7 +100,7 @@
   
   //fetch("http://54.168.177.59:8000/api/attraction/" + id) 
 
-  fetch("http://54.168.177.59:8000/api/attraction/" + id) 
+  fetch("http://54.168.177.59:8000/api/attraction/" + 6) 
   .then(function(response){
     return response.json();
   })
