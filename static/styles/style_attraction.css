@@ -30,6 +30,8 @@ a{
     user-select: none;       /*關閉點擊效果*/
     -webkit-user-select: none;
     -moz-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /*去除點擊時的預設效果*/
@@ -363,6 +365,7 @@ hr{
     .top__images_image{
         position: absolute;
         height: 350px;
+        border-radius: 0%;
     }
 
     .top__title{

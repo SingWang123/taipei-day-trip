@@ -104,6 +104,10 @@
     return response.json();
   })
   .then(function(data){
+    if (data.error == true){
+      window.location.href = "http://54.168.177.59:8000/";
+      return;
+    }
     let attractionData = {
       "name" : data.data.name,
       "mrt" : data.data.mrt,
