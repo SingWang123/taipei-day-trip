@@ -129,7 +129,8 @@ body{
     margin: 40px auto 30px auto;
 }
 
-.mrts__button--left{
+.mrts__button--left,
+.mrts__button--left:hover{
     margin: 0px 10px;
     width: 32px;
     height: 32px;
@@ -138,14 +139,11 @@ body{
 }
 
 .mrts__button--left:hover{
-    margin: 0 10px;
-    width: 32px;
-    height: 32px;
     background-image: url("../images/States_Hovered_left.png");
-    background-repeat: no-repeat;
 }
 
-.mrts__button--right{
+.mrts__button--right,
+.mrts__button--right:hover{
     margin: 0 10px;
     width: 32px;
     height: 32px;
@@ -154,11 +152,7 @@ body{
 }
 
 .mrts__button--right:hover{
-    margin: 0 10px;
-    width: 32px;
-    height: 32px;
     background-image: url("../images/States_Hovered_right.png");
-    background-repeat: no-repeat;
 }
 
 .mrts__list{
@@ -166,6 +160,7 @@ body{
     align-items: center;
     overflow: hidden;
     white-space: nowrap;
+    cursor: pointer;  /* 改變滑鼠游標 */
     width: 90%;
     height: 32px;
 }
@@ -173,6 +168,8 @@ body{
 .mrts__list_mrt{
     padding: 5px 15px;
     color: #666666;
+    user-select: none;  /* 關閉使用者選取效果 */
+    cursor: pointer;  /* 改變滑鼠游標 */
 }
 
 /* main */
@@ -189,6 +186,24 @@ body{
     grid-template-columns: 1fr 1fr 1fr 1fr;
     column-gap: 10px;
     row-gap: 15px;
+}
+
+a,
+.mrts__list,
+.mrts__list_mrt{
+    text-decoration: none;
+    user-select: none;       /*關閉點擊效果*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/*去除點擊時的預設效果*/
+a:active{  
+    background-color: transparent;
+    color: inherit;
+    outline: none;
 }
 
 .main__card{
@@ -232,10 +247,7 @@ body{
     margin: -7px 0px 0px 0px;
 }
 
-.main__card_mrt{
-    color: rgba(117, 117, 117, 1)
-}
-
+.main__card_mrt,
 .main__card_category{
     color: rgba(117, 117, 117, 1)
 }
@@ -254,16 +266,6 @@ body{
 .footer__word{
     font-weight: 700;
     color: rgba(255, 255, 255, 1);
-}
-
-.box {
-  width: 100%;
-  height: 10rem;
-  line-height: 10rem;
-  text-align: center;
-  font-size: 4rem;
-  background: white;
-  transition: all 0.5s;
 }
 
 /* 900px < screen width < 1199px */

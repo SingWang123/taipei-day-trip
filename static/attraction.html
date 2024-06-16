@@ -4,8 +4,242 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
+  <!--AWS用-->
+  <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
+  
+  <!--本地端測試用  
+  <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
+  -->
 </head>
 <body>
-  
+  <!--navigation bar-->
+  <div class = "navbar">
+    <div class = "navbar__content">
+      <a href = "http://54.168.177.59:8000/">
+      <div class = "navbar__webtitle">
+        台北一日遊
+      </div>
+      </a>
+      <div class = "navbar__buttons">
+        <div class = "navbar__buttons_button">
+          預定行程
+        </div>
+        <div class = "navbar__buttons_button">
+          登入/註冊
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--top section-->
+  <div class = "top">
+    <div class = "top__images">
+      <!-- 圖片，由JS產出，留一組做參考
+      <img class = top__images_image> -->
+      <div class = "top__images_button--left" id = "left_button"></div>
+      <div class = "top__images_button--right" id = "right_button"></div>
+      <div class = "slider">
+      <!-- 點點，留一組做參考
+        <span class = "slider__dot"></span> -->
+      </div>
+    </div>
+    <div class = "top__title">
+      <div class = "top__title_name">平安鐘</div>      
+      <div class = "top__title_mrt">公共藝術 at忠孝復興</div>
+      <div class = "top__title_book">
+        <div class = "top__book_heading">訂購導覽行程</div>
+        <div class = "top__book_info">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+        <div class = "top__book_date">
+          <div class = "top__book_heading--inline">選擇日期：</div>
+          <input type = "date" class = "top__book_date_input">
+          <div class = "top__book_date_input_icon"></div>
+        </div>
+        <div class = "top__book_time">
+          <div class = "top__book_heading--inline">選擇時間：</div>
+          <label class = "radio">上半天
+            <input class = "top__book_radio" type = "radio" name = "select_time" checked>
+            <div class = "custom_radio"></div>
+          </label>
+          <label class = "radio">下半天
+            <input class = "top__book_radio" type = "radio" name = "select_time">
+            <div class = "custom_radio"></div>
+          </label>
+        </div>
+        <div class = "top__book_fee">
+          <div class = "top__book_heading--inline">導覽費用：</div>
+          <div class = "top__book_fee_content">新台幣 2000元</div>
+        </div>
+        <div class = "top__book_button">
+          開始預約行程
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class = "info">
+    <p class = "info__description">「不是你變大了，而是在這裡世界都變小了。」在林文仁、林楊錦梅夫婦創辦的袖珍博物館，不僅將興趣融入生活，也將這個充滿驚喜、細膩的小小世界搬回國內，賦予每位參觀者都能擁有美夢幸福的感受。在館內，可以看到林文仁夫婦走訪各國蒐集的珍貴收藏、欣賞歐美各國袖珍藝術家的作品。 目前館藏品已高達200餘件，其中包括了創辦人的第一件收藏，由茅屋蓋成的英國鄉村風格建築「鄉村茶廊與古董店」；以120 分之1的比例製作，麻雀雖小卻五臟俱全的全館最小作品「樹上礦坑」；充分展現袖珍技術與創意巧思，最富麗堂皇的作品「白金漢宮」……種種精巧作品，令人看得嘖嘖稱奇。從古時候貴族到平民，大人和小孩都喜歡的袖珍屋，有機會一定要來看看這個夢想空間。</p>
+    <div class = "info__address">
+      <p class = "info__heading">景點地址</p>
+      <p class = "info__address_content">臺北市  中山區建國北路1段 96 號 B1</p>
+    </div>
+    <div class = "info__transport">
+      <p class = "info__heading">交通方式</p>
+      <p class = "info__transport_content">捷運站名：1. 中和蘆洲線至松江南京站2. 文湖線南京復興站，沿南京東路往圓環方向至建國北路左轉，步行約10分鐘.1.公車：46、248、254、266、279、282、288、292、306、307、604、605、622、652、668、675、711、紅25、棕9至南京建國路口，41、52、202、203、205、257至中山女中 ，5、41、49、72、203、290、505、527、642、643至南京松江路口 2.客運：臺汽客運：基隆～三重線(經高速公路)，基隆～中壢線 3.停車資訊：建國北路高架橋下停車場 中山區建國北路高架橋下</p>
+    </div>
+  </div>
+  <footer class = "footer">
+    <div class = "footer__word">
+      COPYRIGHT © 2021 台北一日遊
+    </div>
+  </footer>
 </body>
+<script>
+  // 3-2 景點頁的api，塞景點資料
+  let url = window.location.href;
+  let id = url.split("http://54.168.177.59:8000/attraction/")[1]
+  
+  //fetch("http://54.168.177.59:8000/api/attraction/" + id) 
+
+  fetch("http://54.168.177.59:8000/api/attraction/" + id) 
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    if (data.error == true){
+      window.location.href = "http://54.168.177.59:8000/";
+      return;
+    }
+    let attractionData = {
+      "name" : data.data.name,
+      "mrt" : data.data.mrt,
+      "category" : data.data.category,
+      "description" : data.data.description,
+      "address" : data.data.address,
+      "transport" : data.data.transport,
+      "images" : data.data.images
+    };
+    
+    // 將景點資料塞到頁面中
+    document.querySelector(".top__title_name").textContent = attractionData.name;
+    document.querySelector(".top__title_mrt").textContent = attractionData.category + " at " + attractionData.mrt;
+    document.querySelector(".info__description").textContent = attractionData.description;
+    document.querySelector(".info__address_content").textContent = attractionData.address;
+    document.querySelector(".info__transport_content").textContent = attractionData.transport;
+  
+    // 處理景點圖片，根據有幾張圖片，創建出Html
+    //(i = (attractionData.images.length - 1); i >= 0; i--)
+    for (i = 0 ; i < attractionData.images.length ; i++){
+      let newImage = document.createElement("img");
+      newImage.className = "top__images_image fade";
+      newImage.src = attractionData.images[i];
+
+      let newDot = document.createElement("span");
+      newDot.className = "slider__dot";
+
+      document.querySelector(".slider").appendChild(newDot);
+      document.querySelector(".top__images").appendChild(newImage);
+    }
+  })
+
+
+
+  //part 3-3 根據radio button 選項改變價格
+  let book_time = document.getElementsByClassName("top__book_radio");
+  
+  for (i = 0; i < 2; i++){ //幫兩個按鈕都加上事件監聽
+    book_time[i].addEventListener("click",function(){
+      if (book_time[0].checked){
+        document.querySelector(".top__book_fee_content").textContent = "新台幣 2000元";
+      }else{
+        document.querySelector(".top__book_fee_content").textContent = "新台幣 2500元";
+      }
+    })
+  }
+
+
+  //part 3-5 圖片製作slideshow
+  //點擊按鈕切換圖片
+  //先做按鈕監聽 -右邊按鈕
+  let click_right = 0;
+  let button_right = document.querySelector(".top__images_button--right");
+
+  button_right.addEventListener("click",function(){
+    let images = document.querySelectorAll(".top__images_image");
+    let dots = document.querySelectorAll(".slider__dot");
+    //隱藏原本圖片
+    images[click_right].style.display = "none";
+    dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+    dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+
+    //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+    if ((images.length-1) == click_right ){
+      click_right = -1;
+    }
+
+    //顯示下一張圖片
+    images[click_right + 1].style.display = "block";
+    dots[click_right + 1].style.border = "1px rgba(255, 255, 255, 1) solid";
+    dots[click_right + 1].style.backgroundColor = "black";
+    
+    click_right += 1;
+  })
+
+  //左邊按鈕
+  let click_left = 0;
+  let button_left = document.querySelector(".top__images_button--left");
+
+  button_left.addEventListener("click",function(){
+    let images = document.querySelectorAll(".top__images_image");
+    let dots = document.querySelectorAll(".slider__dot");
+    console.log(dots);
+    console.log(images);
+    //隱藏原本圖片
+    images[click_right].style.display = "none";
+    dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+    dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+
+    //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+    if (click_right == 0 ){
+      click_right = images.length;
+    }
+
+    //顯示下一張圖片
+    images[click_right - 1].style.display = "block";
+    dots[click_right - 1].style.border = "1px rgba(255, 255, 255, 1) solid";
+    dots[click_right - 1].style.backgroundColor = "black";
+    
+    click_right -= 1;
+  })
+
+  //點擊 dot可以切換圖片
+  //幫 dots加上監聽器
+  // let dots = document.querySelectorAll(".slider__dot");
+  // console.log(dots);
+  // let images = document.querySelectorAll(".top__images_image");
+  // console.log(images);
+  // for (var x = 0; i < dots.length; i++){
+  //   dots[x].addEventListener("click",function(){
+  //     //隱藏原本圖片
+  //     images[click_right].style.display = "none";
+  //     dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
+  //     dots[click_right].style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+
+  //     //若圖片走到最後一張了，就重置 click_right參數，達到循環播放效果
+  //     if (click_right == 0 ){
+  //       click_right = images.length;
+  //     }
+
+  //     顯示下一張圖片
+  //     images[x].style.display = "block";
+  //     dots[x].style.border = "1px rgba(255, 255, 255, 1) solid";
+  //     dots[x].style.backgroundColor = "black";
+  //     console.log("123");
+
+  //   })
+  // }
+
+</script>
+
+
+
 </html>
