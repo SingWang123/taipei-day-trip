@@ -22,6 +22,10 @@ body{
 /* 1200px < screen width < 1920px
 /* navigation bar */
 .navbar{
+    position: sticky; /*讓navbar固定在頁面上方*/
+    top: 0px;
+    background-color: white;
+    z-index: 199;
     border-bottom: 2px solid #e8e8e8;
 }
 
@@ -293,7 +297,9 @@ hr{
     bottom: 10px;
     width: 100%;
     display: flex;
-    justify-content: center;    
+    justify-content: center; 
+    overflow: hidden;
+    white-space: nowrap;   
 }
 
 .slider__dot{

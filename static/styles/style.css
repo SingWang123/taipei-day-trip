@@ -23,6 +23,10 @@ body{
 .navbar{
     max-width : 1200px;
     margin: auto;
+    position: sticky;  /*關閉點擊效果*/
+    top: 0px;
+    background-color: white;
+    z-index: 199;
 }
 
 .navbar__content{ 
