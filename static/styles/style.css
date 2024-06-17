@@ -21,8 +21,6 @@ body{
 /* 1200px < screen width < 1920px
 /* navigation bar */
 .navbar{
-    max-width : 1200px;
-    margin: auto;
     position: sticky;  /*關閉點擊效果*/
     top: 0px;
     background-color: white;
@@ -30,6 +28,8 @@ body{
 }
 
 .navbar__content{ 
+    max-width : 1200px;
+    margin: auto;
     display : flex;
     justify-content : space-between;
     align-items: center;
@@ -271,6 +271,46 @@ a:active{
     font-weight: 700;
     color: rgba(255, 255, 255, 1);
 }
+
+/* signin */
+
+.signin{
+    position: fixed;
+    z-index: 499;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.signin__window{
+    position: fixed;
+    width: 340px;
+    height: 275px;
+    margin: 80px auto;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.signin__window_top{
+    position: absolute;
+    top: 0px;
+    width: 340px;
+    height: 10px;
+    border-radius: 5px 5px 0px 0px;
+    background:linear-gradient(90deg,rgba(102,170,187,1),rgba(51,119,136,1)) ;
+}
+
+.signin__window_close{
+    position: absolute;
+    top: 20px;
+    left: 300px;
+    width: 30px;
+    height: 30px;
+    background-color: aquamarine;
+}
+
 
 /* 900px < screen width < 1199px */
 @media(max-width:1199px){
