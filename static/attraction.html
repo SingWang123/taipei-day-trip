@@ -4,14 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <!--AWS用
+  <!--AWS用-->
+  <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
-  -->
-  <!--本地端測試用   -->
+  <script src="/static/scripts/script_common.js" defer charset="UTF-8"></script>
+  
+  <!--本地端測試用   
+  <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
   <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
- 
+  <script src="scripts/script_common.js" defer charset="UTF-8"></script>
+  -->
 </head>
 <body>
+  <!--signin -->
+  <div class = "signin">
+    <div class = "signin__window"> 
+      <div class = "signin__window_top"></div>
+      <div class = "signin__window_content">
+          <div class = "signin__content_headline">登入會員帳號</div>
+          <input class = "signin__input_email" type = "email" placeholder = "輸入電子信箱">
+          <input class = "signin__input_password" placeholder = "輸入密碼">
+          <div class = "signin__button_signin">登入帳戶</div>
+          <div class = "signin__button_switch_signup">還沒有帳號？點此註冊</div>          
+      </div>
+      <div class = "signup__window_content">
+        <div class = "signup__content_headline">註冊會員帳號</div>
+        <input class = "signup__input_name" placeholder = "輸入姓名">
+        <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱">
+        <input class = "signup__input_password" placeholder = "輸入密碼">
+        <div class = "signup__button_signup">註冊新帳號</div>
+        <div class = "signup__button_switch_signin">已經有帳號了？點此登入</div>          
+    </div>
+      <div class = "signin__window_close"></div>
+    </div>
+  </div>
   <!--navigation bar-->
   <div class = "navbar">
     <div class = "navbar__content">
@@ -98,9 +124,9 @@
   let url = window.location.href;
   let id = url.split("http://54.168.177.59:8000/attraction/")[1]
   
-  //fetch("http://54.168.177.59:8000/api/attraction/" + id) 
+  //fetch("http://54.168.177.59:8000/api/attraction/" + id / 11) 
 
-  fetch("http://54.168.177.59:8000/api/attraction/" + 11) 
+  fetch("http://54.168.177.59:8000/api/attraction/" + id) 
   .then(function(response){
     return response.json();
   })
