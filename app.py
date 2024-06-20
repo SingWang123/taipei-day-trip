@@ -62,6 +62,14 @@ pool2 = pooling.MySQLConnectionPool(
 )
 
 
+import jwt
+encoded_jwt = jwt.encode({"username" : "test"},"secret",algorithm = "HS256")
+print(encoded_jwt)
+
+decode = jwt.decode(encoded_jwt , "secret" , algorithms= ["HS256"])
+print(decode)
+
+
 #/api/attractions 取得景點資料列表 (用query param方式帶參數)
 @app.get("/api/attractions")
 async def attractions(page : int = 0, keyword : Optional[str] = None):
@@ -110,7 +118,7 @@ async def attractions(page : int = 0, keyword : Optional[str] = None):
 	attractions_data = []
 	i = 0
 	while i < len(search_result) :
-		# 依序抓去搜尋結果的對應圖片資料
+		# 依序抓取搜尋結果的對應圖片資料
 		sql_img = "select img_url from images where data_id = %s" 
 		val = (search_result[i]['id'],)
 		mycursor.execute(sql_img,val)
