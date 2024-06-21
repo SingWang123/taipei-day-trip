@@ -62,12 +62,95 @@ pool2 = pooling.MySQLConnectionPool(
 )
 
 
-import jwt
-encoded_jwt = jwt.encode({"username" : "test"},"secret",algorithm = "HS256")
-print(encoded_jwt)
 
-decode = jwt.decode(encoded_jwt , "secret" , algorithms= ["HS256"])
-print(decode)
+#jwt 測試
+# encoded_jwt = jwt.encode({"username" : "test"},"secret",algorithm = "HS256")
+# print(encoded_jwt)
+
+# decode = jwt.decode(encoded_jwt , "secret" , algorithms= ["HS256"])
+# print(decode)
+
+# model_確認該email是否已經存在
+def signup_check(email):
+	connection = pool2.get_connection()
+	mycursor = connection.cursor(dictionary = True)
+
+	sql = "SELECT email FROM member WHERE email = %s"
+	val = (email,)
+	mycursor.execute(sql,val)
+	signup_result = mycursor.fetchall()
+
+	# 關閉資料庫連線
+	connection.close()
+
+	if len(signup_result) == 0:
+		return {"ok" : True}  # 資料庫沒有同樣email，可以註冊
+	else:
+		return {"ok" : False}
+	
+# model_確認email不存在，存入新的帳號資料
+def signup_insert(name,email,password):
+	if signup_check(email)["ok"] == False: #這個email已存在，不要再建立了
+		return {"ok" : False}
+	
+	connection = pool2.get_connection()
+	mycursor = connection.cursor(dictionary = True)
+
+	sql = "INSERT INTO member (name, email, password) VALUES (%s, %s, %s)"
+	val = (name,email,password)
+	mycursor.execute(sql,val)
+	connection.commit()
+	
+	# 關閉資料庫連線
+	connection.close()
+
+	return {"ok" : True}  # 新增資料成功
+
+	
+# test = signup_check("test@gmail")
+# print(test)
+
+# print (signup_check("test2@gmail")["ok"])
+
+# test2 = signup_insert("test","test2@gmail","123456")
+# print(test2)
+
+
+import jwt
+from passlib.context import CryptContext
+
+#初始化 CryptContext
+pwd_context = CryptContext(schemes = ["bcrypt"], deprecated = "auto")
+
+#/api/user 註冊一個會員 (用query param方式帶參數)
+@app.post("/api/user")
+async def sign_up(request:Request):
+	# 檢查使用者是否有登入
+	# 用request.json() 來解析request傳來的json資料
+	data = await request.json()
+	name = data.get("name")
+	email = data.get("email")
+	hashed_password = pwd_context.hash(data.get("password") ) #將密碼用hash加密
+
+    # 檢查使用者是否有註冊過，沒有的話就幫使用者註冊資料
+	signup_check = signup_check(email)
+	if signup_check["ok"] == True:
+		signup_insert(name,email,hashed_password)
+		return JSONResponse(
+			status_code = 200,
+			content = {
+				"ok": True
+			}
+		)
+	else:
+		return JSONResponse(
+	        status_code = 400,
+	        content = {
+	            "error": True,
+	            "message": "帳號已存在",
+	        }
+		)
+
 
 
 #/api/attractions 取得景點資料列表 (用query param方式帶參數)

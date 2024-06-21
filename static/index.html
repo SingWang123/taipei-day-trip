@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
-  <!--AWS用
+  <!--AWS用-->
   <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
   <link href="/static/styles/style_index.css" rel="stylesheet" type="text/css">
   <script src="/static/scripts/script_common.js" defer charset="UTF-8"></script>
-   -->
-  <!--本地端測試用 -->
+   
+  <!--本地端測試用 
   <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
   <link href="styles/style_index.css" rel="stylesheet" type="text/css"> 
   <script src="scripts/script_common.js" defer charset="UTF-8"></script>
-  
+  -->
 </head>
 
 <body class = "body">
@@ -24,15 +24,15 @@
       <div class = "signin__window_content">
           <div class = "signin__content_headline">登入會員帳號</div>
           <input class = "signin__input_email" type = "email" placeholder = "輸入電子信箱">
-          <input class = "signin__input_password" placeholder = "輸入密碼">
+          <input class = "signin__input_password" type = "password" placeholder = "輸入密碼">
           <div class = "signin__button_signin">登入帳戶</div>
           <div class = "signin__button_switch_signup">還沒有帳號？點此註冊</div>          
       </div>
       <div class = "signup__window_content">
         <div class = "signup__content_headline">註冊會員帳號</div>
-        <input class = "signup__input_name" placeholder = "輸入姓名">
-        <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱">
-        <input class = "signup__input_password" placeholder = "輸入密碼">
+        <input class = "signup__input_name" placeholder = "輸入姓名" id = "signup_name">
+        <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱" id = "signup_email">
+        <input class = "signup__input_password" type = "password" placeholder = "輸入密碼" id = "signup_password">
         <div class = "signup__button_signup">註冊新帳號</div>
         <div class = "signup__button_switch_signin">已經有帳號了？點此登入</div>          
     </div>
@@ -529,8 +529,6 @@ document.getElementById('right_button').addEventListener('click', function() {
   let container = document.querySelector(".mrts__list");
   container.scrollLeft += 200;
   })
-
-
 
 
 // 以下是chatGPT寫的，幫卷軸加上拖曳移動的功能，

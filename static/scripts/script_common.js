@@ -25,6 +25,20 @@ function switchWindow(type){
     switchWindow("signin");
   })
   
+// 註冊成功或失敗，跳出提示訊息
+function showResult(type,message){
+  let signupResult = document.createElement("div");
+  signupResult.className = "signup__button_switch_signin";
+
+  if (type === "error_400"){
+    signupResult.style.color = "red"
+  } 
+  signupResult.textContent = message;
+  document.querySelector(".signup__button_signup").appendChild(signupResult);
+}
+
+
+
   // 點擊 X ，關閉登入註冊彈窗
   document.querySelector(".signin__window_close").addEventListener("click",function(){
     let popupSignin = document.querySelector(".signin");
@@ -41,3 +55,40 @@ function switchWindow(type){
     switchWindow("signin");
   })
   
+
+  //註冊功能
+  let nameSignup = document.getElementById("signup_name")
+  let usernameSignup = document.getElementById("signup_email")
+  let passwordSignup = document.getElementById("signup_password")
+
+  document.querySelector(".signup__button_signup").addEventListener("click",function(){
+    if (nameSignup.value.length === 0 || usernameSignup.value.length === 0 || passwordSignup.value.length === 0){  
+      alert("請填寫所有註冊欄位"); 
+    }else{
+    //先建立要傳送的資料
+      newName = {
+        "name" : nameSignup.value,
+        "email": usernameSignup.value,
+        "password" : passwordSignup.value
+      };
+
+      //fetch資料
+      fetch("http://127.0.0.1:8000/api/user", {
+        method: "POST",
+        headers:{
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(newName)
+      })
+      .then(response => response.json())
+      .then(function(data){
+        if(data.ok === true){
+          showResult("ok","註冊成功");
+        } else if (data.error == true){
+          showResult("error",data.message);
+        }
+      })
+    }
+  })
+
+ 
