@@ -15,7 +15,8 @@ html{
 }
 
 .navbar__buttons_schedule,
-.navbar__buttons_signin{
+.navbar__buttons_signin,
+.navbar__buttons_signout{
     font-weight: 500;
 }
 
