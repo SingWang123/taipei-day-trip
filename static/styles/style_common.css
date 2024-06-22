@@ -75,12 +75,16 @@ a:active{
 }
 
 .navbar__buttons_schedule,
-.navbar__buttons_signin{
+.navbar__buttons_signin,
+.navbar__buttons_signout{
     margin:0px;
     padding: 10px;
     color: rgba(102, 102, 102, 1);
 }
 
+.navbar__buttons_signout{
+    display: none;
+}
 
 /* signin */
 
@@ -179,10 +183,21 @@ a:active{
     border-radius: 5px;
 }
 
+.signin__result,
+.signup__result{
+    display: none;
+    margin: 0px 0px 10px 0px;
+}
+
+
 .signin__button_switch_signup,
-.signup__button_switch_signin{
+.signup__button_switch_signin,
+.signin__result,
+.signup__result{
+    width: 100%;
     font-weight: 500;
     color: rgba(102, 102, 102, 1);
+    text-align: center;
 }
 
 /* footer */

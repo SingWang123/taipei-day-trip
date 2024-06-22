@@ -4,6 +4,9 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 from typing import Optional
+from datetime import datetime, timedelta, timezone
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt, JWTError, ExpiredSignatureError
 
 app = FastAPI()
 
@@ -61,17 +64,15 @@ pool2 = pooling.MySQLConnectionPool(
 	**dbconfig 
 )
 
+#初始化 CryptContext
+import jwt
+from passlib.context import CryptContext
+pwd_context = CryptContext(schemes = ["bcrypt"], deprecated = "auto")
 
 
-#jwt 測試
-# encoded_jwt = jwt.encode({"username" : "test"},"secret",algorithm = "HS256")
-# print(encoded_jwt)
 
-# decode = jwt.decode(encoded_jwt , "secret" , algorithms= ["HS256"])
-# print(decode)
-
-# model_確認該email是否已經存在
-def signup_check(email):
+# model_確認該email是否已經存在，不存在就寫入資料
+def signup_check(name,email,password):
 	connection = pool2.get_connection()
 	mycursor = connection.cursor(dictionary = True)
 
@@ -79,50 +80,108 @@ def signup_check(email):
 	val = (email,)
 	mycursor.execute(sql,val)
 	signup_result = mycursor.fetchall()
-
-	# 關閉資料庫連線
-	connection.close()
-
-	if len(signup_result) == 0:
-		return {"ok" : True}  # 資料庫沒有同樣email，可以註冊
+	
+	if len(signup_result) != 0:
+		# 關閉資料庫連線
+		connection.close()
+		return {"ok" : False}  # 資料庫已有資料，無法註冊
 	else:
-		return {"ok" : False}
-	
-# model_確認email不存在，存入新的帳號資料
-def signup_insert(name,email,password):
-	if signup_check(email)["ok"] == False: #這個email已存在，不要再建立了
-		return {"ok" : False}
-	
+		sql_insert = "INSERT INTO member (name, email, password) VALUES (%s, %s, %s)"
+		val_insert = (name,email,password)
+		mycursor.execute(sql_insert,val_insert)
+		connection.commit()
+
+		# 關閉資料庫連線
+		connection.close()
+		return {"ok" : True}  # 新增資料成功
+
+
+# model_驗證使用者帳密是否正確
+def signin_check(email,password):
 	connection = pool2.get_connection()
 	mycursor = connection.cursor(dictionary = True)
 
-	sql = "INSERT INTO member (name, email, password) VALUES (%s, %s, %s)"
-	val = (name,email,password)
+	sql = "SELECT email, password, name FROM member WHERE email = %s"
+	val = (email,)
 	mycursor.execute(sql,val)
-	connection.commit()
+	signin_result = mycursor.fetchall()
+
+	if len(signin_result) == 0 :
+		connection.close() # 關閉資料庫連線
+		return {"ok" : False, "masseage" : "帳號不存在"}
+
+	#pwd_context.verify 是 passlib 提供的方法，用來檢查純文本密碼是否與哈希密碼匹配。
+	elif not pwd_context.verify(password,signin_result[0]["password"]):
+		connection.close() # 關閉資料庫連線
+		return {"ok" : False, "masseage" : "密碼不正確"}
+
+	connection.close() # 關閉資料庫連線
+	return {
+		"ok" : True,
+		"name" : signin_result[0]["name"]
+	}
 	
-	# 關閉資料庫連線
-	connection.close()
 
-	return {"ok" : True}  # 新增資料成功
+# model_檢查使用者信箱是否存在
+def token_check(email):
+	connection = pool2.get_connection()
+	mycursor = connection.cursor(dictionary = True)
 
+	sql = "SELECT id, name, email FROM member WHERE email = %s"
+	val = (email,)
+	mycursor.execute(sql,val)
+	token_result = mycursor.fetchall()
+
+	connection.close() # 關閉資料庫連線
+	if len(token_result) == 0 :
+		return {"ok" : False, "masseage" : "帳號不存在"}
+	else:
+		return {
+			"ok" : True,
+			"data" : {
+				"id" : token_result[0]["id"],
+				"email" : token_result[0]["email"],
+				"name" : token_result[0]["name"]
+			}
+		}
+
+# jwt_產出jwt token
+def generate_token(name,email):	
+	expire = datetime.now(timezone.utc) + timedelta(minutes = 1)  #timedelta(days = 7)
+	data = {
+		"name" : name ,
+		"email" : email,
+		"exp" : expire
+	}
 	
-# test = signup_check("test@gmail")
-# print(test)
+	encoded_jwt = jwt.encode(data,"CzpcHvTvrKZx",algorithm = "HS256")
+	return(encoded_jwt)
 
-# print (signup_check("test2@gmail")["ok"])
+# 驗證前端傳回來的token是否正確
+def verify_token(token):
+	try:
+		#解碼token (jwt.decode 可能會有異常，需要捕獲異常)
+		decode = jwt.decode(token , "CzpcHvTvrKZx" , algorithms= ["HS256"])
 
-# test2 = signup_insert("test","test2@gmail","123456")
-# print(test2)
+		#檢查token有沒有過期
+		exp = decode.get("exp")
+		if exp and datetime.fromtimestamp(exp,tz = timezone.utc) < datetime.now(timezone.utc):						
+			return	{"ok" : False, "masseage" : "token已失效"}
 
+		#檢查訊息和資料庫是否一致
+		token_check_result = token_check(decode["email"]) 
+		if token_check_result["ok"] == False:
+			return	{"ok" : False, "masseage" : "帳號不存在"}
+		
+		return token_check_result #一切正確，回傳id name email
+	
+	except jwt.ExpiredSignatureError:
+		return	{"ok" : False, "masseage" : "token已失效"}
+	except jwt.JWTError:
+		return	{"ok" : False, "masseage" : "token無效"}
+		
 
-import jwt
-from passlib.context import CryptContext
-
-#初始化 CryptContext
-pwd_context = CryptContext(schemes = ["bcrypt"], deprecated = "auto")
-
-#/api/user 註冊一個會員 (用query param方式帶參數)
+#/api/user 註冊一個會員
 @app.post("/api/user")
 async def sign_up(request:Request):
 	# 檢查使用者是否有登入
@@ -132,10 +191,10 @@ async def sign_up(request:Request):
 	email = data.get("email")
 	hashed_password = pwd_context.hash(data.get("password") ) #將密碼用hash加密
 
-    # 檢查使用者是否有註冊過，沒有的話就幫使用者註冊資料
-	signup_check = signup_check(email)
-	if signup_check["ok"] == True:
-		signup_insert(name,email,hashed_password)
+	# 檢查使用者是否有註冊過，沒有的話就幫使用者註冊資料
+	signUpCheck = signup_check(name,email,hashed_password)
+
+	if signUpCheck ["ok"] == True:
 		return JSONResponse(
 			status_code = 200,
 			content = {
@@ -151,6 +210,60 @@ async def sign_up(request:Request):
 	        }
 		)
 
+#/api/auth 登入會員帳戶，成功的話取得token
+@app.put("/api/auth")
+async def sign_in(request:Request):
+	# 檢查使用者是否有登入
+	# 用request.json() 來解析request傳來的json資料
+	data = await request.json()
+	email = data.get("email")
+	password = data.get("password")
+	
+	#檢查帳密是否正確
+	signin_result = signin_check(email,password)
+	
+	if signin_result["ok"] == False:
+		return JSONResponse(
+	        status_code = 400,
+	        content = {
+	            "error": True,
+	            "message": "帳號或密碼錯誤",
+	        }
+		)
+	
+	elif signin_result["ok"] == True: #正確的話就給予一個token
+		jwt_token = generate_token(signin_result["name"],email)
+		return JSONResponse(
+			status_code = 200,
+			content = {
+				"token":  jwt_token
+			}
+		)
+
+# 用於從請求的 Authorization header 中提取 Bearer Token。	
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl = "token")
+
+#/api/user/auth 確認會員登入狀態，取得當前登入會員的資料
+@app.get("/api/user/auth")
+async def check_signin(token: str = Depends(oauth2_scheme)): #astAPI 會自動調用 oauth2_scheme，這個依賴項會從請求的 Authorization header 中提取 Bearer Token。
+
+	if token == "null":  # 目前沒有token的狀況
+		return JSONResponse(
+			status_code = 200,
+			content = {"data" : None}
+		)	
+		
+	verify_result = verify_token(token)
+		
+	if verify_result["ok"] == False:
+		return JSONResponse(
+			status_code = 200,
+			content = {"data" : None}
+		)
+	return JSONResponse(
+		status_code = 200,
+		content = {"data" : verify_result["data"]}
+	)
 
 
 #/api/attractions 取得景點資料列表 (用query param方式帶參數)
