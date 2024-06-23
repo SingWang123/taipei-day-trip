@@ -1,58 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-
-
-html{
-    font-family : "Noto Sans TC", sans-serif;
-    font-optical-sizing : auto;
-    font-style : normal;
-    font-size : 16px;
-    font-weight : 500;
-    background-color : white;
-    margin : 0px;
-    padding : 0px;
-}
-
-body{
-    margin: 0px;
-}
-
-
-/* 1200px < screen width < 1920px
-/* navigation bar */
-.navbar{
-    max-width : 1200px;
-    margin: auto;
-}
-
-.navbar__content{ 
-    display : flex;
-    justify-content : space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.navbar__webtitle{
-    padding : 10px;
-    font-size : 30px;
-    font-weight : 700;
-    color : rgba(68, 136, 153, 1);
-}
-
-.navbar__buttons{
-    display : flex;
-    justify-content : space-between;
-    align-items: center;
-    height : 34px;
-    width : 175px;
-}
-
-.navbar__buttons_button{
-    margin:0px;
-    padding: 10px;
-    color: rgba(102, 102, 102, 1);
-}
-
 
 /* Hero section */
 .banner{
@@ -168,7 +113,6 @@ body{
 .mrts__list_mrt{
     padding: 5px 15px;
     color: #666666;
-    user-select: none;  /* 關閉使用者選取效果 */
     cursor: pointer;  /* 改變滑鼠游標 */
 }
 
@@ -186,24 +130,6 @@ body{
     grid-template-columns: 1fr 1fr 1fr 1fr;
     column-gap: 10px;
     row-gap: 15px;
-}
-
-a,
-.mrts__list,
-.mrts__list_mrt{
-    text-decoration: none;
-    user-select: none;       /*關閉點擊效果*/
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-}
-
-/*去除點擊時的預設效果*/
-a:active{  
-    background-color: transparent;
-    color: inherit;
-    outline: none;
 }
 
 .main__card{
@@ -253,20 +179,7 @@ a:active{
 }
 
 
-/* footer */
-.footer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 30px 0px 0px 0px;
-    height: 104px;
-    background-color: rgba(117, 117, 117, 1);
-}
 
-.footer__word{
-    font-weight: 700;
-    color: rgba(255, 255, 255, 1);
-}
 
 /* 900px < screen width < 1199px */
 @media(max-width:1199px){
