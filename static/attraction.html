@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <!--AWS用-->
+  <!--AWS用
   <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
   <link href="/static/styles/style_attraction.css" rel="stylesheet" type="text/css">
   <script src="/static/scripts/script_common.js" defer charset="UTF-8"></script>
-  
-  <!--本地端測試用   
+  -->
+  <!--本地端測試用-->
   <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
   <link href="styles/style_attraction.css" rel="stylesheet" type="text/css"> 
   <script src="scripts/script_common.js" defer charset="UTF-8"></script>
-  -->
+  
 </head>
 <body>
   <!--signin -->
@@ -131,7 +131,7 @@
   
   //fetch("http://54.168.177.59:8000/api/attraction/" + id / 11) 
 
-  fetch("http://54.168.177.59:8000/api/attraction/" + id) 
+  fetch("http://54.168.177.59:8000/api/attraction/" + 11) 
   .then(function(response){
     return response.json();
   })
@@ -222,8 +222,6 @@
   button_left.addEventListener("click",function(){
     let images = document.querySelectorAll(".top__images_image");
     let dots = document.querySelectorAll(".slider__dot");
-    console.log(dots);
-    console.log(images);
     //隱藏原本圖片
     images[click_right].style.display = "none";
     dots[click_right].style.border = "1px rgba(255, 255, 255, 0.5) solid";
