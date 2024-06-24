@@ -1,0 +1,22 @@
+
+html{
+    color: rgba(102, 102, 102, 1);
+}
+
+/* 1200px < screen width < 1920px
+/* navigation bar */
+.navbar{
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.content{
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Welcome */
+.content__welcome{
+    max-width: 1000px;
+    font-weight: 700;
+    font-size: 19px;
+}
