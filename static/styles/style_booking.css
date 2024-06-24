@@ -17,6 +17,80 @@ html{
 /* Welcome */
 .content__welcome{
     max-width: 1000px;
+    margin: 35px 100px;
     font-weight: 700;
     font-size: 19px;
+    
+}
+
+/*content_attractio info*/
+
+.content__attraction{
+    display: flex;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 25px 100px 0px 100px;
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
+}
+
+.attraction__img{
+    width: 250px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.attraction__info{
+    max-width: 750px;
+    padding: 0px 0px 0px 30px;
+}
+
+.attraction__name{
+    position: relative;
+    font-weight: 700;
+    color: rgba(68,136,153,1);
+    margin: 0px 0px 20px 0px;
+}
+
+.attraction__button_delete{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 30px;
+    height: 30px;
+    background-image: url(../images/delete_3x.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.attraction__bookinginfo{
+    max-width: 720px;
+    height: 126px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+.attraction__heading{
+    font-weight: 700;
+    color: rgba(102, 102, 102, 1);
+}
+
+.attraction__date,
+.attraction__time,
+.attraction__fee,
+.attraction__address{
+    width: 90%;
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+}
+
+hr{
+    max-width: 1200px;
+    height: 0px;
+    margin: 40px auto;
+    color: #e8e8e8;
+    background-color: #e8e8e8;
+    border-style: solid;
+    /* border-bottom: 2px solid #e8e8e8; */
 }
