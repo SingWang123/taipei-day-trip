@@ -66,9 +66,8 @@
     <div class = "content__attraction">
       <img class = "attraction__img" src = "images/[desktop] hero section.png">
       <div class = "attraction__info">
-        <div class = "attraction__name">台北一日遊：平安鐘
-          <div class = "attraction__button_delete"></div>
-        </div>
+        <div class = "attraction__name">台北一日遊：平安鐘台北市大安區忠孝東路四段</div>
+        <div class = "attraction__button_delete"></div>
         <div class = "attraction__bookinginfo">
           <div class = "attraction__headline">日期：</div>
           <div class = "attraction__date">2021-04-23</div>
@@ -78,12 +77,12 @@
           <div class = "attraction__time">早上9點到下午4點</div>
         </div>
         <div class = "attraction__bookinginfo">
-          <div class = "attraction__headline">日期：</div>
+          <div class = "attraction__headline">費用：</div>
           <div class = "attraction__fee">新台幣2000元</div>
         </div>
         <div class = "attraction__bookinginfo">
           <div class = "attraction__headline">地點：</div>
-          <div class = "attraction__address">台北市大安區忠孝東路四段</div>
+          <div class = "attraction__address">台北市大安區忠孝東路四段台北市大安區忠孝東路四段台北市大安區忠孝東路四段</div>
         </div>
       </div> 
     </div>
@@ -92,21 +91,46 @@
       <div class = "member__headline" >您的聯絡資訊</div>
       <div class = "memberinfo__item">
         <div class = "memberinfo__headline">聯絡姓名：</div>
-        <input class = "memberinfo__input_name" placeholder = "請輸入您的姓名">
+        <input class = "memberinfo__input_name" type = "text" placeholder = "請輸入您的姓名">
       </div>
       <div class = "memberinfo__item">
         <div class = "memberinfo__headline">聯絡信箱：</div>
-        <input class = "memberinfo__input_email" placeholder = "請輸入您的聯絡信箱">
+        <input class = "memberinfo__input_email" type = "email" placeholder = "請輸入您的聯絡信箱">
       </div>
       <div class = "memberinfo__item">
         <div class = "memberinfo__headline">手機號碼：</div>
-        <input class = "memberinfo__input_phone" placeholder = "請輸入您的聯絡電話">
+        <input class = "memberinfo__input_phone" type = "tel" placeholder = "請輸入您的聯絡電話">
       </div>
       <div class = "memberinfo__notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
     </div>
     <hr/>
+    <div class = "content__payment">
+      <div class = "payment__headline" >信用卡付款資訊</div>
+      <div class = "paymentinfo__item">
+        <div class = "paymentinfo__headline">卡片號碼：</div>
+        <input class = "paymentinfo__input_cardnumber" type = "text" placeholder = "**** **** **** ****">
+      </div>
+      <div class = "paymentinfo__item">
+        <div class = "paymentinfo__headline">過期時間：</div>
+        <input class = "paymentinfo__input_exptime" type = "text" placeholder = "MM/YY">
+      </div>
+      <div class = "paymentinfo__item">
+        <div class = "paymentinfo__headline">驗證密碼：</div>
+        <input class = "paymentinfo__input_cvv" type = "text" placeholder = "CVV">
+      </div>
+    </div>
+    <hr/>
+    <div class = "comfirm__payment">
+      <div class = "comfirm__message">總價：新台幣 2000 元</div>
+      <div class = "comfirm__button">
+        確認訂購並付款
+      </div>
+    </div>
   </div>
-
-
+  <footer class = "footer">
+    <div class = "footer__word">
+      COPYRIGHT © 2021 台北一日遊
+    </div>
+  </footer>
 </body>
 </html>
