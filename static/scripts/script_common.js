@@ -112,7 +112,7 @@ document.querySelector(".navbar__buttons_signout").addEventListener("click",func
 let token = localStorage.getItem("jwt_token");
 
 //檢查登入狀態 api（get）
-fetch("http://54.168.177.59:8000/api/user/auth",{
+fetch("http://127.0.0.1:8000/api/user/auth",{
   method: "GET",
   headers:{
     "Authorization" : `Bearer ${token}`,
@@ -149,23 +149,24 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
       "email": emailSignup.value,
       "password" : passwordSignup.value
     };
-
+    console.log(newMember);
     //fetch資料
-    fetch("http://54.168.177.59:8000/api/user", {
+    fetch("http://127.0.0.1:8000/api/user", {
       method: "POST",
       headers:{
         "Content-Type" : "application/json"
       },
       body: JSON.stringify(newMember)
     })
-    .then(response => response.json())
-    .then(function(data){
-      if(data.ok === true){
-        showResult("signup","註冊成功","ok");
-      } else if (data.error == true){
-        showResult("signup",data.message,"error");
-      }
-    })
+    // .then(response => response.json())
+    // .then(function(data){
+    //   console.log(data);
+    //   // if(data.ok === true){
+    //   //   showResult("signup","註冊成功","ok");
+    //   // } else if (data.error == true){
+    //   //   showResult("signup",data.message,"error");
+    //   // }
+    // })
   }
 })
 
@@ -188,7 +189,7 @@ document.querySelector(".signin__button_signin").addEventListener("click",functi
     };
     
     //fetch資料
-    fetch("http://54.168.177.59:8000/api/auth", {
+    fetch("http://127.0.0.1:8000/api/auth", {
       method: "PUT",
       headers:{
         "Content-Type" : "application/json"
