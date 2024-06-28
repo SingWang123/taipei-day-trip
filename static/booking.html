@@ -195,7 +195,6 @@
       switchSignInOut("signout");
       let memberinfo = data.data;
       url = window.location.href
-      console.log(url.split("/")[3]);
       if (url.split("/")[3] == "booking"){
         addBookingMemberinfo(memberinfo.name,memberinfo.email);
       }
