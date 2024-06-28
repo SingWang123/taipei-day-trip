@@ -4,8 +4,255 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking</title>
+  <!--AWS用-->
+  <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
+  <link href="/static/styles/style_booking.css" rel="stylesheet" type="text/css">
+  <script src="/static/scripts/script_common.js" async charset="UTF-8"></script>
+  
+  <!--本地端測試用
+  <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
+  <link href="styles/style_booking.css" rel="stylesheet" type="text/css"> 
+  <script src="scripts/script_common.js" defer charset="UTF-8"></script>
+  -->
 </head>
 <body>
-  
+  <!--signin -->
+  <div class = "signin">
+    <div class = "signin__window"> 
+      <div class = "signin__window_top"></div>
+      <div class = "signin__window_content">
+          <div class = "signin__content_headline">登入會員帳號</div>
+          <input class = "signin__input_email" type = "email" placeholder = "輸入電子信箱">
+          <input class = "signin__input_password" type = "password" placeholder = "輸入密碼">
+          <div class = "signin__button_signin">登入帳戶</div>
+          <div class = "signin__result"></div>
+          <div class = "signin__button_switch_signup">還沒有帳號？點此註冊</div>          
+      </div>
+      <div class = "signup__window_content">
+        <div class = "signup__content_headline">註冊會員帳號</div>
+        <input class = "signup__input_name" placeholder = "輸入姓名">
+        <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱">
+        <input class = "signup__input_password" type = "password" placeholder = "輸入密碼">
+        <div class = "signup__button_signup">註冊新帳號</div>
+        <div class = "signup__result"></div>
+        <div class = "signup__button_switch_signin">已經有帳號了？點此登入</div>          
+    </div>
+      <div class = "signin__window_close"></div>
+    </div>
+  </div>
+  <!--navigation bar-->
+  <div class = "navbar">
+    <div class = "navbar__content">
+      <a href = "http://54.168.177.59:8000/">
+      <div class = "navbar__webtitle">
+        台北一日遊
+      </div>
+      </a>
+      <div class = "navbar__buttons">
+        <div class = "navbar__buttons_schedule">
+          預定行程
+        </div>
+        <div class = "navbar__buttons_signin">
+          登入/註冊
+        </div>
+        <div class = "navbar__buttons_signout">
+          登出系統
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class = "welcome">
+    <div class = "welcome__headline" >您好，NAME，預訂的行程如下:</div>
+    <div class = "welcome__nobooking" >目前沒有任何預訂行程</div>
+  </div>
+  <div class = "content">
+    <div class = "content__attraction">
+      <img class = "attraction__img">
+      <div class = "attraction__info">
+        <div class = "attraction__name">台北一日遊：平安鐘台北市大安區忠孝東路四段</div>
+        <div class = "attraction__button_delete"></div>
+        <div class = "attraction__bookinginfo">
+          <div class = "attraction__headline">日期：</div>
+          <div class = "attraction__date">2021-04-23</div>
+        </div>
+        <div class = "attraction__bookinginfo">
+          <div class = "attraction__headline">時間：</div>
+          <div class = "attraction__time">早上9點到下午4點</div>
+        </div>
+        <div class = "attraction__bookinginfo">
+          <div class = "attraction__headline">費用：</div>
+          <div class = "attraction__fee">新台幣2000元</div>
+        </div>
+        <div class = "attraction__bookinginfo">
+          <div class = "attraction__headline">地點：</div>
+          <div class = "attraction__address">台北市大安區忠孝東路四段台北市大安區忠孝東路四段台北市大安區忠孝東路四段</div>
+        </div>
+      </div> 
+    </div>
+    <hr/>
+    <div class = "content__member">
+      <div class = "member__headline" >您的聯絡資訊</div>
+      <div class = "memberinfo__item">
+        <div class = "memberinfo__headline">聯絡姓名：</div>
+        <input class = "memberinfo__input_name" type = "text" placeholder = "請輸入您的姓名">
+      </div>
+      <div class = "memberinfo__item">
+        <div class = "memberinfo__headline">聯絡信箱：</div>
+        <input class = "memberinfo__input_email" type = "email" placeholder = "請輸入您的聯絡信箱">
+      </div>
+      <div class = "memberinfo__item">
+        <div class = "memberinfo__headline">手機號碼：</div>
+        <input class = "memberinfo__input_phone" type = "tel" placeholder = "請輸入您的聯絡電話">
+      </div>
+      <div class = "memberinfo__notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+    </div>
+    <hr/>
+    <div class = "content__payment">
+      <div class = "payment__headline" >信用卡付款資訊</div>
+      <div class = "paymentinfo__item">
+        <div class = "paymentinfo__headline">卡片號碼：</div>
+        <input class = "paymentinfo__input_cardnumber" type = "text" placeholder = "**** **** **** ****">
+      </div>
+      <div class = "paymentinfo__item">
+        <div class = "paymentinfo__headline">過期時間：</div>
+        <input class = "paymentinfo__input_exptime" type = "text" placeholder = "MM/YY">
+      </div>
+      <div class = "paymentinfo__item">
+        <div class = "paymentinfo__headline">驗證密碼：</div>
+        <input class = "paymentinfo__input_cvv" type = "text" placeholder = "CVV">
+      </div>
+    </div>
+    <hr/>
+    <div class = "comfirm__payment">
+      <div class = "comfirm__message">總價：新台幣 2000 元</div>
+      <div class = "comfirm__button">
+        確認訂購並付款
+      </div>
+    </div>
+  </div>
+  <footer class = "footer">
+    <div class = "footer__word">
+      COPYRIGHT © 2021 台北一日遊
+    </div>
+  </footer>
 </body>
+<script>
+  //取得LocalStorage的token (避免同步問題，各頁自己也設定token檢查)
+  let token_booking = localStorage.getItem("jwt_token");
+
+  //塞頁面資料_景點資訊
+  function addBookingAttractioninfo(img,name,address){
+    document.querySelector(".attraction__img").src = img;
+    document.querySelector(".attraction__name").textContent = name;
+    document.querySelector(".attraction__address").textContent = address;
+  }
+
+  // 塞頁面資料_預約資訊
+  function addBookinginfo(date,time){
+    document.querySelector(".attraction__date").textContent = date;
+    if (time === "morning"){
+      document.querySelector(".attraction__time").textContent = "早上8點到下午3點";
+      document.querySelector(".attraction__fee").textContent = "新台幣2000元"; 
+      document.querySelector(".comfirm__message").textContent = "總價：新台幣2000元";  
+    } else {
+      document.querySelector(".attraction__time").textContent = "中午12點到晚上7點";
+      document.querySelector(".attraction__fee").textContent = "新台幣2500元";
+      document.querySelector(".comfirm__message").textContent = "總價：新台幣2500元";  
+    }
+  }
+  
+  // 關閉頁面資料，沒有預定行程
+  function switchNoBooking(type){
+    if (type == "nobooking"){
+      document.querySelector(".content").style.display = "none";
+      document.querySelector(".welcome__nobooking").style.display = "block";
+      document.querySelector(".footer").style.height = "75vh";
+      document.querySelector(".footer__word").style.height = "70vh";
+    } else {
+      document.querySelector(".content").style.display = "block";
+      document.querySelector(".welcome__nobooking").style.display = "none";
+      document.querySelector(".footer").style.height = "104px";
+      document.querySelector(".footer__word").style.height = "104px";
+    }
+  }
+
+  //登入API,驗證登入狀態
+  fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token_booking}`,
+      "Content-Type" : "application/json"    
+    }
+  })
+  .then(response => response.json())
+  .then(function(data){
+    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+        localStorage.removeItem("jwt_token"); 
+      }
+      switchSignInOut("signin")
+    } else {
+      switchSignInOut("signout");
+      let memberinfo = data.data;
+      url = window.location.href
+      if (url.split("/")[3] == "booking"){
+        addBookingMemberinfo(memberinfo.name,memberinfo.email);
+      }
+    }
+  })
+
+
+  //5- booking頁的api，塞預定地資料
+  fetch("http://54.168.177.59:8000/api/booking", {
+      method: "GET",
+      headers:{
+        "Authorization" : `Bearer ${token_booking}`,
+        "Content-Type" : "application/json"
+      }
+    })
+    .then(response => {
+      if (response.status === 403){
+        //未登入，返回首頁
+        window.location.href = "http://54.168.177.59:8000/";
+      }
+      return response.json();
+    })
+    .then(function(data){
+      if (data.data == null ){ //已登入但沒有預約資料
+        switchNoBooking("nobooking");
+        return;
+      }
+      let attraction = data.data.attraction;
+      addBookingAttractioninfo(attraction.image,attraction.name,attraction.address);
+      addBookinginfo(data.data.date,data.data.time)
+    })
+
+  //點擊垃圾桶按鈕，刪除行程
+  document.querySelector(".attraction__button_delete").addEventListener("click",function(){
+    //點擊按鈕，fetch刪除API
+    fetch("http://54.168.177.59:8000/api/booking", {
+      method: "DELETE",
+      headers:{
+        "Authorization" : `Bearer ${token_booking}`,
+        "Content-Type" : "application/json"
+      }
+    })
+    .then(response => {
+      if (response.status === 403){
+        //未登入，返回首頁
+        window.location.href = "http://54.168.177.59:8000/";
+      }
+      return response.json();
+    })
+    .then(function(data){
+      if (data.ok == false ){ 
+        return;
+      }else{
+        location.reload();
+      }
+    })
+  })
+
+
+</script>
 </html>
