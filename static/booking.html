@@ -61,8 +61,10 @@
       </div>
     </div>
   </div>
-  <div class = "content__welcome" >您好，NAME，預訂的行程如下:</div>
-  <div class = "content__nobooking" >目前沒有任何預訂行程</div>
+  <div class = "welcome">
+    <div class = "welcome__headline" >您好，NAME，預訂的行程如下:</div>
+    <div class = "welcome__nobooking" >目前沒有任何預訂行程</div>
+  </div>
   <div class = "content">
     <div class = "content__attraction">
       <img class = "attraction__img">
@@ -163,12 +165,12 @@
   function switchNoBooking(type){
     if (type == "nobooking"){
       document.querySelector(".content").style.display = "none";
-      document.querySelector(".content__nobooking").style.display = "block";
+      document.querySelector(".welcome__nobooking").style.display = "block";
       document.querySelector(".footer").style.height = "75vh";
       document.querySelector(".footer__word").style.height = "70vh";
     } else {
       document.querySelector(".content").style.display = "block";
-      document.querySelector(".content__nobooking").style.display = "none";
+      document.querySelector(".welcome__nobooking").style.display = "none";
       document.querySelector(".footer").style.height = "104px";
       document.querySelector(".footer__word").style.height = "104px";
     }

@@ -9,13 +9,14 @@ html{
     border-bottom: 2px solid #e8e8e8;
 }
 
-.content{
+.content,
+.welcome{
     max-width: 1200px;
     margin: auto;
 }
 
 /* Welcome */
-.content__welcome{
+.welcome__headline{
     max-width: 1000px;
     margin: 35px 100px;
     font-weight: 700;
@@ -180,13 +181,14 @@ hr{
 @media(max-width:880px){
     /*螢幕寬度小於880px,套用這組CSS*/
 
-    .content{
+    .content,
+    .welcome{
         max-width: 880px;
     }
     
     /* Welcome */
-    .content__welcome,
-    .content__nobooking{
+    .welcome__headline,
+    .welcome__nobooking{
         max-width: 880px;
         margin: 40px 10px;
     }
