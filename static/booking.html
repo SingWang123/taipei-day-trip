@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking</title>
-  <!--AWS用
+  <!--AWS用-->
   <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
   <link href="/static/styles/style_booking.css" rel="stylesheet" type="text/css">
-  <script src="/static/scripts/script_common.js" defer charset="UTF-8"></script>
-  -->
-  <!--本地端測試用-->
+  <script src="/static/scripts/script_common.js" async charset="UTF-8"></script>
+  
+  <!--本地端測試用
   <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
   <link href="styles/style_booking.css" rel="stylesheet" type="text/css"> 
   <script src="scripts/script_common.js" defer charset="UTF-8"></script>
-  
+  -->
 </head>
 <body>
   <!--signin -->
@@ -61,10 +61,11 @@
       </div>
     </div>
   </div>
+  <div class = "content__welcome" >您好，NAME，預訂的行程如下:</div>
+  <div class = "content__nobooking" >目前沒有任何預訂行程</div>
   <div class = "content">
-    <div class = "content__welcome" >您好，NAME，待預訂的行程如下:</div>
     <div class = "content__attraction">
-      <img class = "attraction__img" src = "images/[desktop] hero section.png">
+      <img class = "attraction__img">
       <div class = "attraction__info">
         <div class = "attraction__name">台北一日遊：平安鐘台北市大安區忠孝東路四段</div>
         <div class = "attraction__button_delete"></div>
@@ -133,4 +134,95 @@
     </div>
   </footer>
 </body>
+<script>
+  //塞頁面資料_景點資訊
+  function addBookingAttractioninfo(img,name,address){
+    document.querySelector(".attraction__img").src = img;
+    document.querySelector(".attraction__name").textContent = name;
+    document.querySelector(".attraction__address").textContent = address;
+  }
+
+  // 塞頁面資料_預約資訊
+  function addBookinginfo(date,time){
+    document.querySelector(".attraction__date").textContent = date;
+    if (time === "morning"){
+      document.querySelector(".attraction__time").textContent = "早上8點到下午3點";
+      document.querySelector(".attraction__fee").textContent = "新台幣2000元"; 
+      document.querySelector(".comfirm__message").textContent = "總價：新台幣2000元";  
+    } else {
+      document.querySelector(".attraction__time").textContent = "中午12點到晚上7點";
+      document.querySelector(".attraction__fee").textContent = "新台幣2500元";
+      document.querySelector(".comfirm__message").textContent = "總價：新台幣2500元";  
+    }
+  }
+  
+  // 關閉頁面資料，沒有預定行程
+  function switchNoBooking(type){
+    if (type == "nobooking"){
+      document.querySelector(".content").style.display = "none";
+      document.querySelector(".content__nobooking").style.display = "block";
+      document.querySelector(".footer").style.height = "75vh";
+      document.querySelector(".footer__word").style.height = "70vh";
+    } else {
+      document.querySelector(".content").style.display = "block";
+      document.querySelector(".content__nobooking").style.display = "none";
+      document.querySelector(".footer").style.height = "104px";
+      document.querySelector(".footer__word").style.height = "104px";
+    }
+  }
+
+
+  //5- booking頁的api，塞預定地資料
+  fetch("http://54.168.177.59:8000/api/booking", {
+      method: "GET",
+      headers:{
+        "Authorization" : `Bearer ${token}`,
+        "Content-Type" : "application/json"
+      }
+    })
+    .then(response => {
+      if (response.status === 403){
+        //未登入，返回首頁
+        window.location.href = "http://54.168.177.59:8000/";
+      }
+      return response.json();
+    })
+    .then(function(data){
+      if (data.data == null ){ //已登入但沒有預約資料
+        switchNoBooking("nobooking");
+        return;
+      }
+      let attraction = data.data.attraction;
+      addBookingAttractioninfo(attraction.image,attraction.name,attraction.address);
+      addBookinginfo(data.data.date,data.data.time)
+    })
+
+  //點擊垃圾桶按鈕，刪除行程
+  document.querySelector(".attraction__button_delete").addEventListener("click",function(){
+    //點擊按鈕，fetch刪除API
+    fetch("http://54.168.177.59:8000/api/booking", {
+      method: "DELETE",
+      headers:{
+        "Authorization" : `Bearer ${token}`,
+        "Content-Type" : "application/json"
+      }
+    })
+    .then(response => {
+      if (response.status === 403){
+        //未登入，返回首頁
+        window.location.href = "http://54.168.177.59:8000/";
+      }
+      return response.json();
+    })
+    .then(function(data){
+      if (data.ok == false ){ 
+        return;
+      }else{
+        location.reload();
+      }
+    })
+  })
+
+
+</script>
 </html>

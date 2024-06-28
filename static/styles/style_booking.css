@@ -23,11 +23,16 @@ html{
     
 }
 
+.content__nobooking{
+    max-width: 1000px;
+    margin: 35px 100px;
+    display: none;
+}
+
 /*content_attraction info*/
 
 .content__attraction{
     display: flex;
-    /* justify-content: center; */
     max-width: 1000px;
     margin: 25px 100px 0px 100px;
     padding: 0px 10px 0px 10px;
@@ -73,7 +78,6 @@ html{
     width: 50px;
     flex-shrink: 0;
     font-weight: 700;
-    color: rgba(102, 102, 102, 1);
 }
 
 .attraction__date,
@@ -82,7 +86,6 @@ html{
 .attraction__address{
     flex-grow: 1;
     font-weight: 400;
-    color: rgba(102, 102, 102, 1);
 }
 
 hr{
@@ -92,7 +95,6 @@ hr{
     color: #e8e8e8;
     background-color: #e8e8e8;
     border-style: solid;
-    /* border-bottom: 2px solid #e8e8e8; */
 }
 
 /*content_member info*/
@@ -108,7 +110,6 @@ hr{
     margin: 0px 0px 20px 0px;
     font-size: 19px;
     font-weight: 700;
-    color: rgba(102, 102, 102, 1);
 }
 
 .memberinfo__item,
@@ -122,7 +123,6 @@ hr{
     height: 38px;
     line-height: 38px;
     font-weight: 400;
-    color: rgba(102, 102, 102, 1);
 }
 
 .memberinfo__input_name,
@@ -146,7 +146,6 @@ hr{
 .comfirm__message{
     font-size: 16px;
     font-weight: 700;
-    color: rgba(102, 102, 102, 1);
 }
 
 .comfirm__payment{
@@ -186,7 +185,8 @@ hr{
     }
     
     /* Welcome */
-    .content__welcome{
+    .content__welcome,
+    .content__nobooking{
         max-width: 880px;
         margin: 40px 10px;
     }

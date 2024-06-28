@@ -1,3 +1,5 @@
+//取得LocalStorage的token (放在最上面，各頁面都可以盡早抓到token變數)
+let token = localStorage.getItem("jwt_token");
 
 //Signin / signup
 
@@ -75,9 +77,53 @@ function checkEmail(type){
   }
 }
 
+// 將檢查登入 user/auth api做成一個functuin
+async function get_signin(){
+  let response = await fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token}`,
+      "Content-Type" : "application/json"    
+    }
+  })
+  let data = await response.json();
+  if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+    if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+      localStorage.removeItem("jwt_token"); 
+    }
+    return {"signin" : false}
+  } else {
+    return {
+      "signin" : true,
+      "data" : data.data
+    }
+  }
+}
 
+  // 將使用者資料塞進去booking頁
+  function addBookingMemberinfo(name,email){
+    document.querySelector(".content__welcome").textContent = "您好，" + name + "，預訂的行程如下:";
+    document.querySelector(".memberinfo__input_name").value = name;
+    document.querySelector(".memberinfo__input_email").value = email;
+  }
+  
 
 //操作
+// 點擊 預定行程，檢查登入狀態，有成功登入就跳到booking頁，沒有就跳登入彈窗
+document.querySelector(".navbar__buttons_schedule").addEventListener("click",function(){
+  //檢查登入狀態
+  signin_result.then(data => {
+    
+    if (data.signin == true){
+      window.location.href = "http://54.168.177.59:8000/booking";
+    } else {
+      let popupSignin = document.querySelector(".signin");
+      popupSignin.style.display = "block";
+      switchWindow("signin");
+    }
+  })
+})
+
 // 點擊 登入/註冊，跳出登入註冊彈窗，每次點擊必定開啟登入彈窗
 document.querySelector(".navbar__buttons_signin").addEventListener("click",function(){
   let popupSignin = document.querySelector(".signin");
@@ -108,28 +154,28 @@ document.querySelector(".navbar__buttons_signout").addEventListener("click",func
 })
 
 
-//取得LocalStorage的token
-let token = localStorage.getItem("jwt_token");
+let memberinfo = {};
 
-//檢查登入狀態 api（get）
-fetch("http://127.0.0.1:8000/api/user/auth",{
-  method: "GET",
-  headers:{
-    "Authorization" : `Bearer ${token}`,
-    "Content-Type" : "application/json"    
-  }
-})
-.then(response => response.json())
-.then(function(data){
-  if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+// 依登入狀態，決定右上角是登入還是登出
+let signin_result = get_signin();
+
+signin_result.then(data => {
+  if (data.signin == false){  //data為null，除了沒有Token之外，也有可能是token失效或過期
     switchSignInOut("signin")
     if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
       localStorage.removeItem("jwt_token"); 
     }
   } else {
-    switchSignInOut("signout")
+    switchSignInOut("signout");
+    memberinfo = data.data;
+    url = window.location.href
+    if (url.split("/")[3] == "booking"){
+      addBookingMemberinfo(memberinfo.name,memberinfo.email);
+    }
   }
 })
+
+
 
 
 //註冊功能 api (post)
@@ -149,24 +195,24 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
       "email": emailSignup.value,
       "password" : passwordSignup.value
     };
-    console.log(newMember);
+    
     //fetch資料
-    fetch("http://127.0.0.1:8000/api/user", {
+    fetch("http://54.168.177.59:8000/api/user", {
       method: "POST",
       headers:{
         "Content-Type" : "application/json"
       },
       body: JSON.stringify(newMember)
     })
-    // .then(response => response.json())
-    // .then(function(data){
-    //   console.log(data);
-    //   // if(data.ok === true){
-    //   //   showResult("signup","註冊成功","ok");
-    //   // } else if (data.error == true){
-    //   //   showResult("signup",data.message,"error");
-    //   // }
-    // })
+    .then(response => response.json())
+    .then(function(data){
+      console.log(data);
+      if(data.ok === true){
+        showResult("signup","註冊成功","ok");
+      } else if (data.error == true){
+        showResult("signup",data.message,"error");
+      }
+    })
   }
 })
 
@@ -189,7 +235,7 @@ document.querySelector(".signin__button_signin").addEventListener("click",functi
     };
     
     //fetch資料
-    fetch("http://127.0.0.1:8000/api/auth", {
+    fetch("http://54.168.177.59:8000/api/auth", {
       method: "PUT",
       headers:{
         "Content-Type" : "application/json"
