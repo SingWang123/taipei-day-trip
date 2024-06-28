@@ -127,6 +127,24 @@
 <script>
   //取得LocalStorage的token
   let token_attraction = localStorage.getItem("jwt_token");
+  fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token_attraction}`,
+      "Content-Type" : "application/json"    
+    }
+    })
+  .then(response => response.json())
+  .then(function(data){
+    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+        localStorage.removeItem("jwt_token"); 
+      }
+      switchSignInOut("signin")
+    } else {
+      switchSignInOut("signout");
+    }
+  })
 
   // 3-2 景點頁的api，塞景點資料
   let url = window.location.href;
@@ -266,7 +284,7 @@
     } else {
       date.style.border = "none";
     }
-    
+
     //先建立要傳送的資料
     booking = {
       "attractionID" : id, //上面抓頁面資料時，已經抓到ID變數

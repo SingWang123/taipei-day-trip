@@ -308,7 +308,26 @@ function enterData(i,attractionData){
   mainCardCategory[i].textContent = attractionData[i].category
 }
 
-
+//取得LocalStorage的token
+let token = localStorage.getItem("jwt_token");
+fetch("http://54.168.177.59:8000/api/user/auth",{
+  method: "GET",
+  headers:{
+    "Authorization" : `Bearer ${token}`,
+    "Content-Type" : "application/json"    
+  }
+  })
+.then(response => response.json())
+.then(function(data){
+  if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+    if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+      localStorage.removeItem("jwt_token"); 
+    }
+    switchSignInOut("signin")
+  } else {
+    switchSignInOut("signout");
+  }
+})
 
 // 2-2 首頁開啟時的api，塞page=0的資料
 fetch("http://54.168.177.59:8000/api/attractions?page=0")
