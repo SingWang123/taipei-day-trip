@@ -240,7 +240,7 @@ def booking_data(id,attractionID,date,time,price):
 		connection = pool2.get_connection()
 		mycursor = connection.cursor(dictionary = True)
 		
-		sql = "update member set last_signin_time = CURRENT_TIMESTAMP, data_id = %s, date = %s, time = %s, price = %s where id = %s "
+		sql = "update member set last_update_time = CURRENT_TIMESTAMP, data_id = %s, date = %s, time = %s, price = %s where id = %s "
 		val = (attractionID,date,time,price,id)
 		mycursor.execute(sql,val)
 		
@@ -319,7 +319,7 @@ def delete_bookingdata(id):
 		connection = pool2.get_connection()
 		mycursor = connection.cursor(dictionary = True)
 		
-		sql = "update member set last_signin_time = CURRENT_TIMESTAMP, data_id = null, date = null, time = null, price = null where id = %s "
+		sql = "update member set last_update_time = CURRENT_TIMESTAMP, data_id = null, date = null, time = null, price = null where id = %s "
 		val = (id,)
 		mycursor.execute(sql,val)
 		
