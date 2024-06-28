@@ -90,14 +90,24 @@ function checkEmail(type){
 // 點擊 預定行程，檢查登入狀態，有成功登入就跳到booking頁，沒有就跳登入彈窗
 document.querySelector(".navbar__buttons_schedule").addEventListener("click",function(){
   //檢查登入狀態
-  signin_result.then(data => {
-    
-    if (data.signin == true){
-      window.location.href = "http://54.168.177.59:8000/booking";
-    } else {
+  fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token}`,
+      "Content-Type" : "application/json"    
+    }
+  })
+  .then(response => response.json())
+  .then(function(data){
+    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+        localStorage.removeItem("jwt_token"); 
+      }
       let popupSignin = document.querySelector(".signin");
       popupSignin.style.display = "block";
       switchWindow("signin");
+    } else {
+      window.location.href = "http://54.168.177.59:8000/booking";
     }
   })
 })
@@ -136,31 +146,31 @@ let memberinfo = {};
 
 // 依登入狀態，決定右上角是登入還是登出
 // 登入 user/auth api
-function get_signin(){
-  fetch("http://54.168.177.59:8000/api/user/auth",{
-    method: "GET",
-    headers:{
-      "Authorization" : `Bearer ${token}`,
-      "Content-Type" : "application/json"    
+
+fetch("http://54.168.177.59:8000/api/user/auth",{
+  method: "GET",
+  headers:{
+    "Authorization" : `Bearer ${token}`,
+    "Content-Type" : "application/json"    
+  }
+})
+.then(response => response.json())
+.then(function(data){
+  if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+    if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+      localStorage.removeItem("jwt_token"); 
     }
-  })
-  .then(response => response.json())
-  .then(function(data){
-    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
-      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
-        localStorage.removeItem("jwt_token"); 
-      }
-      switchSignInOut("signin")
-    } else {
-      switchSignInOut("signout");
-      memberinfo = data.data;
-      url = window.location.href
-      if (url.split("/")[3] == "booking"){
-        addBookingMemberinfo(memberinfo.name,memberinfo.email);
-      }
+    switchSignInOut("signin")
+  } else {
+    switchSignInOut("signout");
+    memberinfo = data.data;
+    url = window.location.href
+    if (url.split("/")[3] == "booking"){
+      addBookingMemberinfo(memberinfo.name,memberinfo.email);
     }
-  })
-}
+  }
+})
+
 
 
 
