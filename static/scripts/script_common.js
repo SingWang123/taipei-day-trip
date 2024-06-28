@@ -77,28 +77,6 @@ function checkEmail(type){
   }
 }
 
-// 將檢查登入 user/auth api做成一個functuin
-async function get_signin(){
-  let response = await fetch("http://54.168.177.59:8000/api/user/auth",{
-    method: "GET",
-    headers:{
-      "Authorization" : `Bearer ${token}`,
-      "Content-Type" : "application/json"    
-    }
-  })
-  let data = await response.json();
-  if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
-    if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
-      localStorage.removeItem("jwt_token"); 
-    }
-    return {"signin" : false}
-  } else {
-    return {
-      "signin" : true,
-      "data" : data.data
-    }
-  }
-}
 
   // 將使用者資料塞進去booking頁
   function addBookingMemberinfo(name,email){
@@ -157,23 +135,35 @@ document.querySelector(".navbar__buttons_signout").addEventListener("click",func
 let memberinfo = {};
 
 // 依登入狀態，決定右上角是登入還是登出
-let signin_result = get_signin();
+// 登入 user/auth api
+function get_signin(){
+  fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token}`,
+      "Content-Type" : "application/json"    
+    }
+  })
+  .then(response => response.json())
+  .then(function(data){
+    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+        localStorage.removeItem("jwt_token"); 
+      }
+      switchSignInOut("signin")
+    } else {
+      switchSignInOut("signout");
+      memberinfo = data.data;
+      url = window.location.href
+      if (url.split("/")[3] == "booking"){
+        addBookingMemberinfo(memberinfo.name,memberinfo.email);
+      }
+    }
+  })
+}
 
-signin_result.then(data => {
-  if (data.signin == false){  //data為null，除了沒有Token之外，也有可能是token失效或過期
-    switchSignInOut("signin")
-    if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
-      localStorage.removeItem("jwt_token"); 
-    }
-  } else {
-    switchSignInOut("signout");
-    memberinfo = data.data;
-    url = window.location.href
-    if (url.split("/")[3] == "booking"){
-      addBookingMemberinfo(memberinfo.name,memberinfo.email);
-    }
-  }
-})
+
+
 
 
 
