@@ -1,5 +1,5 @@
 //取得LocalStorage的token (放在最上面，各頁面都可以盡早抓到token變數)
-// let token = localStorage.getItem("jwt_token");
+let token = localStorage.getItem("jwt_token");
 
 //Signin / signup
 

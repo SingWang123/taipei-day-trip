@@ -309,11 +309,11 @@ function enterData(i,attractionData){
 }
 
 //取得LocalStorage的token
-let token = localStorage.getItem("jwt_token");
+let token_index = localStorage.getItem("jwt_token");
 fetch("http://54.168.177.59:8000/api/user/auth",{
   method: "GET",
   headers:{
-    "Authorization" : `Bearer ${token}`,
+    "Authorization" : `Bearer ${token_index}`,
     "Content-Type" : "application/json"    
   }
   })
