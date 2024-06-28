@@ -125,6 +125,9 @@
   </footer>
 </body>
 <script>
+  //取得LocalStorage的token
+  let token_attraction = localStorage.getItem("jwt_token");
+
   // 3-2 景點頁的api，塞景點資料
   let url = window.location.href;
   let id = url.split("http://54.168.177.59:8000/attraction/")[1]
@@ -283,7 +286,7 @@
       fetch("http://54.168.177.59:8000/api/booking", {
         method: "POST",
         headers:{
-          "Authorization" : `Bearer ${token}`,
+          "Authorization" : `Bearer ${token_attraction}`,
           "Content-Type" : "application/json"
         },
         body: JSON.stringify(booking)
