@@ -1,3 +1,5 @@
+//取得LocalStorage的token (放在最上面，各頁面都可以盡早抓到token變數)
+let token = localStorage.getItem("jwt_token");
 
 //Signin / signup
 
@@ -76,8 +78,40 @@ function checkEmail(type){
 }
 
 
+  // 將使用者資料塞進去booking頁
+  function addBookingMemberinfo(name,email){
+    document.querySelector(".welcome__headline").textContent = "您好，" + name + "，預訂的行程如下:";
+    document.querySelector(".memberinfo__input_name").value = name;
+    document.querySelector(".memberinfo__input_email").value = email;
+  }
+  
 
 //操作
+// 點擊 預定行程，檢查登入狀態，有成功登入就跳到booking頁，沒有就跳登入彈窗
+document.querySelector(".navbar__buttons_schedule").addEventListener("click",function(){
+  //檢查登入狀態
+  fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token}`,
+      "Content-Type" : "application/json"    
+    }
+  })
+  .then(response => response.json())
+  .then(function(data){
+    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+        localStorage.removeItem("jwt_token"); 
+      }
+      let popupSignin = document.querySelector(".signin");
+      popupSignin.style.display = "block";
+      switchWindow("signin");
+    } else {
+      window.location.href = "http://54.168.177.59:8000/booking";
+    }
+  })
+})
+
 // 點擊 登入/註冊，跳出登入註冊彈窗，每次點擊必定開啟登入彈窗
 document.querySelector(".navbar__buttons_signin").addEventListener("click",function(){
   let popupSignin = document.querySelector(".signin");
@@ -108,28 +142,35 @@ document.querySelector(".navbar__buttons_signout").addEventListener("click",func
 })
 
 
-//取得LocalStorage的token
-let token = localStorage.getItem("jwt_token");
+// 依登入狀態，決定右上角是登入還是登出
+// 登入 user/auth api
 
-//檢查登入狀態 api（get）
-fetch("http://54.168.177.59:8000/api/user/auth",{
-  method: "GET",
-  headers:{
-    "Authorization" : `Bearer ${token}`,
-    "Content-Type" : "application/json"    
-  }
-})
-.then(response => response.json())
-.then(function(data){
-  if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
-    switchSignInOut("signin")
-    if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
-      localStorage.removeItem("jwt_token"); 
-    }
-  } else {
-    switchSignInOut("signout")
-  }
-})
+// fetch("http://54.168.177.59:8000/api/user/auth",{
+//   method: "GET",
+//   headers:{
+//     "Authorization" : `Bearer ${token}`,
+//     "Content-Type" : "application/json"    
+//   }
+// })
+// .then(response => response.json())
+// .then(function(data){
+//   if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+//     if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+//       localStorage.removeItem("jwt_token"); 
+//     }
+//     switchSignInOut("signin")
+//   } else {
+//     switchSignInOut("signout");
+//     let memberinfo = data.data;
+//     console.log(memberinfo.email);
+//     console.log(memberinfo.name);
+//     url = window.location.href
+//     console.log(url.split("/")[3]);
+//     if (url.split("/")[3] == "booking"){
+//       addBookingMemberinfo(memberinfo.name,memberinfo.email);
+//     }
+//   }
+// })
 
 
 //註冊功能 api (post)
@@ -149,7 +190,7 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
       "email": emailSignup.value,
       "password" : passwordSignup.value
     };
-
+    
     //fetch資料
     fetch("http://54.168.177.59:8000/api/user", {
       method: "POST",
@@ -160,6 +201,7 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
     })
     .then(response => response.json())
     .then(function(data){
+      console.log(data);
       if(data.ok === true){
         showResult("signup","註冊成功","ok");
       } else if (data.error == true){
