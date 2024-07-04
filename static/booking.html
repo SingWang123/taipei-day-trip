@@ -8,8 +8,9 @@
   <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
   <link href="/static/styles/style_booking.css" rel="stylesheet" type="text/css">
   <script src="/static/scripts/script_common.js" async charset="UTF-8"></script>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.17.1"></script>
   
-  <!--本地端測試用
+  <!--本地端測試用  
   <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
   <link href="styles/style_booking.css" rel="stylesheet" type="text/css"> 
   <script src="scripts/script_common.js" defer charset="UTF-8"></script>
@@ -107,25 +108,25 @@
       <div class = "memberinfo__notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
     </div>
     <hr/>
-    <div class = "content__payment">
+    <div class = "content__payment" id="cardview-container">
       <div class = "payment__headline" >信用卡付款資訊</div>
-      <div class = "paymentinfo__item">
+      <!-- <div class = "paymentinfo__item">
         <div class = "paymentinfo__headline">卡片號碼：</div>
-        <input class = "paymentinfo__input_cardnumber" type = "text" placeholder = "**** **** **** ****">
+        <div class = "paymentinfo__input_cardnumber" id = "card-number"></div>
       </div>
       <div class = "paymentinfo__item">
         <div class = "paymentinfo__headline">過期時間：</div>
-        <input class = "paymentinfo__input_exptime" type = "text" placeholder = "MM/YY">
+        <div class = "paymentinfo__input_exptime" id = "card-expiration-date"></div>
       </div>
       <div class = "paymentinfo__item">
         <div class = "paymentinfo__headline">驗證密碼：</div>
-        <input class = "paymentinfo__input_cvv" type = "text" placeholder = "CVV">
-      </div>
+        <div class = "paymentinfo__input_cvv" id = "card-ccv"></div>
+      </div> -->
     </div>
     <hr/>
     <div class = "comfirm__payment">
       <div class = "comfirm__message">總價：新台幣 2000 元</div>
-      <div class = "comfirm__button">
+      <div class = "comfirm__button" id = "submit-button" onclick = "onClick()">
         確認訂購並付款
       </div>
     </div>
@@ -252,6 +253,52 @@
       }
     })
   })
+
+
+  //接tappay
+  //設置get prime需要的金鑰
+  TPDirect.setupSDK(151858,"app_stNCGxdpbVIBVImieTL3ZBLpeYn4oy5c19SzVNdJCXpdIAAPfdkV8SS3By1z","sandbox");
+
+  // 把 TapPay 內建輸入卡號的表單給植入到 div 中
+  TPDirect.card.setup('#cardview-container')
+  
+  var submitButton = document.querySelector('#submit-button')
+  
+  function onClick() {
+      // 讓 button click 之後觸發 getPrime 方法
+      TPDirect.card.getPrime(function (result) {
+          if (result.status !== 0) {
+              console.err('getPrime 錯誤')
+              return
+          }
+          var prime = result.card.prime
+          alert('getPrime 成功: ' + prime)
+      })
+  }
+
+  // TPDirect.card.setup({
+  //   fields: {
+  //       number: {
+  //           element: document.getElementById("card-number"),
+  //           placeholder: '**** **** **** ****'
+  //       },
+  //       expirationDate: {
+  //           element: document.getElementById('card-expiration-date'),
+  //           placeholder: 'MM / YY'
+  //       },
+  //       ccv: {
+  //           element: getElementById("card-ccv"),
+  //           placeholder: '後三碼'
+  //       }
+  //   },
+  //   // 此設定會顯示卡號輸入正確後，會顯示前六後四碼信用卡卡號
+  //   isMaskCreditCardNumber: true,
+  //   maskCreditCardNumberRange: {
+  //       beginIndex: 6, 
+  //       endIndex: 11
+  //   }
+  // })
+
 
 
 </script>
