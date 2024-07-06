@@ -63,7 +63,7 @@ function showResult(type,message,message_type){
 
 // 檢查信箱格式是否正確
 function checkEmail(type){
-  classname_email = "." + type + "__input_email";
+  let classname_email = "." + type + "__input_email";
 
   let email = document.querySelector(classname_email);
 
@@ -71,6 +71,22 @@ function checkEmail(type){
   let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (emailPattern.test(email.value)){ 
+    return {"error" : false}; //檢查格式正確，回傳沒有錯誤
+  } else {
+    return {"error" : true};
+  }
+}
+
+// 檢查手機門號格式是否正確
+function checkPhone(type){
+  let classname_phone = "." + type + "__input_phone";
+
+  let phone = document.querySelector(classname_phone);
+
+  // 正則表達式檢查電子郵件格式
+  let phonePattern = /^09\d{8}$/;
+
+  if (phonePattern.test(phone.value)){ 
     return {"error" : false}; //檢查格式正確，回傳沒有錯誤
   } else {
     return {"error" : true};
