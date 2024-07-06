@@ -190,7 +190,7 @@ function onClickSignout(){
 
 
 //註冊功能 api (post)
-document.querySelector(".signup__button_signup").addEventListener("click",function(){
+function onClickSentSignup(){
   let nameSignup = document.querySelector(".signup__input_name")
   let emailSignup = document.querySelector(".signup__input_email")
   let passwordSignup = document.querySelector(".signup__input_password")
@@ -217,7 +217,6 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
     })
     .then(response => response.json())
     .then(function(data){
-      console.log(data);
       if(data.ok === true){
         showResult("signup","註冊成功","ok");
       } else if (data.error == true){
@@ -225,11 +224,11 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
       }
     })
   }
-})
+}
 
 
 //登入功能  api (put)
-document.querySelector(".signin__button_signin").addEventListener("click",function(){
+function onClickSentSignin(){
   let emailSignin = document.querySelector(".signin__input_email")
   let passwordSignin = document.querySelector(".signin__input_password")
  
@@ -265,7 +264,7 @@ document.querySelector(".signin__button_signin").addEventListener("click",functi
       }
     })
   }
-})
+}
 
 
 
