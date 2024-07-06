@@ -136,20 +136,20 @@ function onClickSignin(){
 }
 
 // 點擊 X ，關閉登入註冊彈窗
-document.querySelector(".signin__window_close").addEventListener("click",function(){
+function onClickClose(){
   let popupSignin = document.querySelector(".signin");
   popupSignin.style.display = "none";
-})
+}
 
 // 點擊切換註冊彈窗
-document.querySelector(".signin__button_switch_signup").addEventListener("click",function(){
+function onClickSwitchSignup(){
   switchWindow("signup");
-})
+}
 
 // 點擊切換登入彈窗
-document.querySelector(".signup__button_switch_signin").addEventListener("click",function(){
+function onClickSwitchSignin(){
   switchWindow("signin");
-})
+}
 
 // 點擊登出系統
 function onClickSignout(){
