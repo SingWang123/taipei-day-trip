@@ -44,7 +44,7 @@
       </div>
       </a>
       <div class = "navbar__buttons">
-        <div class = "navbar__buttons_schedule">
+        <div class = "navbar__buttons_schedule" onclick = "onClickSchedule()">
           預定行程
         </div>
         <div class = "navbar__buttons_signin">
@@ -113,6 +113,8 @@
     }
   })
 
+  let url = window.location.href;
+  document.querySelector(".order__word").textContent = url.split("number=")[1];
 
 </script>
 </html>

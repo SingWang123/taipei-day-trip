@@ -104,7 +104,8 @@ function checkPhone(type){
 
 //操作
 // 點擊 預定行程，檢查登入狀態，有成功登入就跳到booking頁，沒有就跳登入彈窗
-document.querySelector(".navbar__buttons_schedule").addEventListener("click",function(){
+// document.querySelector(".navbar__buttons_schedule").addEventListener("click",
+function onClickSchedule(){
   //檢查登入狀態
   fetch("http://54.168.177.59:8000/api/user/auth",{
     method: "GET",
@@ -126,7 +127,7 @@ document.querySelector(".navbar__buttons_schedule").addEventListener("click",fun
       window.location.href = "http://54.168.177.59:8000/booking";
     }
   })
-})
+}
 
 // 點擊 登入/註冊，跳出登入註冊彈窗，每次點擊必定開啟登入彈窗
 document.querySelector(".navbar__buttons_signin").addEventListener("click",function(){
