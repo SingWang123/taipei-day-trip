@@ -473,14 +473,23 @@ async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
 				}
 			)
 	else:   # status 不是0 表示交易失敗
-		return JSONResponse(
-			status_code = 400,
-			content = {
-				"error" : True,
-				"message" : response_data["msg"]
-			}
-		)
+		result_error = order_history("failed", name, id, data_id, date, time, price) # 資料庫寫入支付失敗資料
+		if result_error["ok"] :			
+			return JSONResponse(
+				status_code = 400,
+				content = {
+					"error" : True,
+					"message" : response_data["msg"]
+				}
+			)
+		else:# 寫入資料庫失敗
+			return JSONResponse(
+				status_code = 400,
+				content = {
+					"error" : True,
+					"message" : result["message"]
+				}
+			)
 
+		
 
-	# 回傳驗證後結果給前端
-	# return JSONResponse(content={"result": response_data})
