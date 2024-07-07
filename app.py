@@ -503,7 +503,7 @@ async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
 					status_code = 400,
 					content = {
 						"error" : True,
-						"message" : result["message"]
+						"message" : result_error["message"]
 					}
 				)
 
