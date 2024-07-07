@@ -63,7 +63,7 @@ function showResult(type,message,message_type){
 
 // 檢查信箱格式是否正確
 function checkEmail(type){
-  classname_email = "." + type + "__input_email";
+  let classname_email = "." + type + "__input_email";
 
   let email = document.querySelector(classname_email);
 
@@ -71,6 +71,22 @@ function checkEmail(type){
   let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (emailPattern.test(email.value)){ 
+    return {"error" : false}; //檢查格式正確，回傳沒有錯誤
+  } else {
+    return {"error" : true};
+  }
+}
+
+// 檢查手機門號格式是否正確
+function checkPhone(type){
+  let classname_phone = "." + type + "__input_phone";
+
+  let phone = document.querySelector(classname_phone);
+
+  // 正則表達式檢查電子郵件格式
+  let phonePattern = /^09\d{8}$/;
+
+  if (phonePattern.test(phone.value)){ 
     return {"error" : false}; //檢查格式正確，回傳沒有錯誤
   } else {
     return {"error" : true};
@@ -88,7 +104,7 @@ function checkEmail(type){
 
 //操作
 // 點擊 預定行程，檢查登入狀態，有成功登入就跳到booking頁，沒有就跳登入彈窗
-document.querySelector(".navbar__buttons_schedule").addEventListener("click",function(){
+function onClickSchedule(){
   //檢查登入狀態
   fetch("http://54.168.177.59:8000/api/user/auth",{
     method: "GET",
@@ -110,36 +126,36 @@ document.querySelector(".navbar__buttons_schedule").addEventListener("click",fun
       window.location.href = "http://54.168.177.59:8000/booking";
     }
   })
-})
+}
 
 // 點擊 登入/註冊，跳出登入註冊彈窗，每次點擊必定開啟登入彈窗
-document.querySelector(".navbar__buttons_signin").addEventListener("click",function(){
+function onClickSignin(){
   let popupSignin = document.querySelector(".signin");
   popupSignin.style.display = "block";
   switchWindow("signin");
-})
+}
 
 // 點擊 X ，關閉登入註冊彈窗
-document.querySelector(".signin__window_close").addEventListener("click",function(){
+function onClickClose(){
   let popupSignin = document.querySelector(".signin");
   popupSignin.style.display = "none";
-})
+}
 
 // 點擊切換註冊彈窗
-document.querySelector(".signin__button_switch_signup").addEventListener("click",function(){
+function onClickSwitchSignup(){
   switchWindow("signup");
-})
+}
 
 // 點擊切換登入彈窗
-document.querySelector(".signup__button_switch_signin").addEventListener("click",function(){
+function onClickSwitchSignin(){
   switchWindow("signin");
-})
+}
 
 // 點擊登出系統
-document.querySelector(".navbar__buttons_signout").addEventListener("click",function(){
+function onClickSignout(){
   localStorage.removeItem("jwt_token");
   location.reload(); //重整頁面
-})
+}
 
 
 // 依登入狀態，決定右上角是登入還是登出
@@ -174,7 +190,7 @@ document.querySelector(".navbar__buttons_signout").addEventListener("click",func
 
 
 //註冊功能 api (post)
-document.querySelector(".signup__button_signup").addEventListener("click",function(){
+function onClickSentSignup(){
   let nameSignup = document.querySelector(".signup__input_name")
   let emailSignup = document.querySelector(".signup__input_email")
   let passwordSignup = document.querySelector(".signup__input_password")
@@ -201,7 +217,6 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
     })
     .then(response => response.json())
     .then(function(data){
-      console.log(data);
       if(data.ok === true){
         showResult("signup","註冊成功","ok");
       } else if (data.error == true){
@@ -209,11 +224,11 @@ document.querySelector(".signup__button_signup").addEventListener("click",functi
       }
     })
   }
-})
+}
 
 
 //登入功能  api (put)
-document.querySelector(".signin__button_signin").addEventListener("click",function(){
+function onClickSentSignin(){
   let emailSignin = document.querySelector(".signin__input_email")
   let passwordSignin = document.querySelector(".signin__input_password")
  
@@ -249,7 +264,7 @@ document.querySelector(".signin__button_signin").addEventListener("click",functi
       }
     })
   }
-})
+}
 
 
 

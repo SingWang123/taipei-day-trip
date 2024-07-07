@@ -8,8 +8,9 @@
   <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
   <link href="/static/styles/style_booking.css" rel="stylesheet" type="text/css">
   <script src="/static/scripts/script_common.js" async charset="UTF-8"></script>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.17.1"></script>
   
-  <!--本地端測試用
+  <!--本地端測試用  
   <link href="styles/style_common.css" rel="stylesheet" type="text/css"> 
   <link href="styles/style_booking.css" rel="stylesheet" type="text/css"> 
   <script src="scripts/script_common.js" defer charset="UTF-8"></script>
@@ -24,20 +25,20 @@
           <div class = "signin__content_headline">登入會員帳號</div>
           <input class = "signin__input_email" type = "email" placeholder = "輸入電子信箱">
           <input class = "signin__input_password" type = "password" placeholder = "輸入密碼">
-          <div class = "signin__button_signin">登入帳戶</div>
+          <div class = "signin__button_signin" onclick = "onClickSentSignin()">登入帳戶</div>
           <div class = "signin__result"></div>
-          <div class = "signin__button_switch_signup">還沒有帳號？點此註冊</div>          
+          <div class = "signin__button_switch_signup" onclick = "onClickSwitchSignup()">還沒有帳號？點此註冊</div>          
       </div>
       <div class = "signup__window_content">
         <div class = "signup__content_headline">註冊會員帳號</div>
         <input class = "signup__input_name" placeholder = "輸入姓名">
         <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱">
         <input class = "signup__input_password" type = "password" placeholder = "輸入密碼">
-        <div class = "signup__button_signup">註冊新帳號</div>
+        <div class = "signup__button_signup" onclick = "onClickSentSignup()">註冊新帳號</div>
         <div class = "signup__result"></div>
-        <div class = "signup__button_switch_signin">已經有帳號了？點此登入</div>          
+        <div class = "signup__button_switch_signin" onclick = "onClickSwitchSignin()">已經有帳號了？點此登入</div>          
     </div>
-      <div class = "signin__window_close"></div>
+      <div class = "signin__window_close" onclick = "onClickClose()" ></div>
     </div>
   </div>
   <!--navigation bar-->
@@ -49,13 +50,13 @@
       </div>
       </a>
       <div class = "navbar__buttons">
-        <div class = "navbar__buttons_schedule">
+        <div class = "navbar__buttons_schedule" onclick = "onClickSchedule()">
           預定行程
         </div>
-        <div class = "navbar__buttons_signin">
+        <div class = "navbar__buttons_signin" onclick = "onClickSignin()">
           登入/註冊
         </div>
-        <div class = "navbar__buttons_signout">
+        <div class = "navbar__buttons_signout" onclick = "onClickSignout()">
           登出系統
         </div>
       </div>
@@ -77,7 +78,7 @@
         </div>
         <div class = "attraction__bookinginfo">
           <div class = "attraction__headline">時間：</div>
-          <div class = "attraction__time">早上9點到下午4點</div>
+          <div class = "attraction__time">早上8點到下午3點</div>
         </div>
         <div class = "attraction__bookinginfo">
           <div class = "attraction__headline">費用：</div>
@@ -107,25 +108,26 @@
       <div class = "memberinfo__notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
     </div>
     <hr/>
-    <div class = "content__payment">
+    <div class = "content__payment" id="cardview-container">
       <div class = "payment__headline" >信用卡付款資訊</div>
       <div class = "paymentinfo__item">
         <div class = "paymentinfo__headline">卡片號碼：</div>
-        <input class = "paymentinfo__input_cardnumber" type = "text" placeholder = "**** **** **** ****">
+        <div class = "paymentinfo__input_cardnumber" id = "card-number"></div>
       </div>
       <div class = "paymentinfo__item">
         <div class = "paymentinfo__headline">過期時間：</div>
-        <input class = "paymentinfo__input_exptime" type = "text" placeholder = "MM/YY">
+        <div class = "paymentinfo__input_exptime" id = "card-expiration-date"></div>
       </div>
       <div class = "paymentinfo__item">
         <div class = "paymentinfo__headline">驗證密碼：</div>
-        <input class = "paymentinfo__input_cvv" type = "text" placeholder = "CVV">
+        <div class = "paymentinfo__input_cvv" id = "card-ccv"></div>
       </div>
     </div>
     <hr/>
+    <div class = "comfirm__message--error">錯誤訊息</div>
     <div class = "comfirm__payment">
       <div class = "comfirm__message">總價：新台幣 2000 元</div>
-      <div class = "comfirm__button">
+      <div class = "comfirm__button" id = "submit-button" onclick = "onClick()">
         確認訂購並付款
       </div>
     </div>
@@ -176,6 +178,14 @@
     }
   }
 
+  // 顯示點擊"確認訂購並付款"後的錯誤訊息
+  function showErrorMsg(msg){
+    let errorMsg = document.querySelector(".comfirm__message--error");
+    errorMsg.style.display = "block";
+    errorMsg.textContent = msg;
+  }
+
+
   //登入API,驗證登入狀態
   fetch("http://54.168.177.59:8000/api/user/auth",{
     method: "GET",
@@ -201,6 +211,7 @@
     }
   })
 
+  let orderData = null;  //建立一個全局變數存資料
 
   //5- booking頁的api，塞預定地資料
   fetch("http://54.168.177.59:8000/api/booking", {
@@ -222,6 +233,9 @@
         switchNoBooking("nobooking");
         return;
       }
+
+      orderData = data.data;
+
       let attraction = data.data.attraction;
       addBookingAttractioninfo(attraction.image,attraction.name,attraction.address);
       addBookinginfo(data.data.date,data.data.time)
@@ -253,6 +267,142 @@
     })
   })
 
+
+  //接tappay
+  //設置get prime需要的金鑰
+  TPDirect.setupSDK(151858,"app_stNCGxdpbVIBVImieTL3ZBLpeYn4oy5c19SzVNdJCXpdIAAPfdkV8SS3By1z","sandbox");
+
+  // 把 TapPay 內建輸入卡號的表單給植入到 div 中
+  TPDirect.card.setup({
+    fields: {
+        number: {
+            element: document.getElementById("card-number"),
+            placeholder: '**** **** **** ****'
+        },
+        expirationDate: {
+            element: document.getElementById('card-expiration-date'),
+            placeholder: 'MM / YY'
+        },
+        ccv: {
+            element:document.getElementById("card-ccv"),
+            placeholder: '後三碼'
+        }
+    },
+    // 此設定會顯示卡號輸入正確後，會顯示前六後四碼信用卡卡號
+    isMaskCreditCardNumber: true,
+    maskCreditCardNumberRange: {
+        beginIndex: 6, 
+        endIndex: 11
+    }
+  })
+
+
+  function onClick(event) {
+    // 先檢查所有欄位是否都有好好填寫
+    let inputFields = [
+      document.querySelector(".memberinfo__input_name"),
+      document.querySelector(".memberinfo__input_email"),
+      document.querySelector(".memberinfo__input_phone"),
+      // document.querySelector(".paymentinfo__input_cardnumber"),
+      // document.querySelector(".paymentinfo__input_exptime"),
+      // document.querySelector(".paymentinfo__input_cvv"), 
+    ]
+    
+    let isValid = true;  //檢查是否有欄位未填寫的變數
+  
+    for(i = 0; i < inputFields.length ; i++){
+      if (inputFields[i].value.length === 0){
+        inputFields[i].style.border = "red 2px solid";
+        showErrorMsg("請完整填寫聯絡資料");
+        isValid = false;
+      }else {
+        inputFields[i].style.border = "1px solid rgba(232, 232, 232, 1)";
+      }
+    }
+
+    if (isValid == false){    //有任何聯絡資料欄位未填寫，中止動作
+      return;
+    }
+
+    let emailCheck = checkEmail("memberinfo");   //檢查電子郵件格式
+    if (emailCheck["error"]){
+      showErrorMsg("請填入正確的電子郵件格式");
+      return;
+    }
+    
+    let phoneCheck = checkPhone("memberinfo");   //檢查電子郵件格式
+    if (phoneCheck["error"]){
+      showErrorMsg("請填入正確的手機門號");
+      return;
+    }
+
+    // 取得 TapPay Fields 的 status
+    const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+
+    // 確認是否可以 getPrime
+    if (tappayStatus.canGetPrime === false) {
+        showErrorMsg("信用卡資料異常，請再次確認輸入內容");
+        return
+    }
+
+    // Get prime
+    TPDirect.card.getPrime((result) => {
+      if (result.status !== 0) {
+        showErrorMsg("資料異常，" + result.msg)
+        return
+      }
+      
+      //先建立要傳送的資料
+      order = {
+        "prime": result.card.prime,
+        "order": {
+          "price": orderData["price"],
+          "trip": {
+            "attraction": {
+              "id": orderData["attraction"]["id"],
+              "name": orderData["attraction"]["name"],
+              "address": orderData["attraction"]["address"],
+              "image": orderData["attraction"]["image"]
+            },
+            "date": orderData["date"],
+            "time": orderData["time"]
+          },
+          "contact": {
+            "name": document.querySelector(".memberinfo__input_name").value,
+            "email": document.querySelector(".memberinfo__input_email").value,
+            "phone": document.querySelector(".memberinfo__input_phone").value
+          }
+        }
+      };
+
+      fetch("http://54.168.177.59:8000/api/orders", {
+        method: "POST",
+        headers:{
+          "Authorization" : `Bearer ${token_booking}`,
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(order)
+      })
+      .then(response => {
+        if (response.status === 403){
+          //未登入，返回首頁
+          window.location.href = "http://54.168.177.59:8000/";
+        }
+        return response.json();
+      })
+      .then(function(data){
+        if (data["error"]){
+          showErrorMsg(`付款資料寫入失敗 ${data["massage"]}`);
+          return;
+        } else if (data["data"]["payment"]["status"] === 1){
+          showErrorMsg(`付款失敗，訂單編號 ${data["data"]["number"]}`);
+          return;
+        } else if (data["data"]["payment"]["status"] === 0){
+          window.location.href = "http://54.168.177.59:8000/thankyou?number=" + data["data"]["number"];
+        }
+      })
+  })
+}
 
 </script>
 </html>

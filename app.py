@@ -7,7 +7,7 @@ from typing import Optional
 from datetime import datetime, timedelta, timezone
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError, ExpiredSignatureError
-from backend.model import signup_check,signin_check,token_check,get_index,get_attractiondata,get_mrtdata,booking_data,check_booking,delete_bookingdata
+from backend.model import *
 
 app = FastAPI()
 
@@ -359,6 +359,8 @@ async def delete_booking(token: str = Depends(oauth2_scheme)):
 		)
 	
 	id = verify_result["data"]["id"]
+	name = verify_result["data"]["name"]  # 有評估是否要存信用卡資料上的會員名稱，但似乎沒必要，應以產品上的會員名稱為主
+
 
 	# 刪除行程
 	result = delete_bookingdata(id,)
@@ -377,3 +379,133 @@ async def delete_booking(token: str = Depends(oauth2_scheme)):
 			"ok" : True
 		}
 	)
+
+
+import httpx
+
+#/api/orders 支付訂單
+@app.post("/api/orders")
+async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
+	# 檢查使用者是否有登入
+	if token == "null":  # 目前沒有token的狀況
+		return JSONResponse(
+			status_code = 403,
+			content = {
+				"error" : True,
+				"message" : "未登入系統，請先登入"
+			}
+		)	
+
+	verify_result = verify_token(token)
+	
+	if verify_result["ok"] == False:  # 驗證token錯誤的狀況
+		return JSONResponse(
+			status_code = 403,
+			content = {
+				"error" : True,
+				"message" : verify_result["message"]
+			}
+		)
+	
+	data = await request.json()
+	contact = data.get("order").get("contact")
+
+	# 確定有收到資料，先將訂單寫入資料庫，設定成UNPAID
+	# 建立寫入資料庫要的資料
+	id = verify_result["data"]["id"]
+	name = verify_result["data"]["name"]
+	
+	data_id = data.get("order").get("trip").get("attraction").get("id")
+	date = data.get("order").get("trip").get("date")
+	time = data.get("order").get("trip").get("time")
+	price = data.get("order").get("price")
+
+	create_result = create_orderhistory(name, id, data_id, date, time, price)
+	if create_result["ok"] == False:   # 寫入資料庫失敗
+		return JSONResponse(
+				status_code = 400,
+				content = {
+					"error" : True,
+					"message" : result["message"]
+				}
+		)
+	
+	else:
+		# 設定要傳到Tappay驗證的資料
+		url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+		headers = {
+			'Content-Type': 'application/json',
+			'x-api-key': 'partner_dzYGwE0yZTNnnGgCAWI7WS0sh3Iu4z79ozHB2TulbngO4tONWJXqIx9G'
+		}
+		post_data = {
+			"prime": data.get("prime"),
+			"partner_key": 'partner_dzYGwE0yZTNnnGgCAWI7WS0sh3Iu4z79ozHB2TulbngO4tONWJXqIx9G',
+			"merchant_id": "gnissing_CTBC",
+			"details": "TapPay Test",
+			"amount": data.get("order").get("price"),
+			"cardholder": {
+				"phone_number" : contact["phone"],
+				"name" : contact["name"],
+				"email" : contact["email"]
+			},
+			"remember": True
+		}
+		
+		# 傳送資料去tappay驗證
+		async with httpx.AsyncClient() as client:
+			response = await client.post(url, json=post_data, headers=headers)
+			response_data = response.json()
+		
+		# 將驗證結果和付款資料寫入資料庫，取得交易代號
+
+		if response_data["status"] == 0:  # status = 0 表示交易成功
+			result = updata_order_result("success", create_result["order_id"][0]["id"])       # 資料庫更新資料
+			delete_result = delete_bookingdata(id,)                                  # 刪除購物車資料
+			
+			if result["ok"] == True and delete_result["ok"] == True:   # 寫入資料庫成功
+				return JSONResponse(
+					status_code = 200,
+					content = {
+						"data": {
+							"number": result["number"],
+							"payment": {
+								"status": 0,
+								"message": "付款成功"
+							}
+						}
+					}
+				)
+			else: # 寫入資料庫失敗
+				return JSONResponse(
+					status_code = 400,
+					content = {
+						"error" : True,
+						"message" : result["message"]
+					}
+				)
+		else:   # status 不是0 表示交易失敗，但建立訂單編號成功
+			result_error = updata_order_result("failed", create_result["order_id"][0]["id"]) # 寫入支付失敗資料
+			if result_error["ok"] :		
+				return JSONResponse(
+					status_code = 200,
+					content = {
+						"data": {
+							"number": result_error["number"],
+							"payment": {
+								"status": 1,
+								"message": response_data["msg"]
+							}
+						}
+					}
+				)	
+			else:# 寫入資料庫失敗
+				return JSONResponse(
+					status_code = 400,
+					content = {
+						"error" : True,
+						"message" : result_error["message"]
+					}
+				)
+
+		
+

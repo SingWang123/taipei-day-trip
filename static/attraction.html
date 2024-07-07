@@ -24,20 +24,20 @@
           <div class = "signin__content_headline">登入會員帳號</div>
           <input class = "signin__input_email" type = "email" placeholder = "輸入電子信箱">
           <input class = "signin__input_password" type = "password" placeholder = "輸入密碼">
-          <div class = "signin__button_signin">登入帳戶</div>
+          <div class = "signin__button_signin" onclick = "onClickSentSignin()">登入帳戶</div>
           <div class = "signin__result"></div>
-          <div class = "signin__button_switch_signup">還沒有帳號？點此註冊</div>          
+          <div class = "signin__button_switch_signup" onclick = "onClickSwitchSignup()">還沒有帳號？點此註冊</div>          
       </div>
       <div class = "signup__window_content">
         <div class = "signup__content_headline">註冊會員帳號</div>
         <input class = "signup__input_name" placeholder = "輸入姓名">
         <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱">
         <input class = "signup__input_password" type = "password" placeholder = "輸入密碼">
-        <div class = "signup__button_signup">註冊新帳號</div>
+        <div class = "signup__button_signup" onclick = "onClickSentSignup()">註冊新帳號</div>
         <div class = "signup__result"></div>
-        <div class = "signup__button_switch_signin">已經有帳號了？點此登入</div>          
+        <div class = "signup__button_switch_signin" onclick = "onClickSwitchSignin()">已經有帳號了？點此登入</div>          
     </div>
-      <div class = "signin__window_close"></div>
+      <div class = "signin__window_close"  onclick = "onClickClose()"></div>
     </div>
   </div>
   <!--navigation bar-->
@@ -49,13 +49,13 @@
       </div>
       </a>
       <div class = "navbar__buttons">
-        <div class = "navbar__buttons_schedule">
+        <div class = "navbar__buttons_schedule" onclick = "onClickSchedule()">
           預定行程
         </div>
-        <div class = "navbar__buttons_signin">
+        <div class = "navbar__buttons_signin" onclick = "onClickSignin()">
           登入/註冊
         </div>
-        <div class = "navbar__buttons_signout">
+        <div class = "navbar__buttons_signout" onclick = "onClickSignout()">
           登出系統
         </div>
       </div>

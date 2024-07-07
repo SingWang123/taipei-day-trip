@@ -4,8 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You</title>
+  <!--AWS用-->
+  <link href="/static/styles/style_common.css" rel="stylesheet" type="text/css">
+  <link href="/static/styles/style_thankyou.css" rel="stylesheet" type="text/css">
+  <script src="/static/scripts/script_common.js" async charset="UTF-8"></script>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.17.1"></script>
 </head>
 <body>
-  
+  <!--signin -->
+  <div class = "signin">
+    <div class = "signin__window"> 
+      <div class = "signin__window_top"></div>
+      <div class = "signin__window_content">
+          <div class = "signin__content_headline">登入會員帳號</div>
+          <input class = "signin__input_email" type = "email" placeholder = "輸入電子信箱">
+          <input class = "signin__input_password" type = "password" placeholder = "輸入密碼">
+          <div class = "signin__button_signin" onclick = "onClickSentSignin()">登入帳戶</div>
+          <div class = "signin__result"></div>
+          <div class = "signin__button_switch_signup" onclick = "onClickSwitchSignup()">還沒有帳號？點此註冊</div>          
+      </div>
+      <div class = "signup__window_content">
+        <div class = "signup__content_headline">註冊會員帳號</div>
+        <input class = "signup__input_name" placeholder = "輸入姓名">
+        <input class = "signup__input_email" type = "email" placeholder = "輸入電子信箱">
+        <input class = "signup__input_password" type = "password" placeholder = "輸入密碼">
+        <div class = "signup__button_signup" onclick = "onClickSentSignup()">註冊新帳號</div>
+        <div class = "signup__result"></div>
+        <div class = "signup__button_switch_signin" onclick = "onClickSwitchSignin()">已經有帳號了？點此登入</div>          
+    </div>
+      <div class = "signin__window_close" onclick = "onClickClose()"></div>
+    </div>
+  </div>
+  <!--navigation bar-->
+  <div class = "navbar">
+    <div class = "navbar__content">
+      <a href = "http://54.168.177.59:8000/">
+      <div class = "navbar__webtitle">
+        台北一日遊
+      </div>
+      </a>
+      <div class = "navbar__buttons">
+        <div class = "navbar__buttons_schedule" onclick = "onClickSchedule()">
+          預定行程
+        </div>
+        <div class = "navbar__buttons_signin" onclick = "onClickSignin()">
+          登入/註冊
+        </div>
+        <div class = "navbar__buttons_signout" onclick = "onClickSignout()">
+          登出系統
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class = "content">
+    <div class = "content__result">
+      付款成功，感謝您購買旅遊行程!
+    </div>
+    <div class = "content__title">本次交易明細如下：</div>
+    <!-- <div class = "content__subtitle">單位（新台幣）元</div> -->
+    <div class = "order">
+      <div class = "order__title">訂單編號</div>
+      <div class = "order__word">IIIIIIXOOOOXOOOOOX</div>
+    </div>
+    <div class = "order">
+      <div class = "order__title">購買商品</div>
+      <div class = "order__word">台北半日遊行程</div>
+    </div>
+    <div class = "order">
+      <div class = "order__title">付款方式</div>
+      <div class = "order__word">信用卡</div>
+    </div>
+    <hr>
+    <div class = "back">
+      <a href = "http://54.168.177.59:8000/">
+        <div class = "back__button" id = "submit-button">
+          返回台北一日遊
+        </div>
+      </a>
+    </div>
+  </div>
+  <footer class = "footer" style = "height: 43vh;">
+    <div class = "footer__word" style = "height: 38vh;">
+      COPYRIGHT © 2021 台北一日遊
+    </div>
+  </footer>
 </body>
+<script>
+  //取得LocalStorage的token (避免同步問題，各頁自己也設定token檢查)
+  let token_thankyou = localStorage.getItem("jwt_token");
+
+  //登入API,驗證登入狀態
+  fetch("http://54.168.177.59:8000/api/user/auth",{
+    method: "GET",
+    headers:{
+      "Authorization" : `Bearer ${token_thankyou}`,
+      "Content-Type" : "application/json"    
+    }
+  })
+  .then(response => response.json())
+  .then(function(data){
+    if (data.data == null){  //data為null，除了沒有Token之外，也有可能是token失效或過期
+      if (localStorage.getItem("jwt_token") != null){  //因應token可能過期或失效，若有殘留的token就清除
+        localStorage.removeItem("jwt_token"); 
+      }
+      switchSignInOut("signin")
+    } else {
+      switchSignInOut("signout");
+    }
+  })
+
+  let url = window.location.href;
+  document.querySelector(".order__word").textContent = url.split("number=")[1];
+
+</script>
 </html>

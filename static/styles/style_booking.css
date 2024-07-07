@@ -156,6 +156,15 @@ hr{
     margin: 0px 110px 0px 110px;
 }
 
+.comfirm__message--error{
+    display: none;
+    max-width: 980px;
+    margin: 0px 110px 10px 110px;
+    text-align: right;
+    color: red;
+}
+
+
 .comfirm__message{
     position: absolute;
     top: 0px;
@@ -235,5 +244,10 @@ hr{
         position: relative;
         max-width: 880px;
         margin: 0px 10px 0px 10px;
+    }
+
+    .comfirm__message--error{
+        max-width: 880px;
+        margin: 0px 10px 10px 10px;
     }
 }

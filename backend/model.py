@@ -1,5 +1,6 @@
 from fastapi import *
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime, timedelta, timezone
 
 app = FastAPI()
 
@@ -338,4 +339,81 @@ def delete_bookingdata(id):
 			mycursor.close()
 		if connection:
 			connection.close()
+
+
+
+# 收到付款資料, order_history 內新增付款紀錄
+import random
+import string
+
+def create_orderhistory(name, id, data_id, date, time, price):
+	try:
+		# 連線到資料庫
+		connection = pool2.get_connection()
+		mycursor = connection.cursor(dictionary = True)
+
+		# 寫入資料
+		sql = "INSERT INTO order_history (name, member_id, status, data_id, date, time, price) VALUES (%s, %s,'UNPAID', %s, %s, %s, %s)"
+		val = (name, id, data_id, date, time, price)
+		mycursor.execute(sql,val)
+		connection.commit()
+
+		# 撈出寫入資料的ID
+		sql = "select id from order_history where order_number is null and member_id = %s order by id desc limit 1"
+		val = (id,)
+		mycursor.execute(sql,val)
+		result_id = mycursor.fetchall()
+
+		return {"ok" : True, "order_id" : result_id }
+	
+	except mysql.connector.Error as err:
+		return {"ok" : False, "message" : f"資料庫寫入錯誤:{err}"}
+	
+	except Exception as e:
+		return {"ok" : False, "message" : f"未知錯誤:{e}"}
+	
+	finally:
+		if mycursor:
+			mycursor.close()
+		if connection:
+			connection.close()
+
+
+# 依據付款結果，修改付款資料
+def updata_order_result(status,order_id):
+	try:
+		# 連線到資料庫
+		connection = pool2.get_connection()
+		mycursor = connection.cursor(dictionary = True)
+
+	 	# 建立ordernumber：taipeidaytrip+下單時間+亂碼
+		current_time = datetime.now().strftime("%Y%m%d%H%M%S")
+		random_code = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+
+		order_number = "taipeidaytrip" + current_time + random_code
+
+		# 依據成功或失敗寫入不同的狀態
+		if status == "success":
+			sql = "update order_history set order_number = %s, status = 'PAID' where id = %s "
+		else:
+			sql = "update order_history set order_number = %s, status = 'UNPAID' where id = %s "
+		
+		val = (order_number, order_id)
+		mycursor.execute(sql,val)
+		connection.commit()
+
+		return {"ok" : True, "number" : order_number}
+	
+	except mysql.connector.Error as err:
+		return {"ok" : False, "message" : f"資料庫寫入錯誤:{err}"}
+	
+	except Exception as e:
+		return {"ok" : False, "message" : f"未知錯誤:{e}"}
+	
+	finally:
+		if mycursor:
+			mycursor.close()
+		if connection:
+			connection.close()
+
 
