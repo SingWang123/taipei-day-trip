@@ -407,37 +407,10 @@ async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
 			}
 		)
 	
-	
 	data = await request.json()
 	contact = data.get("order").get("contact")
 
-
-    # 設定要傳到Tappay驗證的資料
-	url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
-	headers = {
-        'Content-Type': 'application/json',
-        'x-api-key': 'partner_dzYGwE0yZTNnnGgCAWI7WS0sh3Iu4z79ozHB2TulbngO4tONWJXqIx9G'
-    }
-	post_data = {
-        "prime": data.get("prime"),
-        "partner_key": 'partner_dzYGwE0yZTNnnGgCAWI7WS0sh3Iu4z79ozHB2TulbngO4tONWJXqIx9G',
-        "merchant_id": "gnissing_CTBC",
-        "details": "TapPay Test",
-        "amount": data.get("order").get("price"),
-        "cardholder": {
-			"phone_number" : contact["phone"],
-			"name" : contact["name"],
-			"email" : contact["email"]
-		},
-		"remember": True
-    }
-	
-	# 傳送資料去tappay驗證
-	async with httpx.AsyncClient() as client:
-		response = await client.post(url, json=post_data, headers=headers)
-		response_data = response.json()
-	
-	# 將驗證結果和付款資料寫入資料庫
+	# 確定有收到資料，先將訂單寫入資料庫，設定成UNPAID
 	# 建立寫入資料庫要的資料
 	id = verify_result["data"]["id"]
 	name = verify_result["data"]["name"]
@@ -447,49 +420,92 @@ async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
 	time = data.get("order").get("trip").get("time")
 	price = data.get("order").get("price")
 
-	if response_data["status"] == 0:  # status = 0 表示交易成功
-		result = order_history("success", name, id, data_id, date, time, price) # 資料庫寫入資料
-		delete_result = delete_bookingdata(id,)                                         # 刪除購物車資料
-		
-		if result["ok"] == True and delete_result["ok"] == True:   # 寫入資料庫成功
-			return JSONResponse(
-				status_code = 200,
+	create_result = create_orderhistory(name, id, data_id, date, time, price)
+	if create_result["ok"] == False:   # 寫入資料庫失敗
+		return JSONResponse(
+				status_code = 400,
 				content = {
-					"data": {
-						"number": result["number"],
-						"payment": {
-							"status": 0,
-							"message": "付款成功"
+					"error" : True,
+					"message" : result["message"]
+				}
+		)
+	
+	else:
+		# 設定要傳到Tappay驗證的資料
+		url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+		headers = {
+			'Content-Type': 'application/json',
+			'x-api-key': 'partner_dzYGwE0yZTNnnGgCAWI7WS0sh3Iu4z79ozHB2TulbngO4tONWJXqIx9G'
+		}
+		post_data = {
+			"prime": data.get("prime"),
+			"partner_key": 'partner_dzYGwE0yZTNnnGgCAWI7WS0sh3Iu4z79ozHB2TulbngO4tONWJXqIx9G',
+			"merchant_id": "gnissing_CTBC",
+			"details": "TapPay Test",
+			"amount": data.get("order").get("price"),
+			"cardholder": {
+				"phone_number" : contact["phone"],
+				"name" : contact["name"],
+				"email" : contact["email"]
+			},
+			"remember": True
+		}
+		
+		# 傳送資料去tappay驗證
+		async with httpx.AsyncClient() as client:
+			response = await client.post(url, json=post_data, headers=headers)
+			response_data = response.json()
+		
+		# 將驗證結果和付款資料寫入資料庫，取得交易代號
+
+		if response_data["status"] == 0:  # status = 0 表示交易成功
+			result = updata_order_result("success", create_result["order_id"])       # 資料庫更新資料
+			delete_result = delete_bookingdata(id,)                                  # 刪除購物車資料
+			
+			if result["ok"] == True and delete_result["ok"] == True:   # 寫入資料庫成功
+				return JSONResponse(
+					status_code = 200,
+					content = {
+						"data": {
+							"number": result["number"],
+							"payment": {
+								"status": 0,
+								"message": "付款成功"
+							}
 						}
 					}
-				}
-			)
-		else: # 寫入資料庫失敗
-			return JSONResponse(
-				status_code = 400,
-				content = {
-					"error" : True,
-					"message" : result["message"]
-				}
-			)
-	else:   # status 不是0 表示交易失敗
-		result_error = order_history("failed", name, id, data_id, date, time, price) # 資料庫寫入支付失敗資料
-		if result_error["ok"] :			
-			return JSONResponse(
-				status_code = 400,
-				content = {
-					"error" : True,
-					"message" : response_data["msg"]
-				}
-			)
-		else:# 寫入資料庫失敗
-			return JSONResponse(
-				status_code = 400,
-				content = {
-					"error" : True,
-					"message" : result["message"]
-				}
-			)
+				)
+			else: # 寫入資料庫失敗
+				return JSONResponse(
+					status_code = 400,
+					content = {
+						"error" : True,
+						"message" : result["message"]
+					}
+				)
+		else:   # status 不是0 表示交易失敗，但建立訂單編號成功
+			result_error = updata_order_result("failed", create_result["order_id"]) # 寫入支付失敗資料
+			if result_error["ok"] :		
+				return JSONResponse(
+					status_code = 200,
+					content = {
+						"data": {
+							"number": result_error["number"],
+							"payment": {
+								"status": 1,
+								"message": response_data["msg"]
+							}
+						}
+					}
+				)	
+			else:# 寫入資料庫失敗
+				return JSONResponse(
+					status_code = 400,
+					content = {
+						"error" : True,
+						"message" : result["message"]
+					}
+				)
 
 		
 
