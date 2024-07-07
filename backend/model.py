@@ -359,7 +359,7 @@ def create_orderhistory(name, id, data_id, date, time, price):
 		connection.commit()
 
 		# 撈出寫入資料的ID
-		sql = "select id from order_history where order_number = '' and member_id = %s order by id desc limit 1"
+		sql = "select id from order_history where order_number is null and member_id = %s order by id desc limit 1"
 		val = (id,)
 		mycursor.execute(sql,val)
 		result_id = mycursor.fetchall()
