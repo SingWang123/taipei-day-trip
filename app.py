@@ -459,7 +459,7 @@ async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
 		# 將驗證結果和付款資料寫入資料庫，取得交易代號
 
 		if response_data["status"] == 0:  # status = 0 表示交易成功
-			result = updata_order_result("success", create_result["order_id"])       # 資料庫更新資料
+			result = updata_order_result("success", create_result["order_id"][0]["id"])       # 資料庫更新資料
 			delete_result = delete_bookingdata(id,)                                  # 刪除購物車資料
 			
 			if result["ok"] == True and delete_result["ok"] == True:   # 寫入資料庫成功
@@ -484,7 +484,7 @@ async def post_order(request:Request, token: str = Depends(oauth2_scheme)):
 					}
 				)
 		else:   # status 不是0 表示交易失敗，但建立訂單編號成功
-			result_error = updata_order_result("failed", create_result["order_id"]) # 寫入支付失敗資料
+			result_error = updata_order_result("failed", create_result["order_id"][0]["id"]) # 寫入支付失敗資料
 			if result_error["ok"] :		
 				return JSONResponse(
 					status_code = 200,
